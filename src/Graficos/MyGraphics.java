@@ -66,9 +66,7 @@ public class MyGraphics {
         }
 
         while (true) {
-            if (x0 >= 0 && x0 < WIDTH && y0 >= 0 && y0 < HEIGHT) {
-                putPixel(x0, y0, z0);
-            }
+            putPixel(x0, y0, z0);
 
             if (x0 == x1 && y0 == y1) {
                 break;
@@ -154,7 +152,7 @@ public class MyGraphics {
         }
     }
 
-    public void fillPolygon(Polygon poly, double midZIndex) {
+    public void fillPolygon3D(Polygon poly, double midZIndex) {
         int[] xPoints = poly.xpoints;
         int[] yPoints = poly.ypoints;
         int nPoints = poly.npoints;
@@ -198,7 +196,7 @@ public class MyGraphics {
         fillPolygon(MyGraphicsUtils.arrayPoint2DToPolygon(puntosOrdenados));
 
         color = Color.red;
-        Point2D.Double puntoCentral = MyGraphicsUtils.getPuntoCentral(poly);
+        Point2D.Double puntoCentral = MyGraphicsUtils.getPolyPuntoCentral(poly);
         fillRect((int) (puntoCentral.x), (int) (puntoCentral.y), (int) (puntoCentral.x + 5), (int) (puntoCentral.y + 5));
     }
 
@@ -235,14 +233,6 @@ public class MyGraphics {
         return this.buffer;
     }
 
-    public HashMap<Point2D.Double, Double> getzBuffer() {
-        return zBuffer;
-    }
-
-    public void setzBuffer(HashMap<Point2D.Double, Double> zBuffer) {
-        this.zBuffer = zBuffer;
-    }
-
     public int getColorAt(int x, int y) {
         return buffer.getRGB(x, y);
     }
@@ -250,7 +240,7 @@ public class MyGraphics {
 
 class MyGraphicsUtils {
 
-    public static Point2D.Double getPuntoCentral(Polygon poly) {
+    public static Point2D.Double getPolyPuntoCentral(Polygon poly) {
         Point2D.Double puntoCentral = new Point2D.Double();
         double sumX = 0;
         double sumY = 0;
@@ -293,7 +283,7 @@ class MyGraphicsUtils {
 
     // algoritmo de Graham Scan
     public static Point2D.Double[] ordenarPuntos(Polygon poly) {
-        Point2D.Double centroide = getPuntoCentral(poly);
+        Point2D.Double centroide = getPolyPuntoCentral(poly);
         Point2D.Double[] puntos = new Point2D.Double[poly.npoints];
         for (int i = 0; i < puntos.length; i++) {
             puntos[i] = new Point2D.Double(poly.xpoints[i], poly.ypoints[i]);
