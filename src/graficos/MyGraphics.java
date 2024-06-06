@@ -1,4 +1,4 @@
-package Graficos;
+package graficos;
 
 import java.awt.Color;
 import java.awt.Polygon;
@@ -153,9 +153,12 @@ public class MyGraphics {
     }
 
     public void fillPolygon3D(Polygon poly, double midZIndex) {
-        int[] xPoints = poly.xpoints;
-        int[] yPoints = poly.ypoints;
-        int nPoints = poly.npoints;
+        Point2D.Double[] puntosOrdenados = MyGraphicsUtils.ordenarPuntos(poly);
+        Polygon newPoly = MyGraphicsUtils.arrayPoint2DToPolygon(puntosOrdenados);
+
+        int[] xPoints = newPoly.xpoints;
+        int[] yPoints = newPoly.ypoints;
+        int nPoints = newPoly.npoints;
 
         int minY = Arrays.stream(yPoints).min().orElse(0);
         int maxY = Arrays.stream(yPoints).max().orElse(buffer.getHeight() - 1);
@@ -183,7 +186,6 @@ public class MyGraphics {
                         nodeX[i + 1] = buffer.getWidth() - 1;
                     }
                     for (int x = nodeX[i]; x <= nodeX[i + 1]; x++) {
-                        Point2D.Double zBufferPoint = new Point2D.Double(x, y);
                         putPixel(x, y, midZIndex);
                     }
                 }
@@ -195,9 +197,9 @@ public class MyGraphics {
         Point2D.Double[] puntosOrdenados = MyGraphicsUtils.ordenarPuntos(poly);
         fillPolygon(MyGraphicsUtils.arrayPoint2DToPolygon(puntosOrdenados));
 
-        color = Color.red;
+//        color = Color.red;
         Point2D.Double puntoCentral = MyGraphicsUtils.getPolyPuntoCentral(poly);
-        fillRect((int) (puntoCentral.x), (int) (puntoCentral.y), (int) (puntoCentral.x + 5), (int) (puntoCentral.y + 5));
+//        fillRect((int) (puntoCentral.x), (int) (puntoCentral.y), (int) (puntoCentral.x + 5), (int) (puntoCentral.y + 5));
     }
 
     private void putPixel(int x, int y) {
@@ -224,8 +226,8 @@ public class MyGraphics {
         this.color = color;
     }
 
-    public void resetBuffer() {
-        buffer = new BufferedImage(HEIGHT, WIDTH, BufferedImage.TYPE_INT_ARGB);
+    public synchronized void resetBuffer() {
+        buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
         zBuffer = new HashMap<>();
     }
 
