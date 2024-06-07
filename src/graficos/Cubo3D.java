@@ -12,7 +12,6 @@ import Interfaces.LabelManager;
 public class Cubo3D implements Runnable {
 
     private static int contadorCubos;
-    private final LabelManager labelManager;
     private final JLabel infoHiloActual = new JLabel("-> FPS: 0");
     private final JLabel etiquetaActual = new JLabel("Cubo 1");
 
@@ -75,7 +74,6 @@ public class Cubo3D implements Runnable {
         this.mostrarLineas = true;
         this.mostrarCaras = false;
 
-        this.labelManager = labelManager;
         Point2D.Double p1 = punto3D_a_2D(origenCubo[0], origenCubo[1], origenCubo[2]);
         etiquetaActual.setText("Cubo " + contadorCubos++);
         labelManager.aniadirEtiqueta(infoHiloActual, etiquetaActual, (int) (p1.x - 180), (int) (p1.y - escala - 10));
@@ -223,6 +221,10 @@ public class Cubo3D implements Runnable {
         return g2d.getBuffer();
     }
 
+    public void trasladarX(int distancia){
+        this.traslaciones[0] += distancia;
+    }
+    
     @Override
     public void run() {
         int fps = 60;

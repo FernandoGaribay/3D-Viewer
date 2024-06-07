@@ -38,6 +38,10 @@ public class PanelGraficos extends JPanel implements Runnable {
 //        g.drawImage(cubo2.getBuffer(), 0, 0, null);
     }
 
+    public void getCube(int d){
+        cubo.trasladarX(d);
+    }
+    
     @Override
     public void run() {
         while (true) {

@@ -19,7 +19,8 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
     private final PanelGraficos panelGraficos = new PanelGraficos(this);
     private static final ArrayList<JLabel> listaInfoLabels;
     private static final ArrayList<JLabel> listaTagLabels;
-    private static JLabel labelInfo;
+    private static JLabel labelInfoVisible;
+    private static JLabel labelInfoOculta;
     private static boolean controlesEnPantalla;
 
     private static int xInicialLabels;
@@ -28,7 +29,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
     static {
         listaInfoLabels = new ArrayList<>();
         listaTagLabels = new ArrayList<>();
-        controlesEnPantalla = true;
+        controlesEnPantalla = false;
         xInicialLabels = 675;
         yInicialLabels = 25;
     }
@@ -59,7 +60,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
             panelGraficos.add(tempLabel);
         }
 
-        labelInfo = new JLabel("<html>--------------------- CONTROLES ---------------------<br><br>"
+        labelInfoVisible = new JLabel("<html>--------------------- CONTROLES ---------------------<br><br>"
                 + "ESPACIO -> Parar/Reanudar la animacion<br>"
                 + "TAB -> Alternar traslacion/Rotacion<br>"
                 + "SCROLL -> Aumentar/Disminuir la escala<br><br>"
@@ -77,21 +78,16 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
                 + "1 -> Activar/Desactivar Eje X<br>"
                 + "2 -> Activar/Desactivar Eje Y<br>"
                 + "3 -> Activar/Desactivar Eje Z<br>"
-                + "<br>"
-                + "<br>"
-                + "<br>"
-                + "<br>"
-                + "<br>"
-                + "<br>"
-                + "<br>"
-                + "<br>"
-                + " ESC -> Ocultar/Mostrar informacion<br>"
-                + "----------------------------------------------------------------------"
                 + "</html>");
-        labelInfo.setForeground(Color.WHITE);
-        labelInfo.setVerticalAlignment(SwingConstants.TOP);
-        labelInfo.setBounds(20, 20, 250, 575);
-        panelGraficos.add(labelInfo);
+        labelInfoVisible.setForeground(Color.WHITE);
+        labelInfoVisible.setVerticalAlignment(SwingConstants.TOP);
+        labelInfoVisible.setBounds(-250, 20, 250, 575);
+        panelGraficos.add(labelInfoVisible);
+        
+        labelInfoOculta = new JLabel("<html> ESC -> Ocultar/Mostrar informacion<br></html>");
+        labelInfoOculta.setForeground(Color.WHITE);
+        labelInfoOculta.setBounds(20, 570, 250, 10);
+        panelGraficos.add(labelInfoOculta);
     }
 
     public void initEventos() {
@@ -200,11 +196,12 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
 
     private void ocultarControles() {
         Thread thread = new Thread(() -> {
-            int tempX = labelInfo.getX();
+            int tempX = labelInfoVisible.getX();
 
-            while (tempX > -labelInfo.getWidth()) {
+            while (tempX > -labelInfoVisible.getWidth()) {
                 tempX -= 10;
-                labelInfo.setLocation(tempX, labelInfo.getY());
+                panelGraficos.getCube(10);
+                labelInfoVisible.setLocation(tempX, labelInfoVisible.getY());
                 try {
                     Thread.sleep(16);
                 } catch (InterruptedException ex) {
@@ -217,12 +214,12 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
 
     private void mostrarControles() {
         Thread thread = new Thread(() -> {
-            int tempX = labelInfo.getX();
+            int tempX = labelInfoVisible.getX();
 
             while (tempX < 20) {
                 tempX += 10;
-                labelInfo.setLocation(tempX, labelInfo.getY());
-
+                panelGraficos.getCube(-10);
+                labelInfoVisible.setLocation(tempX, labelInfoVisible.getY());
                 try {
                     Thread.sleep(16);
                 } catch (InterruptedException ex) {
