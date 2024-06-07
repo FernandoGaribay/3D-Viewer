@@ -83,7 +83,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
         labelInfoVisible.setVerticalAlignment(SwingConstants.TOP);
         labelInfoVisible.setBounds(-250, 20, 250, 575);
         panelGraficos.add(labelInfoVisible);
-        
+
         labelInfoOculta = new JLabel("<html> ESC -> Ocultar/Mostrar informacion<br></html>");
         labelInfoOculta.setForeground(Color.WHITE);
         labelInfoOculta.setBounds(20, 570, 250, 10);
@@ -169,14 +169,14 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
     public void aniadirEtiqueta(JLabel tagLabel, JLabel infoLabel, int x, int y) {
         JLabel tempLabel = infoLabel;
         tempLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-        tempLabel.setBounds(x, y, 200, 10);
+        tempLabel.setBounds(xInicialLabels, yInicialLabels, 200, 10);
         tempLabel.setForeground(Color.WHITE);
         listaInfoLabels.add(tempLabel);
         panelGraficos.add(tempLabel);
 
         JLabel tempLabel2 = tagLabel;
         tempLabel2.setHorizontalAlignment(SwingConstants.TRAILING);
-        tempLabel2.setBounds(xInicialLabels, yInicialLabels, 200, 10);
+        tempLabel2.setBounds(x, y, 200, 10);
         tempLabel2.setForeground(Color.WHITE);
         listaTagLabels.add(tempLabel2);
         panelGraficos.add(tempLabel2);
@@ -186,10 +186,18 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
     }
 
     @Override
-    public void actualizarEtiqueta(int indice, String texto) {
+    public void actualizarEtiquetaInformacion(int indice, String texto) {
         if (indice >= 0 && indice < listaInfoLabels.size()) {
-            JLabel label = listaInfoLabels.get(indice);
-            label.setText(texto);
+            listaInfoLabels.get(indice).setText(texto);
+
+            panelGraficos.repaint();
+        }
+    }
+
+    @Override
+    public void actualizarEtiquetaObjeto(int indice, int x, int y) {
+        if (indice >= 0 && indice < listaTagLabels.size()) {            
+            listaTagLabels.get(indice).setLocation(x, y);
             panelGraficos.repaint();
         }
     }
@@ -229,5 +237,4 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
         });
         thread.start();
     }
-
 }

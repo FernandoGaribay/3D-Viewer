@@ -12,6 +12,7 @@ import Interfaces.LabelManager;
 public class Cubo3D implements Runnable {
 
     private static int contadorCubos;
+    private LabelManager labelManager;
     private final JLabel infoHiloActual = new JLabel("-> FPS: 0");
     private final JLabel etiquetaActual = new JLabel("Cubo 1");
 
@@ -55,7 +56,7 @@ public class Cubo3D implements Runnable {
     };
 
     static {
-        contadorCubos = 1;
+        contadorCubos = 0;
     }
 
     public Cubo3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
@@ -68,15 +69,16 @@ public class Cubo3D implements Runnable {
 
         this.escala = 100;
         this.verticesTrasladados = new double[8][3];
-        this.traslaciones = new double[3];
+        this.traslaciones = new double[]{0, 0, 0};
         this.rotaciones = new double[3];
         this.mostrarPuntos = true;
         this.mostrarLineas = true;
         this.mostrarCaras = false;
 
         Point2D.Double p1 = punto3D_a_2D(origenCubo[0], origenCubo[1], origenCubo[2]);
-        etiquetaActual.setText("Cubo " + contadorCubos++);
-        labelManager.aniadirEtiqueta(infoHiloActual, etiquetaActual, (int) (p1.x - 180), (int) (p1.y - escala - 10));
+        this.labelManager = labelManager;
+        this.etiquetaActual.setText("Cubo " + (contadorCubos + 1));
+        this.labelManager.aniadirEtiqueta(etiquetaActual, infoHiloActual, (int) (p1.x - 180), (int) (p1.y - escala - 10));
 
         this.hiloCubo = new Thread(this);
         this.hiloCubo.start();
@@ -221,10 +223,13 @@ public class Cubo3D implements Runnable {
         return g2d.getBuffer();
     }
 
-    public void trasladarX(int distancia){
+    public void trasladarX(int distancia) {
         this.traslaciones[0] += distancia;
+        
+        Point2D.Double p1 = punto3D_a_2D(traslaciones[0] + origenCubo[0], traslaciones[1] + origenCubo[1], traslaciones[2] + origenCubo[2]);
+        labelManager.actualizarEtiquetaObjeto(contadorCubos, (int) (p1.x - 180), (int) (p1.y - escala - 10));
     }
-    
+
     @Override
     public void run() {
         int fps = 60;
@@ -239,6 +244,7 @@ public class Cubo3D implements Runnable {
 
             // CODIGO ----------------------------------------------------------
             dibujarCubo();
+
             rotaciones[0]++;
 //            rotaciones[1]++;
 //            rotaciones[2]++;
@@ -248,6 +254,8 @@ public class Cubo3D implements Runnable {
 
             if (System.currentTimeMillis() - tiempoAnterior >= 1000) {
                 infoHiloActual.setText("-> FPS: " + contadorFPS);
+                labelManager.actualizarEtiquetaInformacion(contadorCubos, "-> FPS: " + contadorFPS);
+
                 contadorFPS = 0;
                 tiempoAnterior = System.currentTimeMillis();
             }
