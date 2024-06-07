@@ -8,10 +8,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import Interfaces.LabelManager;
+import utils.Constantes;
 
 public class Cubo3D implements Runnable {
 
+    private final int idCubo;
     private static int contadorCubos;
+
     private LabelManager labelManager;
     private final JLabel infoHiloActual = new JLabel("-> FPS: 0");
     private final JLabel etiquetaActual = new JLabel("Cubo 1");
@@ -64,6 +67,7 @@ public class Cubo3D implements Runnable {
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
 
+        this.labelManager = labelManager;
         this.origenCubo = origenCubo;
         this.puntoFuga = puntoFuga;
 
@@ -75,10 +79,11 @@ public class Cubo3D implements Runnable {
         this.mostrarLineas = true;
         this.mostrarCaras = false;
 
+        this.idCubo = contadorCubos++;
+
         Point2D.Double p1 = punto3D_a_2D(origenCubo[0], origenCubo[1], origenCubo[2]);
-        this.labelManager = labelManager;
-        this.etiquetaActual.setText("Cubo " + (contadorCubos + 1));
-        this.labelManager.aniadirEtiqueta(etiquetaActual, infoHiloActual, (int) (p1.x - 180), (int) (p1.y - escala - 10));
+        this.etiquetaActual.setText("Cubo " + (idCubo + 1));
+        this.labelManager.aniadirEtiqueta(etiquetaActual, infoHiloActual, (int) (p1.x - Constantes.OFFSET_INFO_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_INFO_LABEL_HEIGHT));
 
         this.hiloCubo = new Thread(this);
         this.hiloCubo.start();
@@ -225,9 +230,9 @@ public class Cubo3D implements Runnable {
 
     public void trasladarX(int distancia) {
         this.traslaciones[0] += distancia;
-        
+
         Point2D.Double p1 = punto3D_a_2D(traslaciones[0] + origenCubo[0], traslaciones[1] + origenCubo[1], traslaciones[2] + origenCubo[2]);
-        labelManager.actualizarEtiquetaObjeto(contadorCubos, (int) (p1.x - 180), (int) (p1.y - escala - 10));
+        labelManager.actualizarEtiquetaObjeto(idCubo, (int) (p1.x - Constantes.OFFSET_TAG_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_TAG_LABEL_HEIGHT));
     }
 
     @Override
@@ -246,7 +251,7 @@ public class Cubo3D implements Runnable {
             dibujarCubo();
 
             rotaciones[0]++;
-//            rotaciones[1]++;
+            rotaciones[1]++;
 //            rotaciones[2]++;
 
             // -----------------------------------------------------------------
@@ -254,7 +259,7 @@ public class Cubo3D implements Runnable {
 
             if (System.currentTimeMillis() - tiempoAnterior >= 1000) {
                 infoHiloActual.setText("-> FPS: " + contadorFPS);
-                labelManager.actualizarEtiquetaInformacion(contadorCubos, "-> FPS: " + contadorFPS);
+                labelManager.actualizarEtiquetaInformacion(idCubo, "-> FPS: " + contadorFPS);
 
                 contadorFPS = 0;
                 tiempoAnterior = System.currentTimeMillis();

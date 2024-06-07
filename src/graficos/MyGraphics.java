@@ -324,13 +324,13 @@ public class MyGraphics {
     }
 // </editor-fold>
 
-    private void putPixel(int x, int y) {
+    private synchronized void putPixel(int x, int y) {
         if (x >= 0 && x < buffer.getWidth() && y >= 0 && y < buffer.getHeight()) {
             buffer.setRGB(x, y, color.getRGB());
         }
     }
 
-    private void putPixel(int x, int y, double z) {
+    private synchronized void putPixel(int x, int y, double z) {
         if (x >= 0 && x < buffer.getWidth() && y >= 0 && y < buffer.getHeight()) {
             Point2D.Double point = new Point2D.Double(x, y);
             if (!zBuffer.containsKey(point) || zBuffer.get(point) > z) {
