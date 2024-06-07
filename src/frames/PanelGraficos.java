@@ -13,16 +13,18 @@ import java.util.ArrayList;
 public class PanelGraficos extends JPanel implements Runnable {
 
     private Thread hiloPanelGraficos;
-    
+
     private double[] puntoFuga = {450, 300, 250};
     ArrayList<Cubo3D> listaCubos = new ArrayList<>();
 
     public PanelGraficos(LabelManager labelManager) {
         SwingUtilities.invokeLater(() -> {
             double[] origenCubo = {450, 300, 700};
-            listaCubos.add(new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, labelManager));
-//            double[] origenCubo2 = {200, 300, 700};
-//            listaCubos.add(new Cubo3D(getWidth(), getHeight(), origenCubo2, puntoFuga, labelManager));
+            Cubo3D cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, labelManager);
+            cubo.setSeleccionado(true);
+            listaCubos.add(cubo);
+            double[] origenCubo2 = {200, 300, 700};
+            listaCubos.add(new Cubo3D(getWidth(), getHeight(), origenCubo2, puntoFuga, labelManager));
 
             this.setBackground(new Color(38, 38, 38));
 
@@ -37,6 +39,14 @@ public class PanelGraficos extends JPanel implements Runnable {
 
         for (Cubo3D cubo : listaCubos) {
             g.drawImage(cubo.getBuffer(), 0, 0, null);
+        }
+    }
+
+    public void setMostrarAnimacion() {
+        for (Cubo3D cubo : listaCubos) {
+            if(cubo.isSeleccionado()){
+                cubo.setMostrarAnimacion();
+            }
         }
     }
 

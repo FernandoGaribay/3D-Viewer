@@ -116,7 +116,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
                         controlesEnPantalla = !controlesEnPantalla;
                         break;
                     case KeyEvent.VK_SPACE:
-                        System.out.println("ESPACIO Presionado");
+                        panelGraficos.setMostrarAnimacion();
                         break;
                     case KeyEvent.VK_TAB:
                         System.out.println("TAB Presionado");

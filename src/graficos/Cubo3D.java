@@ -14,10 +14,8 @@ public class Cubo3D implements Runnable {
 
     private final int idCubo;
     private static int contadorCubos;
-
+    private boolean seleccionado;
     private LabelManager labelManager;
-    private final JLabel infoHiloActual = new JLabel("-> FPS: 0");
-    private final JLabel etiquetaActual = new JLabel("Cubo 1");
 
     private MyGraphics g2d;
     private Thread hiloCubo;
@@ -31,9 +29,13 @@ public class Cubo3D implements Runnable {
     private double[] rotaciones;
     private double[] traslaciones;
 
+    private boolean mostrarAnimacion;
     private boolean mostrarPuntos;
     private boolean mostrarLineas;
     private boolean mostrarCaras;
+    private boolean animacionEjeX;
+    private boolean animacionEjeY;
+    private boolean animacionEjeZ;
 
     private double[][] vertices = {
         {1, 1, 1},
@@ -73,25 +75,40 @@ public class Cubo3D implements Runnable {
 
         this.escala = 100;
         this.verticesTrasladados = new double[8][3];
-        this.traslaciones = new double[]{0, 0, 0};
+        this.traslaciones = new double[3];
         this.rotaciones = new double[3];
-        this.mostrarPuntos = true;
-        this.mostrarLineas = true;
-        this.mostrarCaras = false;
-
+        initBanderas();
+        
         this.idCubo = contadorCubos++;
+        this.seleccionado = false;
 
         Point2D.Double p1 = punto3D_a_2D(origenCubo[0], origenCubo[1], origenCubo[2]);
-        this.etiquetaActual.setText("Cubo " + (idCubo + 1));
+        JLabel infoHiloActual = new JLabel("FPS: 0");
+        JLabel etiquetaActual = new JLabel("Cubo " + (idCubo + 1));
         this.labelManager.aniadirEtiqueta(etiquetaActual, infoHiloActual, (int) (p1.x - Constantes.OFFSET_INFO_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_INFO_LABEL_HEIGHT));
 
         this.hiloCubo = new Thread(this);
         this.hiloCubo.start();
     }
 
+    private void initBanderas() {
+        this.mostrarAnimacion = false;
+        this.mostrarPuntos = true;
+        this.mostrarLineas = true;
+        this.mostrarCaras = false;
+        this.animacionEjeX = true;
+        this.animacionEjeY = false;
+        this.animacionEjeZ = false;
+    }
+
     private synchronized void dibujarCubo() {
         g2d.resetBuffer();
         transformarVertices();
+        if (mostrarAnimacion) {
+            rotaciones[0] += (animacionEjeX) ? 1 : 0;
+            rotaciones[1] += (animacionEjeY) ? 1 : 0;
+            rotaciones[2] += (animacionEjeZ) ? 1 : 0;
+        }
         if (mostrarPuntos) {
             dibujarPuntos();
         }
@@ -250,16 +267,12 @@ public class Cubo3D implements Runnable {
             // CODIGO ----------------------------------------------------------
             dibujarCubo();
 
-            rotaciones[0]++;
-            rotaciones[1]++;
-//            rotaciones[2]++;
-
             // -----------------------------------------------------------------
             long tiempoOperacion = System.currentTimeMillis() - inicio;
 
             if (System.currentTimeMillis() - tiempoAnterior >= 1000) {
-                infoHiloActual.setText("-> FPS: " + contadorFPS);
-                labelManager.actualizarEtiquetaInformacion(idCubo, "-> FPS: " + contadorFPS);
+                String newTexto = (seleccionado) ? "-> FPS: " + contadorFPS : " FPS: " + contadorFPS;
+                labelManager.actualizarEtiquetaInformacion(idCubo, newTexto);
 
                 contadorFPS = 0;
                 tiempoAnterior = System.currentTimeMillis();
@@ -275,6 +288,18 @@ public class Cubo3D implements Runnable {
                 }
             }
         }
+    }
+
+    public void setSeleccionado(boolean seleccionado) {
+        this.seleccionado = seleccionado;
+    }
+
+    public boolean isSeleccionado() {
+        return this.seleccionado;
+    }
+
+    public void setMostrarAnimacion() {
+        this.mostrarAnimacion = !mostrarAnimacion;
     }
 
 }
