@@ -303,6 +303,18 @@ public class Cubo3D implements Runnable {
         this.mostrarAnimacion = !mostrarAnimacion;
     }
 
+    public void setMostrarPuntos() {
+        this.mostrarPuntos = !mostrarPuntos;
+    }
+
+    public void setMostrarLineas() {
+        this.mostrarLineas = !mostrarLineas;
+    }
+
+    public void setMostrarCaras() {
+        this.mostrarCaras = !mostrarCaras;
+    }
+
     public void setEjeXAnimacion() {
         this.animacionEjeX = !animacionEjeX;
     }

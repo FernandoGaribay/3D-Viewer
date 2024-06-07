@@ -140,13 +140,13 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
                         System.out.println("E Presionado");
                         break;
                     case KeyEvent.VK_Z:
-                        System.out.println("Z Presionado");
+                        panelGraficos.setMostrarPuntos();
                         break;
                     case KeyEvent.VK_X:
-                        System.out.println("X Presionado");
+                        panelGraficos.setMostrarLineas();
                         break;
                     case KeyEvent.VK_C:
-                        System.out.println("C Presionado");
+                        panelGraficos.setMostrarCaras();
                         break;
                     case KeyEvent.VK_1:
                         panelGraficos.setEjeXAnimacion();

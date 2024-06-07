@@ -44,15 +44,39 @@ public class PanelGraficos extends JPanel implements Runnable {
 
     public void setMostrarAnimacion() {
         for (Cubo3D cubo : listaCubos) {
-            if(cubo.isSeleccionado()){
+            if (cubo.isSeleccionado()) {
                 cubo.setMostrarAnimacion();
+            }
+        }
+    }
+
+    public void setMostrarPuntos() {
+        for (Cubo3D cubo : listaCubos) {
+            if (cubo.isSeleccionado()) {
+                cubo.setMostrarPuntos();
+            }
+        }
+    }
+
+    public void setMostrarLineas() {
+        for (Cubo3D cubo : listaCubos) {
+            if (cubo.isSeleccionado()) {
+                cubo.setMostrarLineas();
+            }
+        }
+    }
+
+    public void setMostrarCaras() {
+        for (Cubo3D cubo : listaCubos) {
+            if (cubo.isSeleccionado()) {
+                cubo.setMostrarCaras();
             }
         }
     }
 
     public void setEjeXAnimacion() {
         for (Cubo3D cubo : listaCubos) {
-            if(cubo.isSeleccionado()){
+            if (cubo.isSeleccionado()) {
                 cubo.setEjeXAnimacion();
             }
         }
@@ -60,7 +84,7 @@ public class PanelGraficos extends JPanel implements Runnable {
 
     public void setEjeYAnimacion() {
         for (Cubo3D cubo : listaCubos) {
-            if(cubo.isSeleccionado()){
+            if (cubo.isSeleccionado()) {
                 cubo.setEjeYAnimacion();
             }
         }
@@ -68,7 +92,7 @@ public class PanelGraficos extends JPanel implements Runnable {
 
     public void setEjeZAnimacion() {
         for (Cubo3D cubo : listaCubos) {
-            if(cubo.isSeleccionado()){
+            if (cubo.isSeleccionado()) {
                 cubo.setEjeZAnimacion();
             }
         }
