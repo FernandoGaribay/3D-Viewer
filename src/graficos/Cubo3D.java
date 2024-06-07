@@ -65,7 +65,7 @@ public class Cubo3D implements Runnable {
         this.traslaciones = new double[3];
         this.rotaciones = new double[3];
         this.mostrarPuntos = true;
-        this.mostrarLineas = false;
+        this.mostrarLineas = true;
         this.mostrarCaras = true;
 
         this.labelManager = labelManager;
@@ -78,14 +78,14 @@ public class Cubo3D implements Runnable {
     private synchronized void dibujarCubo() {
         g2d.resetBuffer();
         transformarVertices();
-        if (mostrarPuntos) {
-            dibujarPuntos();
-        }
         if (mostrarCaras) {
             dibujarCaras();
         }
         if (mostrarLineas) {
             dibujarLineas();
+        }
+        if (mostrarPuntos) {
+            dibujarPuntos();
         }
     }
 
@@ -110,7 +110,15 @@ public class Cubo3D implements Runnable {
     }
 
     private void dibujarPuntos() {
-
+        g2d.setColor(Color.WHITE);
+        for (int i = 0; i < verticesTrasladados.length; i++) {
+            double[] v = verticesTrasladados[i];
+            double x = v[0];
+            double y = v[1];
+            double z = v[2];
+            Point2D.Double p1 = punto3D_a_2D(x, y, z);
+            g2d.fillCircle3D((int) p1.x, (int) p1.y, 4, (int) z);
+        }
     }
 
     private void dibujarLineas() {

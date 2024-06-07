@@ -101,6 +101,114 @@ public class MyGraphics {
         fillPolygon(poly);
     }
 
+// <editor-fold defaultstate="collapsed" desc="Metodos dibujado de circulos">
+    public void drawCircle(int x, int y, float R) {
+        int xIndex = 0;
+        int yIndex = (int) R;
+        int p0 = 5 / 4 - (int) R; //si R es entero, p0 = 1 - r
+
+        while (xIndex <= yIndex) {
+            if (p0 < 0) {
+                p0 += 2 * xIndex + 3;
+            } else {
+                p0 += 2 * (xIndex - yIndex) + 5;
+                yIndex--;
+            }
+
+            putPixel(x + xIndex, y + yIndex); // Octante 1
+            putPixel(x + yIndex, y + xIndex); // Octante 2
+            putPixel(x + yIndex, y - xIndex); // Octante 3
+            putPixel(x + xIndex, y - yIndex); // Octante 4
+            putPixel(x - xIndex, y - yIndex); // Octante 5
+            putPixel(x - yIndex, y - xIndex); // Octante 6
+            putPixel(x - yIndex, y + xIndex); // Octante 7
+            putPixel(x - xIndex, y + yIndex); // Octante 8
+
+            xIndex++;
+        }
+    }
+    
+    public void drawCircle3D(int x, int y, float R, int z) {
+        int xIndex = 0;
+        int yIndex = (int) R;
+        int p0 = 5 / 4 - (int) R; //si R es entero, p0 = 1 - r
+
+        while (xIndex <= yIndex) {
+            if (p0 < 0) {
+                p0 += 2 * xIndex + 3;
+            } else {
+                p0 += 2 * (xIndex - yIndex) + 5;
+                yIndex--;
+            }
+
+            putPixel(x + xIndex, y + yIndex, z); // Octante 1
+            putPixel(x + yIndex, y + xIndex, z); // Octante 2
+            putPixel(x + yIndex, y - xIndex, z); // Octante 3
+            putPixel(x + xIndex, y - yIndex, z); // Octante 4
+            putPixel(x - xIndex, y - yIndex, z); // Octante 5
+            putPixel(x - yIndex, y - xIndex, z); // Octante 6
+            putPixel(x - yIndex, y + xIndex, z); // Octante 7
+            putPixel(x - xIndex, y + yIndex, z); // Octante 8
+
+            xIndex++;
+        }
+    }
+
+    public void fillCircle(int x, int y, float R) {
+        int xIndex = 0;
+        int yIndex = (int) R;
+        int p0 = 1 - (int) R;
+
+        while (xIndex <= yIndex) {
+            fillLine(x + xIndex, y + yIndex, x - xIndex, y + yIndex); // Octante 1 y 8
+            fillLine(x + yIndex, y + xIndex, x - yIndex, y + xIndex); // Octante 2 y 7
+            fillLine(x + yIndex, y - xIndex, x - yIndex, y - xIndex); // Octante 3 y 6
+            fillLine(x + xIndex, y - yIndex, x - xIndex, y - yIndex); // Octante 4 y 5
+
+            if (p0 < 0) {
+                p0 += 2 * xIndex + 3;
+            } else {
+                p0 += 2 * (xIndex - yIndex) + 5;
+                yIndex--;
+            }
+            xIndex++;
+        }
+    }
+
+    public void fillCircle3D(int x, int y, float R, int z) {
+        int xIndex = 0;
+        int yIndex = (int) R;
+        int p0 = 1 - (int) R;
+
+        while (xIndex <= yIndex) {
+            fillLine3D(x + xIndex, y + yIndex, x - xIndex, y + yIndex, z); // Octante 1 y 8
+            fillLine3D(x + yIndex, y + xIndex, x - yIndex, y + xIndex, z); // Octante 2 y 7
+            fillLine3D(x + yIndex, y - xIndex, x - yIndex, y - xIndex, z); // Octante 3 y 6
+            fillLine3D(x + xIndex, y - yIndex, x - xIndex, y - yIndex, z); // Octante 4 y 5
+
+            if (p0 < 0) {
+                p0 += 2 * xIndex + 3;
+            } else {
+                p0 += 2 * (xIndex - yIndex) + 5;
+                yIndex--;
+            }
+            xIndex++;
+        }
+    }
+
+    public void fillLine(int x1, int y1, int x2, int y2) {
+        for (int x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
+            putPixel(x, y1);
+        }
+    }
+
+    public void fillLine3D(int x1, int y1, int x2, int y2, int z) {
+        for (int x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
+            putPixel(x, y1, z);
+        }
+    }
+// </editor-fold>
+
     public void drawPolygon(Polygon poly) {
         int[] xPuntos = poly.xpoints;
         int[] yPuntos = poly.ypoints;
