@@ -79,7 +79,7 @@ public class Cubo3D implements Runnable {
         this.traslaciones = new double[3];
         this.rotaciones = new double[3];
         initBanderas();
-        
+
         this.idCubo = contadorCubos++;
         this.seleccionado = false;
 
@@ -106,7 +106,7 @@ public class Cubo3D implements Runnable {
     private synchronized void dibujarCubo() {
         g2d.resetBuffer();
         transformarVertices();
-        
+
         if (mostrarAnimacion) {
             rotaciones[0] += (animacionEjeX) ? 1 : 0;
             rotaciones[1] += (animacionEjeY) ? 1 : 0;
@@ -255,6 +255,20 @@ public class Cubo3D implements Runnable {
         labelManager.actualizarEtiquetaObjeto(idCubo, (int) (p1.x - Constantes.OFFSET_TAG_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_TAG_LABEL_HEIGHT));
     }
 
+    public void trasladarY(int distancia) {
+        this.traslaciones[1] += distancia;
+
+        Point2D.Double p1 = punto3D_a_2D(traslaciones[0] + origenCubo[0], traslaciones[1] + origenCubo[1], traslaciones[2] + origenCubo[2]);
+        labelManager.actualizarEtiquetaObjeto(idCubo, (int) (p1.x - Constantes.OFFSET_TAG_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_TAG_LABEL_HEIGHT));
+    }
+    
+    public void trasladarZ(int distancia) {
+        this.traslaciones[2] += distancia;
+
+        Point2D.Double p1 = punto3D_a_2D(traslaciones[0] + origenCubo[0], traslaciones[1] + origenCubo[1], traslaciones[2] + origenCubo[2]);
+        labelManager.actualizarEtiquetaObjeto(idCubo, (int) (p1.x - Constantes.OFFSET_TAG_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_TAG_LABEL_HEIGHT));
+    }
+
     @Override
     public void run() {
         int fps = 60;
@@ -305,11 +319,65 @@ public class Cubo3D implements Runnable {
         this.mostrarAnimacion = !mostrarAnimacion;
     }
 
-    public void setRotacionTransformacion(){
+    public void setRotacionTransformacion() {
         this.traslacion = !traslacion;
         System.out.println("Traslacion : " + traslacion);
     }
-    
+
+    public void setRotacionTransformacionArriba() {
+        if (traslacion) {
+            trasladarY(10);
+        } else {
+            rotaciones[0] += 5;
+            rotarX(puntoFuga, escala);
+        }
+    }
+
+    public void setRotacionTransformacionAbajo() {
+        if (traslacion) {
+            trasladarY(-10);
+        } else {
+            rotaciones[0] -= 5;
+            rotarX(puntoFuga, escala);
+        }
+    }
+
+    public void setRotacionTransformacionIzquierda() {
+        if (traslacion) {
+            trasladarX(10);
+        } else {
+            rotaciones[1] -= 5;
+            rotarX(puntoFuga, escala);
+        }
+    }
+
+    public void setRotacionTransformacionDerecha() {
+        if (traslacion) {
+            trasladarX(-10);
+        } else {
+            rotaciones[1] += 5;
+            rotarX(puntoFuga, escala);
+        }
+    }
+
+    public void setRotacionTransformacionZPositiva() {
+        if (traslacion) {
+            trasladarZ(10);
+        } else {
+            rotaciones[2] += 5;
+            rotarX(puntoFuga, escala);
+        }
+    }
+
+    public void setRotacionTransformacionZNegativa() {
+        if (traslacion) {
+            trasladarZ(-10);
+        } else {
+            rotaciones[2] -= 5;
+            rotarX(puntoFuga, escala);
+        }
+    }
+
     public void setMostrarPuntos() {
         this.mostrarPuntos = !mostrarPuntos;
     }

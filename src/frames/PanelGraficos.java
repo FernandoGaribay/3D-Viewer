@@ -57,6 +57,54 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
+
+    public void setRotacionTransformacionArriba() {
+        for (Cubo3D cubo : listaCubos) {
+            if (cubo.isSeleccionado()) {
+                cubo.setRotacionTransformacionArriba();
+            }
+        }
+    }
+
+    public void setRotacionTransformacionAbajo() {
+        for (Cubo3D cubo : listaCubos) {
+            if (cubo.isSeleccionado()) {
+                cubo.setRotacionTransformacionAbajo();
+            }
+        }
+    }
+
+    public void setRotacionTransformacionIzquierda() {
+        for (Cubo3D cubo : listaCubos) {
+            if (cubo.isSeleccionado()) {
+                cubo.setRotacionTransformacionIzquierda();
+            }
+        }
+    }
+
+    public void setRotacionTransformacionDerecha() {
+        for (Cubo3D cubo : listaCubos) {
+            if (cubo.isSeleccionado()) {
+                cubo.setRotacionTransformacionDerecha();
+            }
+        }
+    }
+
+    public void setRotacionTransformacionZPositiva() {
+        for (Cubo3D cubo : listaCubos) {
+            if (cubo.isSeleccionado()) {
+                cubo.setRotacionTransformacionZPositiva();
+            }
+        }
+    }
+
+    public void setRotacionTransformacionZNegativa() {
+        for (Cubo3D cubo : listaCubos) {
+            if (cubo.isSeleccionado()) {
+                cubo.setRotacionTransformacionZNegativa();
+            }
+        }
+    }
     
     public void setMostrarPuntos() {
         for (Cubo3D cubo : listaCubos) {
