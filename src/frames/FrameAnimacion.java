@@ -8,6 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import Interfaces.LabelManager;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public final class FrameAnimacion extends JFrame implements LabelManager {
 
@@ -32,6 +35,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
         setVisible(true);
         setLocationRelativeTo(null);
         setLayout(null);
+        requestFocus();
 
         initComponentes();
         initEventos();
@@ -54,7 +58,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
                 + "TAB -> Alternar traslacion/Rotacion<br>"
                 + "SCROLL -> Aumentar/Disminuir la escala<br><br>"
                 + "Click Izq -> Rotacion (Ejes activados)<br>"
-                + "SCROLL -> Traslacion (X e Y)<br><br>"
+                + "Click Der -> Traslacion (X e Y)<br><br>"
                 + "W -> Transformar para arriba<br>"
                 + "A -> Transformar para la izquierda<br>"
                 + "S -> Transformar para abajo<br>"
@@ -85,6 +89,8 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
     }
 
     public void initEventos() {
+        panelGraficos.setFocusTraversalKeysEnabled(false);
+        
         panelGraficos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -93,6 +99,63 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
                 System.out.println("Coordenadas del clic: (" + x + ", " + y + ")");
             }
         });
+
+        panelGraficos.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                switch (keyCode) {
+                    case KeyEvent.VK_ESCAPE:
+                        System.out.println("ESC Presionado");
+                        break;
+                    case KeyEvent.VK_SPACE:
+                        System.out.println("SPACE Presionado");
+                        break;
+                    case KeyEvent.VK_TAB:
+                        System.out.println("TAB Presionado");
+                        break;
+                    case KeyEvent.VK_W:
+                        System.out.println("W Presionado");
+                        break;
+                    case KeyEvent.VK_A:
+                        System.out.println("A Presionado");
+                        break;
+                    case KeyEvent.VK_S:
+                        System.out.println("S Presionado");
+                        break;
+                    case KeyEvent.VK_D:
+                        System.out.println("D Presionado");
+                        break;
+                    case KeyEvent.VK_Q:
+                        System.out.println("Q Presionado");
+                        break;
+                    case KeyEvent.VK_E:
+                        System.out.println("E Presionado");
+                        break;
+                    case KeyEvent.VK_Z:
+                        System.out.println("Z Presionado");
+                        break;
+                    case KeyEvent.VK_X:
+                        System.out.println("X Presionado");
+                        break;
+                    case KeyEvent.VK_C:
+                        System.out.println("C Presionado");
+                        break;
+                    case KeyEvent.VK_1:
+                        System.out.println("1 Presionado");
+                        break;
+                    case KeyEvent.VK_2:
+                        System.out.println("2 Presionado");
+                        break;
+                    case KeyEvent.VK_3:
+                        System.out.println("3 Presionado");
+                        break;
+                }
+            }
+        });
+
+        panelGraficos.setFocusable(true);
+        panelGraficos.requestFocusInWindow();
     }
 
     @Override
