@@ -50,6 +50,30 @@ public class PanelGraficos extends JPanel implements Runnable {
         }
     }
 
+    public void setEjeXAnimacion() {
+        for (Cubo3D cubo : listaCubos) {
+            if(cubo.isSeleccionado()){
+                cubo.setEjeXAnimacion();
+            }
+        }
+    }
+
+    public void setEjeYAnimacion() {
+        for (Cubo3D cubo : listaCubos) {
+            if(cubo.isSeleccionado()){
+                cubo.setEjeYAnimacion();
+            }
+        }
+    }
+
+    public void setEjeZAnimacion() {
+        for (Cubo3D cubo : listaCubos) {
+            if(cubo.isSeleccionado()){
+                cubo.setEjeZAnimacion();
+            }
+        }
+    }
+
     public void trasladarCubos(int d) {
         for (Cubo3D cubo : listaCubos) {
             cubo.trasladarX(d);

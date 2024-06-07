@@ -104,6 +104,7 @@ public class Cubo3D implements Runnable {
     private synchronized void dibujarCubo() {
         g2d.resetBuffer();
         transformarVertices();
+        
         if (mostrarAnimacion) {
             rotaciones[0] += (animacionEjeX) ? 1 : 0;
             rotaciones[1] += (animacionEjeY) ? 1 : 0;
@@ -300,6 +301,18 @@ public class Cubo3D implements Runnable {
 
     public void setMostrarAnimacion() {
         this.mostrarAnimacion = !mostrarAnimacion;
+    }
+
+    public void setEjeXAnimacion() {
+        this.animacionEjeX = !animacionEjeX;
+    }
+
+    public void setEjeYAnimacion() {
+        this.animacionEjeY = !animacionEjeY;
+    }
+
+    public void setEjeZAnimacion() {
+        this.animacionEjeZ = !animacionEjeZ;
     }
 
 }
