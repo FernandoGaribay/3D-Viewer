@@ -24,6 +24,7 @@ public class MyGraphics {
         this.HEIGHT = height;
     }
 
+// <editor-fold defaultstate="collapsed" desc="Metodos dibujado de lineas">
     public void drawLine(int x0, int y0, int x1, int y1) {
         int dx = x1 - x0;
         int dy = y1 - y0;
@@ -43,7 +44,7 @@ public class MyGraphics {
         }
     }
 
-    public void drawLine3D(Point2D.Double p1, double z1, Point2D.Double p2, double z2, Point2D.Double puntoFuga) {
+    public void drawLine3D(Point2D.Double p1, double z1, Point2D.Double p2, double z2) {
         Point2D.Double p1Proj = p1;
         Point2D.Double p2Proj = p2;
 
@@ -84,7 +85,9 @@ public class MyGraphics {
             }
         }
     }
+// </editor-fold>
 
+// <editor-fold defaultstate="collapsed" desc="Metodos dibujado de rectangulos">    
     public void drawRect(int x0, int y0, int x1, int y1) {
         drawLine(x0, y0, x1, y0);
         drawLine(x0, y0, x0, y1);
@@ -93,13 +96,22 @@ public class MyGraphics {
     }
 
     public void fillRect(int x0, int y0, int x1, int y1) {
-        Polygon poly = new Polygon();
-        poly.addPoint(x0, y0);
-        poly.addPoint(x1, y0);
-        poly.addPoint(x1, y1);
-        poly.addPoint(x0, y1);
-        fillPolygon(poly);
+        if (x0 > x1) {
+            int temp = x0;
+            x0 = x1;
+            x1 = temp;
+        }
+        if (y0 > y1) {
+            int temp = y0;
+            y0 = y1;
+            y1 = temp;
+        }
+
+        for (int y = y0; y <= y1; y++) {
+            drawLine(x0, y, x1, y);
+        }
     }
+// </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Metodos dibujado de circulos">
     public void drawCircle(int x, int y, float R) {
@@ -127,7 +139,7 @@ public class MyGraphics {
             xIndex++;
         }
     }
-    
+
     public void drawCircle3D(int x, int y, float R, int z) {
         int xIndex = 0;
         int yIndex = (int) R;
@@ -209,6 +221,7 @@ public class MyGraphics {
     }
 // </editor-fold>
 
+// <editor-fold defaultstate="collapsed" desc="Metodos dibujado de poligonos">    
     public void drawPolygon(Polygon poly) {
         int[] xPuntos = poly.xpoints;
         int[] yPuntos = poly.ypoints;
@@ -260,6 +273,15 @@ public class MyGraphics {
         }
     }
 
+    public void fillPolygonDisordered(Polygon poly) {
+        Point2D.Double[] puntosOrdenados = MyGraphicsUtils.ordenarPuntos(poly);
+        fillPolygon(MyGraphicsUtils.arrayPoint2DToPolygon(puntosOrdenados));
+
+//        color = Color.red;
+//        Point2D.Double puntoCentral = MyGraphicsUtils.getPolyPuntoCentral(poly);
+//        fillRect((int) (puntoCentral.x), (int) (puntoCentral.y), (int) (puntoCentral.x + 5), (int) (puntoCentral.y + 5));
+    }
+
     public void fillPolygon3D(Polygon poly, double midZIndex) {
         Point2D.Double[] puntosOrdenados = MyGraphicsUtils.ordenarPuntos(poly);
         Polygon newPoly = MyGraphicsUtils.arrayPoint2DToPolygon(puntosOrdenados);
@@ -300,15 +322,7 @@ public class MyGraphics {
             }
         }
     }
-
-    public void fillPolygonDisordered(Polygon poly) {
-        Point2D.Double[] puntosOrdenados = MyGraphicsUtils.ordenarPuntos(poly);
-        fillPolygon(MyGraphicsUtils.arrayPoint2DToPolygon(puntosOrdenados));
-
-//        color = Color.red;
-        Point2D.Double puntoCentral = MyGraphicsUtils.getPolyPuntoCentral(poly);
-//        fillRect((int) (puntoCentral.x), (int) (puntoCentral.y), (int) (puntoCentral.x + 5), (int) (puntoCentral.y + 5));
-    }
+// </editor-fold>
 
     private void putPixel(int x, int y) {
         if (x >= 0 && x < buffer.getWidth() && y >= 0 && y < buffer.getHeight()) {

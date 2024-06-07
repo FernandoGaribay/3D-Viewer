@@ -66,7 +66,7 @@ public class Cubo3D implements Runnable {
         this.rotaciones = new double[3];
         this.mostrarPuntos = true;
         this.mostrarLineas = true;
-        this.mostrarCaras = true;
+        this.mostrarCaras = false;
 
         this.labelManager = labelManager;
         labelManager.aniadirEtiqueta(infoHiloActual);
@@ -209,9 +209,12 @@ public class Cubo3D implements Runnable {
 
     @Override
     public void run() {
-        int sleepTime = 1000 / 60;
+        int fps = 60;
+        long tiempoPorFotograma = 1000 / fps;
+        int sleepTime;
+
         long tiempoAnterior = System.currentTimeMillis();
-        int contador = 0;
+        int contadorFPS = 0;
 
         while (true) {
             long inicio = System.currentTimeMillis();
@@ -219,22 +222,26 @@ public class Cubo3D implements Runnable {
             // CODIGO ----------------------------------------------------------
             dibujarCubo();
             rotaciones[0]++;
+            rotaciones[1]++;
+            rotaciones[2]++;
 
             // -----------------------------------------------------------------
-            long fin = System.currentTimeMillis() - inicio;
-            contador++;
+            long tiempoOperacion = System.currentTimeMillis() - inicio;
 
-            // Si ha pasado un segundo, imprimir la frecuencia de actualización y reiniciar el contador
             if (System.currentTimeMillis() - tiempoAnterior >= 1000) {
-                infoHiloActual.setText("FPS: " + contador);
-                contador = 0;
+                infoHiloActual.setText("FPS: " + contadorFPS);
+                contadorFPS = 0;
                 tiempoAnterior = System.currentTimeMillis();
             }
+            contadorFPS++;
 
-            try {
-                Thread.sleep(sleepTime);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Cubo3D.class.getName()).log(Level.SEVERE, null, ex);
+            sleepTime = (int) (tiempoPorFotograma - tiempoOperacion);
+            if (sleepTime > 0) {
+                try {
+                    Thread.sleep(sleepTime);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Cubo3D.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
