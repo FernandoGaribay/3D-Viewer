@@ -30,6 +30,7 @@ public class Cubo3D implements Runnable {
     private double[] traslaciones;
 
     private boolean mostrarAnimacion;
+    private boolean traslacion;
     private boolean mostrarPuntos;
     private boolean mostrarLineas;
     private boolean mostrarCaras;
@@ -93,6 +94,7 @@ public class Cubo3D implements Runnable {
 
     private void initBanderas() {
         this.mostrarAnimacion = false;
+        this.traslacion = false;
         this.mostrarPuntos = true;
         this.mostrarLineas = true;
         this.mostrarCaras = false;
@@ -303,6 +305,11 @@ public class Cubo3D implements Runnable {
         this.mostrarAnimacion = !mostrarAnimacion;
     }
 
+    public void setRotacionTransformacion(){
+        this.traslacion = !traslacion;
+        System.out.println("Traslacion : " + traslacion);
+    }
+    
     public void setMostrarPuntos() {
         this.mostrarPuntos = !mostrarPuntos;
     }

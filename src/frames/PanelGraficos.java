@@ -50,6 +50,14 @@ public class PanelGraficos extends JPanel implements Runnable {
         }
     }
 
+    public void setRotacionTransformacion() {
+        for (Cubo3D cubo : listaCubos) {
+            if (cubo.isSeleccionado()) {
+                cubo.setRotacionTransformacion();
+            }
+        }
+    }
+    
     public void setMostrarPuntos() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {

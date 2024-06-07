@@ -119,7 +119,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
                         panelGraficos.setMostrarAnimacion();
                         break;
                     case KeyEvent.VK_TAB:
-                        System.out.println("TAB Presionado");
+                        panelGraficos.setRotacionTransformacion();
                         break;
                     case KeyEvent.VK_W:
                         System.out.println("W Presionado");
