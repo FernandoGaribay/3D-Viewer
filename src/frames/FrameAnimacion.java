@@ -11,18 +11,22 @@ import Interfaces.LabelManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class FrameAnimacion extends JFrame implements LabelManager {
 
     private final PanelGraficos panelGraficos = new PanelGraficos(this);
     private static final ArrayList<JLabel> listaLabels;
     private static JLabel labelInfo;
+    private static boolean controlesEnPantalla;
 
     private static int xInicialLabels;
     private static int yInicialLabels;
 
     static {
         listaLabels = new ArrayList<>();
+        controlesEnPantalla = true;
         xInicialLabels = 675;
         yInicialLabels = 25;
     }
@@ -79,7 +83,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
                 + "<br>"
                 + "<br>"
                 + "<br>"
-                + " ESC -> Ocultar informacion<br>"
+                + " ESC -> Ocultar/Mostrar informacion<br>"
                 + "----------------------------------------------------------------------"
                 + "</html>");
         labelInfo.setForeground(Color.WHITE);
@@ -90,7 +94,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
 
     public void initEventos() {
         panelGraficos.setFocusTraversalKeysEnabled(false);
-        
+
         panelGraficos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -106,10 +110,15 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
                 int keyCode = e.getKeyCode();
                 switch (keyCode) {
                     case KeyEvent.VK_ESCAPE:
-                        System.out.println("ESC Presionado");
+                        if (controlesEnPantalla) {
+                            ocultarControles();
+                        } else {
+                            mostrarControles();
+                        }
+                        controlesEnPantalla = !controlesEnPantalla;
                         break;
                     case KeyEvent.VK_SPACE:
-                        System.out.println("SPACE Presionado");
+                        System.out.println("ESPACIO Presionado");
                         break;
                     case KeyEvent.VK_TAB:
                         System.out.println("TAB Presionado");
@@ -179,4 +188,40 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
             panelGraficos.repaint();
         }
     }
+
+    private void ocultarControles() {
+        Thread thread = new Thread(() -> {
+            int tempX = labelInfo.getX();
+
+            while (tempX > -labelInfo.getWidth()) {
+                tempX -= 10;
+                labelInfo.setLocation(tempX, labelInfo.getY());
+                try {
+                    Thread.sleep(16);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FrameAnimacion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void mostrarControles() {
+        Thread thread = new Thread(() -> {
+            int tempX = labelInfo.getX();
+
+            while (tempX < 20) { 
+                tempX += 10;
+                labelInfo.setLocation(tempX, labelInfo.getY());
+
+                try {
+                    Thread.sleep(16);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FrameAnimacion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        thread.start();
+    }
+
 }
