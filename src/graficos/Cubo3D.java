@@ -1,6 +1,5 @@
 package graficos;
 
-import Interfaces.ManejadorDeInformacion;
 import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
@@ -8,17 +7,18 @@ import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import Interfaces.LabelManager;
 
 public class Cubo3D implements Runnable {
 
-    private final ManejadorDeInformacion labelManager;
+    private final LabelManager labelManager;
     private final JLabel infoHiloActual = new JLabel("FPS: 0");
 
     private MyGraphics g2d;
     private Thread hiloCubo;
     private int frameWidth, frameHeight;
 
-    double[][] verticesTrasladados = new double[8][3];
+    double[][] verticesTrasladados;
     private double[] origenCubo;
     private double[] puntoFuga;
 
@@ -53,7 +53,7 @@ public class Cubo3D implements Runnable {
         {2, 6, 7, 3}, {1, 5, 4, 0}
     };
 
-    public Cubo3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, ManejadorDeInformacion labelManager) {
+    public Cubo3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         this.g2d = new MyGraphics(frameWidth, frameHeight);
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
@@ -62,11 +62,12 @@ public class Cubo3D implements Runnable {
         this.puntoFuga = puntoFuga;
 
         this.escala = 100;
+        this.verticesTrasladados = new double[8][3];
         this.traslaciones = new double[3];
         this.rotaciones = new double[3];
         this.mostrarPuntos = true;
         this.mostrarLineas = true;
-        this.mostrarCaras = false;
+        this.mostrarCaras = true;
 
         this.labelManager = labelManager;
         labelManager.aniadirEtiqueta(infoHiloActual);
@@ -78,14 +79,14 @@ public class Cubo3D implements Runnable {
     private synchronized void dibujarCubo() {
         g2d.resetBuffer();
         transformarVertices();
+        if (mostrarPuntos) {
+            dibujarPuntos();
+        }
         if (mostrarCaras) {
             dibujarCaras();
         }
         if (mostrarLineas) {
             dibujarLineas();
-        }
-        if (mostrarPuntos) {
-            dibujarPuntos();
         }
     }
 
@@ -200,6 +201,14 @@ public class Cubo3D implements Runnable {
         double px = puntoFuga[0] + (x - puntoFuga[0]) * u;
         double py = puntoFuga[1] + (y - puntoFuga[1]) * u;
 
+//        double xf = puntoFuga[0];
+//        double yf = puntoFuga[1];
+//        double zf = puntoFuga[2];
+//        double distanciaFocal = 300;
+//
+//        double px = (distanciaFocal * (x - xf)) / (z - zf) + xf;
+//        double py = (distanciaFocal * (y - yf)) / (z - zf) + yf;
+
         return new Point2D.Double(px, py);
     }
 
@@ -222,14 +231,14 @@ public class Cubo3D implements Runnable {
             // CODIGO ----------------------------------------------------------
             dibujarCubo();
             rotaciones[0]++;
-            rotaciones[1]++;
-            rotaciones[2]++;
+//            rotaciones[1]++;
+//            rotaciones[2]++;
 
             // -----------------------------------------------------------------
             long tiempoOperacion = System.currentTimeMillis() - inicio;
 
             if (System.currentTimeMillis() - tiempoAnterior >= 1000) {
-                infoHiloActual.setText("FPS: " + contadorFPS);
+                infoHiloActual.setText("SELECCIONADO -> FPS: " + contadorFPS);
                 contadorFPS = 0;
                 tiempoAnterior = System.currentTimeMillis();
             }

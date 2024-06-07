@@ -2,7 +2,7 @@ package Interfaces;
 
 import javax.swing.JLabel;
 
-public interface ManejadorDeInformacion {
+public interface LabelManager {
     void aniadirEtiqueta(JLabel label);
     void actualizarEtiqueta(int indice, String texto);
 }
