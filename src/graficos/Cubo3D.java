@@ -1,13 +1,18 @@
 package graficos;
 
+import Interfaces.ManejadorDeInformacion;
 import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 
 public class Cubo3D implements Runnable {
+
+    private final ManejadorDeInformacion labelManager;
+    private final JLabel infoHiloActual = new JLabel("FPS: 0");
 
     private MyGraphics g2d;
     private Thread hiloCubo;
@@ -48,7 +53,7 @@ public class Cubo3D implements Runnable {
         {2, 6, 7, 3}, {1, 5, 4, 0}
     };
 
-    public Cubo3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga) {
+    public Cubo3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, ManejadorDeInformacion labelManager) {
         this.g2d = new MyGraphics(frameWidth, frameHeight);
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
@@ -58,10 +63,13 @@ public class Cubo3D implements Runnable {
 
         this.escala = 100;
         this.traslaciones = new double[3];
-        this.rotaciones = new double[]{0, 0, 0};
+        this.rotaciones = new double[3];
         this.mostrarPuntos = true;
-        this.mostrarLineas = true;
-        this.mostrarCaras = false;
+        this.mostrarLineas = false;
+        this.mostrarCaras = true;
+
+        this.labelManager = labelManager;
+        labelManager.aniadirEtiqueta(infoHiloActual);
 
         this.hiloCubo = new Thread(this);
         this.hiloCubo.start();
@@ -118,7 +126,7 @@ public class Cubo3D implements Runnable {
             Point2D.Double p1 = punto3D_a_2D(x0, y0, z0);
             Point2D.Double p2 = punto3D_a_2D(x1, y1, z1);
 
-            g2d.setColor(Color.BLACK);
+            g2d.setColor(Color.WHITE);
             g2d.drawLine((int) p1.x, (int) p1.y, (int) p2.x, (int) p2.y);
         }
     }
@@ -196,7 +204,7 @@ public class Cubo3D implements Runnable {
         int sleepTime = 1000 / 60;
         long tiempoAnterior = System.currentTimeMillis();
         int contador = 0;
-        
+
         while (true) {
             long inicio = System.currentTimeMillis();
 
@@ -205,13 +213,12 @@ public class Cubo3D implements Runnable {
             rotaciones[0]++;
 
             // -----------------------------------------------------------------
-           
             long fin = System.currentTimeMillis() - inicio;
             contador++;
 
             // Si ha pasado un segundo, imprimir la frecuencia de actualización y reiniciar el contador
             if (System.currentTimeMillis() - tiempoAnterior >= 1000) {
-                System.out.println("FPS: " + contador);
+                infoHiloActual.setText("FPS: " + contador);
                 contador = 0;
                 tiempoAnterior = System.currentTimeMillis();
             }

@@ -1,5 +1,6 @@
 package frames;
 
+import Interfaces.ManejadorDeInformacion;
 import graficos.Cubo3D;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -17,10 +18,10 @@ public class PanelGraficos extends JPanel implements Runnable {
 
     private Cubo3D cubo;
 
-    public PanelGraficos() {
+    public PanelGraficos(ManejadorDeInformacion labelManager) {
         SwingUtilities.invokeLater(() -> {
-            cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga);
-            setBackground(Color.WHITE);
+            this.cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, labelManager);
+            this.setBackground(new Color(38, 38, 38));
 
             this.hiloPanelGraficos = new Thread(this);
             this.hiloPanelGraficos.start();
