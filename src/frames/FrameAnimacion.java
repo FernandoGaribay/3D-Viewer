@@ -17,7 +17,8 @@ import java.util.logging.Logger;
 public final class FrameAnimacion extends JFrame implements LabelManager {
 
     private final PanelGraficos panelGraficos = new PanelGraficos(this);
-    private static final ArrayList<JLabel> listaLabels;
+    private static final ArrayList<JLabel> listaInfoLabels;
+    private static final ArrayList<JLabel> listaTagLabels;
     private static JLabel labelInfo;
     private static boolean controlesEnPantalla;
 
@@ -25,7 +26,8 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
     private static int yInicialLabels;
 
     static {
-        listaLabels = new ArrayList<>();
+        listaInfoLabels = new ArrayList<>();
+        listaTagLabels = new ArrayList<>();
         controlesEnPantalla = true;
         xInicialLabels = 675;
         yInicialLabels = 25;
@@ -50,8 +52,8 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
         panelGraficos.setBounds(0, 0, 900, 600);
         add(panelGraficos);
 
-        for (int i = 0; i < listaLabels.size(); i++) {
-            JLabel tempLabel = listaLabels.get(i);
+        for (int i = 0; i < listaInfoLabels.size(); i++) {
+            JLabel tempLabel = listaInfoLabels.get(i);
             tempLabel.setHorizontalAlignment(SwingConstants.TRAILING);
             tempLabel.setForeground(Color.WHITE);
             panelGraficos.add(tempLabel);
@@ -168,22 +170,29 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
     }
 
     @Override
-    public void aniadirEtiqueta(JLabel jLabel) {
-        JLabel tempLabel = jLabel;
+    public void aniadirEtiqueta(JLabel tagLabel, JLabel infoLabel, int x, int y) {
+        JLabel tempLabel = infoLabel;
         tempLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-        tempLabel.setBounds(xInicialLabels, yInicialLabels, 200, 10);
+        tempLabel.setBounds(x, y, 200, 10);
         tempLabel.setForeground(Color.WHITE);
-        listaLabels.add(tempLabel);
+        listaInfoLabels.add(tempLabel);
         panelGraficos.add(tempLabel);
-        panelGraficos.repaint();
 
+        JLabel tempLabel2 = tagLabel;
+        tempLabel2.setHorizontalAlignment(SwingConstants.TRAILING);
+        tempLabel2.setBounds(xInicialLabels, yInicialLabels, 200, 10);
+        tempLabel2.setForeground(Color.WHITE);
+        listaTagLabels.add(tempLabel2);
+        panelGraficos.add(tempLabel2);
+
+        panelGraficos.repaint();
         yInicialLabels += 20;
     }
 
     @Override
     public void actualizarEtiqueta(int indice, String texto) {
-        if (indice >= 0 && indice < listaLabels.size()) {
-            JLabel label = listaLabels.get(indice);
+        if (indice >= 0 && indice < listaInfoLabels.size()) {
+            JLabel label = listaInfoLabels.get(indice);
             label.setText(texto);
             panelGraficos.repaint();
         }
@@ -210,7 +219,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
         Thread thread = new Thread(() -> {
             int tempX = labelInfo.getX();
 
-            while (tempX < 20) { 
+            while (tempX < 20) {
                 tempX += 10;
                 labelInfo.setLocation(tempX, labelInfo.getY());
 

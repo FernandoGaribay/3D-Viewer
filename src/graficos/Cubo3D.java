@@ -11,8 +11,10 @@ import Interfaces.LabelManager;
 
 public class Cubo3D implements Runnable {
 
+    private static int contadorCubos;
     private final LabelManager labelManager;
-    private final JLabel infoHiloActual = new JLabel("FPS: 0");
+    private final JLabel infoHiloActual = new JLabel("-> FPS: 0");
+    private final JLabel etiquetaActual = new JLabel("Cubo 1");
 
     private MyGraphics g2d;
     private Thread hiloCubo;
@@ -53,6 +55,10 @@ public class Cubo3D implements Runnable {
         {2, 6, 7, 3}, {1, 5, 4, 0}
     };
 
+    static {
+        contadorCubos = 1;
+    }
+
     public Cubo3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         this.g2d = new MyGraphics(frameWidth, frameHeight);
         this.frameWidth = frameWidth;
@@ -67,10 +73,12 @@ public class Cubo3D implements Runnable {
         this.rotaciones = new double[3];
         this.mostrarPuntos = true;
         this.mostrarLineas = true;
-        this.mostrarCaras = true;
+        this.mostrarCaras = false;
 
         this.labelManager = labelManager;
-        labelManager.aniadirEtiqueta(infoHiloActual);
+        Point2D.Double p1 = punto3D_a_2D(origenCubo[0], origenCubo[1], origenCubo[2]);
+        etiquetaActual.setText("Cubo " + contadorCubos++);
+        labelManager.aniadirEtiqueta(infoHiloActual, etiquetaActual, (int) (p1.x - 180), (int) (p1.y - escala - 10));
 
         this.hiloCubo = new Thread(this);
         this.hiloCubo.start();
@@ -208,7 +216,6 @@ public class Cubo3D implements Runnable {
 //
 //        double px = (distanciaFocal * (x - xf)) / (z - zf) + xf;
 //        double py = (distanciaFocal * (y - yf)) / (z - zf) + yf;
-
         return new Point2D.Double(px, py);
     }
 
@@ -238,7 +245,7 @@ public class Cubo3D implements Runnable {
             long tiempoOperacion = System.currentTimeMillis() - inicio;
 
             if (System.currentTimeMillis() - tiempoAnterior >= 1000) {
-                infoHiloActual.setText("SELECCIONADO -> FPS: " + contadorFPS);
+                infoHiloActual.setText("-> FPS: " + contadorFPS);
                 contadorFPS = 0;
                 tiempoAnterior = System.currentTimeMillis();
             }
