@@ -247,4 +247,8 @@ public class Objeto3D {
     public synchronized BufferedImage getBuffer() {
         return g2d.getBuffer();
     }
+
+    public int getIdObjeto() {
+        return idObjeto;
+    }
 }

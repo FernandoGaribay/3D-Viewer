@@ -42,9 +42,8 @@ public class Cubo3D extends Objeto3D implements Runnable {
         this.verticesTrasladados = new double[8][3];
 
         Point2D.Double p1 = punto3D_a_2D(origenCubo[0], origenCubo[1], origenCubo[2]);
-        JLabel infoHiloActual = new JLabel("FPS: 0");
         JLabel etiquetaActual = new JLabel("Cubo " + (idObjeto + 1));
-        this.labelManager.aniadirEtiqueta(etiquetaActual, infoHiloActual, (int) (p1.x - Constantes.OFFSET_INFO_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_INFO_LABEL_HEIGHT));
+        this.labelManager.aniadirEtiqueta(etiquetaActual, (int) (p1.x - Constantes.OFFSET_INFO_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_INFO_LABEL_HEIGHT));
 
         this.hiloCubo = new Thread(this);
         this.hiloCubo.start();
@@ -164,9 +163,29 @@ public class Cubo3D extends Objeto3D implements Runnable {
             long tiempoOperacion = System.currentTimeMillis() - inicio;
 
             if (System.currentTimeMillis() - tiempoAnterior >= 1000) {
-                String newTexto = (seleccionado) ? "-> FPS: " + contadorFPS : " FPS: " + contadorFPS;
-                labelManager.actualizarEtiquetaInformacion(idObjeto, newTexto);
-
+                if (isSeleccionado()) {
+                    String newInformacion = "<html><div style='text-align: right;'>------------------- INFORMACION -------------------<br><br>"
+                            + "ID OBJETO: #" + (idObjeto + 1) + "<br>"
+                            + "FPS: " + contadorFPS + "<br><br>"
+                            + "Puntos: Visibles<br>"
+                            + "Lineas: Visibles<br>"
+                            + "Caras: Invisibles<br><br>"
+                            + "Punto de origen:<br>"
+                            + "X -> 450 pixeles<br>"
+                            + "Y -> 300 pixeles<br>"
+                            + "Z -> 700 pixeles<br><br>"
+                            + "Punto de fuga:<br>"
+                            + "X -> 450 pixeles<br>"
+                            + "Y -> 300 pixeles<br>"
+                            + "Z -> 250 pixeles<br>"
+                            + "FOV -> 250 pixeles<br><br>"
+                            + "Ejes activos:<br>"
+                            + "X -> Activado<br>"
+                            + "Y -> Activado<br>"
+                            + "Z -> Desactivado<br><br>"
+                            + "</div></html>";
+                    labelManager.actualizarEtiquetaInformacion(idObjeto, newInformacion);
+                }
                 contadorFPS = 0;
                 tiempoAnterior = System.currentTimeMillis();
             }

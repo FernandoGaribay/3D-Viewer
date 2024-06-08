@@ -20,7 +20,6 @@ import utils.Constantes;
 public final class FrameAnimacion extends JFrame implements LabelManager {
 
     private final PanelGraficos panelGraficos = new PanelGraficos(this);
-    private static final ArrayList<JLabel> listaInfoLabels;
     private static final ArrayList<JLabel> listaTagLabels;
     private static JLabel labelInfoControles;
     private static JLabel labelInfoObjeto;
@@ -35,7 +34,6 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
     private static int yInicial;
 
     static {
-        listaInfoLabels = new ArrayList<>();
         listaTagLabels = new ArrayList<>();
         controlesEnPantalla = false;
         xInicialLabels = 675;
@@ -63,17 +61,12 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
         panelGraficos.setBounds(0, 0, Constantes.FRAME_WIDTH, Constantes.FRAME_HEIGHT);
         add(panelGraficos);
 
-        for (int i = 0; i < listaInfoLabels.size(); i++) {
-            JLabel tempLabel = listaInfoLabels.get(i);
-            tempLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-            tempLabel.setForeground(Color.WHITE);
-            panelGraficos.add(tempLabel);
-        }
-
         labelInfoControles = new JLabel("<html>--------------------- CONTROLES ---------------------<br><br>"
                 + "ESPACIO -> Parar/Reanudar la animacion<br>"
                 + "TAB -> Alternar traslacion/Rotacion<br>"
-                + "SCROLL -> Aumentar/Disminuir la escala<br><br>"
+                + "SCROLL -> Aumentar/Disminuir la escala<br>"
+                + "IZQUIERDA -> Anterior objeto<br>"
+                + "DERECHA -> Siguiente objeto<br><br>"
                 + "Click Izq -> Rotacion (Ejes activados)<br>"
                 + "Click Der -> Traslacion (X e Y)<br><br>"
                 + "W -> Transformar para arriba<br>"
@@ -94,7 +87,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
         labelInfoControles.setBounds(-250, 20, 250, 575);
         panelGraficos.add(labelInfoControles);
 
-        labelInfoControlesPersistente = new JLabel("<html>ESC -> Ocultar/Mostrar controles<br></html>");
+        labelInfoControlesPersistente = new JLabel("<html>CTRL -> Ocultar/Mostrar controles<br></html>");
         labelInfoControlesPersistente.setForeground(Color.WHITE);
         labelInfoControlesPersistente.setBounds(20, 570, 250, 10);
         panelGraficos.add(labelInfoControlesPersistente);
@@ -121,11 +114,11 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
                 + "</div></html>");
         labelInfoObjeto.setForeground(Color.WHITE);
         labelInfoObjeto.setVerticalAlignment(SwingConstants.TOP);
-        labelInfoObjeto.setHorizontalAlignment(SwingConstants.TRAILING); // Cambiado a RIGHT
+        labelInfoObjeto.setHorizontalAlignment(SwingConstants.TRAILING);
         labelInfoObjeto.setBounds(905, 20, 250, 575);
         panelGraficos.add(labelInfoObjeto);
 
-        labelInfoObjetoPersistente = new JLabel("<html>CTRL -> Ocultar/Mostrar informacion<br></html>");
+        labelInfoObjetoPersistente = new JLabel("<html>ALT -> Ocultar/Mostrar informacion<br></html>");
         labelInfoObjetoPersistente.setForeground(Color.WHITE);
         labelInfoObjetoPersistente.setHorizontalAlignment(SwingConstants.TRAILING);
         labelInfoObjetoPersistente.setBounds(625, 570, 250, 10);
@@ -162,15 +155,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
                 switch (keyCode) {
-                    case KeyEvent.VK_ESCAPE:
-                        if (controlesEnPantalla) {
-                            ocultarControles();
-                        } else {
-                            mostrarControles();
-                        }
-                        controlesEnPantalla = !controlesEnPantalla;
-                        break;
-                    case KeyEvent.VK_CONTROL:
+                    case KeyEvent.VK_ALT:
                         if (informacionEnPantalla) {
                             ocultarInformacion();
                         } else {
@@ -178,11 +163,25 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
                         }
                         informacionEnPantalla = !informacionEnPantalla;
                         break;
+                    case KeyEvent.VK_CONTROL:
+                        if (controlesEnPantalla) {
+                            ocultarControles();
+                        } else {
+                            mostrarControles();
+                        }
+                        controlesEnPantalla = !controlesEnPantalla;
+                        break;
                     case KeyEvent.VK_SPACE:
                         panelGraficos.setMostrarAnimacion();
                         break;
                     case KeyEvent.VK_TAB:
                         panelGraficos.setRotacionTransformacion();
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        panelGraficos.siguienteElemento();
+                        break;
+                    case KeyEvent.VK_LEFT:
+                        panelGraficos.anteriorElemento();
                         break;
                     case KeyEvent.VK_W:
                         panelGraficos.setRotacionTransformacionArriba();
@@ -241,7 +240,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
     }
 
     @Override
-    public void aniadirEtiqueta(JLabel tagLabel, JLabel infoLabel, int x, int y) {
+    public void aniadirEtiqueta(JLabel tagLabel, int x, int y) {
         JLabel tempLabel2 = tagLabel;
         tempLabel2.setHorizontalAlignment(SwingConstants.TRAILING);
         tempLabel2.setBounds(x, y, Constantes.TAG_LABEL_WIDTH, Constantes.TAG_LABEL_HEIGHT);
@@ -249,24 +248,13 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
         listaTagLabels.add(tempLabel2);
         panelGraficos.add(tempLabel2);
 
-        JLabel tempLabel = infoLabel;
-        tempLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-        tempLabel.setBounds(xInicialLabels, yInicialLabels, Constantes.INFO_LABEL_WIDTH, Constantes.INFO_LABEL_HEIGHT);
-        tempLabel.setForeground(Color.WHITE);
-        listaInfoLabels.add(tempLabel);
-        panelGraficos.add(tempLabel);
-
         panelGraficos.repaint();
         yInicialLabels += 20;
     }
 
     @Override
     public void actualizarEtiquetaInformacion(int indice, String texto) {
-        if (indice >= 0 && indice < listaInfoLabels.size()) {
-            listaInfoLabels.get(indice).setText(texto);
-
-            panelGraficos.repaint();
-        }
+        labelInfoObjeto.setText(texto);
     }
 
     @Override
@@ -302,7 +290,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
 
             while (tempX < panelWidth) {
                 tempX += 10;
-                panelGraficos.trasladarCubos(-10); 
+                panelGraficos.trasladarCubos(-10);
                 labelInfoObjeto.setLocation(tempX, labelInfoObjeto.getY());
                 try {
                     Thread.sleep(16);
