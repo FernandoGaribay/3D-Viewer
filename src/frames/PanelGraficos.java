@@ -37,7 +37,7 @@ public class PanelGraficos extends JPanel implements Runnable {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-
+        
         for (Objeto3D cubo : listaCubos) {
             g.drawImage(cubo.getBuffer(), 0, 0, null);
         }

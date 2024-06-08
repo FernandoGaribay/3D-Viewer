@@ -22,9 +22,12 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
     private final PanelGraficos panelGraficos = new PanelGraficos(this);
     private static final ArrayList<JLabel> listaInfoLabels;
     private static final ArrayList<JLabel> listaTagLabels;
-    private static JLabel labelInfoVisible;
-    private static JLabel labelInfoOculta;
+    private static JLabel labelInfoControles;
+    private static JLabel labelInfoObjeto;
+    private static JLabel labelInfoControlesPersistente;
+    private static JLabel labelInfoObjetoPersistente;
     private static boolean controlesEnPantalla;
+    private static boolean informacionEnPantalla;
 
     private static int xInicialLabels;
     private static int yInicialLabels;
@@ -67,7 +70,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
             panelGraficos.add(tempLabel);
         }
 
-        labelInfoVisible = new JLabel("<html>--------------------- CONTROLES ---------------------<br><br>"
+        labelInfoControles = new JLabel("<html>--------------------- CONTROLES ---------------------<br><br>"
                 + "ESPACIO -> Parar/Reanudar la animacion<br>"
                 + "TAB -> Alternar traslacion/Rotacion<br>"
                 + "SCROLL -> Aumentar/Disminuir la escala<br><br>"
@@ -86,20 +89,52 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
                 + "2 -> Activar/Desactivar Eje Y<br>"
                 + "3 -> Activar/Desactivar Eje Z<br>"
                 + "</html>");
-        labelInfoVisible.setForeground(Color.WHITE);
-        labelInfoVisible.setVerticalAlignment(SwingConstants.TOP);
-        labelInfoVisible.setBounds(-250, 20, 250, 575);
-        panelGraficos.add(labelInfoVisible);
+        labelInfoControles.setForeground(Color.WHITE);
+        labelInfoControles.setVerticalAlignment(SwingConstants.TOP);
+        labelInfoControles.setBounds(-250, 20, 250, 575);
+        panelGraficos.add(labelInfoControles);
 
-        labelInfoOculta = new JLabel("<html> ESC -> Ocultar/Mostrar controles<br></html>");
-        labelInfoOculta.setForeground(Color.WHITE);
-        labelInfoOculta.setBounds(20, 570, 250, 10);
-        panelGraficos.add(labelInfoOculta);
+        labelInfoControlesPersistente = new JLabel("<html>ESC -> Ocultar/Mostrar controles<br></html>");
+        labelInfoControlesPersistente.setForeground(Color.WHITE);
+        labelInfoControlesPersistente.setBounds(20, 570, 250, 10);
+        panelGraficos.add(labelInfoControlesPersistente);
+
+        labelInfoObjeto = new JLabel("<html><div style='text-align: right;'>------------------- INFORMACION -------------------<br><br>"
+                + "ID OBJETO: #1<br>"
+                + "FPS: 60<br><br>"
+                + "Puntos: Visibles<br>"
+                + "Lineas: Visibles<br>"
+                + "Caras: Invisibles<br><br>"
+                + "Punto de origen:<br>"
+                + "X -> 450 pixeles<br>"
+                + "Y -> 300 pixeles<br>"
+                + "Z -> 700 pixeles<br><br>"
+                + "Punto de fuga:<br>"
+                + "X -> 450 pixeles<br>"
+                + "Y -> 300 pixeles<br>"
+                + "Z -> 250 pixeles<br>"
+                + "FOV -> 250 pixeles<br><br>"
+                + "Ejes activos:<br>"
+                + "X -> Activado<br>"
+                + "Y -> Activado<br>"
+                + "Z -> Desactivado<br><br>"
+                + "</div></html>");
+        labelInfoObjeto.setForeground(Color.WHITE);
+        labelInfoObjeto.setVerticalAlignment(SwingConstants.TOP);
+        labelInfoObjeto.setHorizontalAlignment(SwingConstants.TRAILING); // Cambiado a RIGHT
+        labelInfoObjeto.setBounds(905, 20, 250, 575);
+        panelGraficos.add(labelInfoObjeto);
+
+        labelInfoObjetoPersistente = new JLabel("<html>CTRL -> Ocultar/Mostrar informacion<br></html>");
+        labelInfoObjetoPersistente.setForeground(Color.WHITE);
+        labelInfoObjetoPersistente.setHorizontalAlignment(SwingConstants.TRAILING);
+        labelInfoObjetoPersistente.setBounds(625, 570, 250, 10);
+        panelGraficos.add(labelInfoObjetoPersistente);
     }
 
     public void initEventos() {
         panelGraficos.setFocusTraversalKeysEnabled(false);
-        
+
         panelGraficos.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -134,6 +169,14 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
                             mostrarControles();
                         }
                         controlesEnPantalla = !controlesEnPantalla;
+                        break;
+                    case KeyEvent.VK_CONTROL:
+                        if (informacionEnPantalla) {
+                            ocultarInformacion();
+                        } else {
+                            mostrarInformacion();
+                        }
+                        informacionEnPantalla = !informacionEnPantalla;
                         break;
                     case KeyEvent.VK_SPACE:
                         panelGraficos.setMostrarAnimacion();
@@ -236,12 +279,31 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
 
     private void ocultarControles() {
         Thread thread = new Thread(() -> {
-            int tempX = labelInfoVisible.getX();
+            int tempX = labelInfoControles.getX();
 
-            while (tempX > -labelInfoVisible.getWidth()) {
+            while (tempX > -labelInfoControles.getWidth()) {
                 tempX -= 10;
                 panelGraficos.trasladarCubos(10);
-                labelInfoVisible.setLocation(tempX, labelInfoVisible.getY());
+                labelInfoControles.setLocation(tempX, labelInfoControles.getY());
+                try {
+                    Thread.sleep(16);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FrameAnimacion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void ocultarInformacion() {
+        Thread thread = new Thread(() -> {
+            int tempX = labelInfoObjeto.getX();
+            int panelWidth = panelGraficos.getWidth();
+
+            while (tempX < panelWidth) {
+                tempX += 10;
+                panelGraficos.trasladarCubos(-10); 
+                labelInfoObjeto.setLocation(tempX, labelInfoObjeto.getY());
                 try {
                     Thread.sleep(16);
                 } catch (InterruptedException ex) {
@@ -254,12 +316,30 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
 
     private void mostrarControles() {
         Thread thread = new Thread(() -> {
-            int tempX = labelInfoVisible.getX();
+            int tempX = labelInfoControles.getX();
 
             while (tempX < 20) {
                 tempX += 10;
                 panelGraficos.trasladarCubos(-10);
-                labelInfoVisible.setLocation(tempX, labelInfoVisible.getY());
+                labelInfoControles.setLocation(tempX, labelInfoControles.getY());
+                try {
+                    Thread.sleep(16);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FrameAnimacion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void mostrarInformacion() {
+        Thread thread = new Thread(() -> {
+            int tempX = labelInfoObjeto.getX();
+
+            while (tempX > 625) {
+                tempX -= 10;
+                panelGraficos.trasladarCubos(10);
+                labelInfoObjeto.setLocation(tempX, labelInfoObjeto.getY());
                 try {
                     Thread.sleep(16);
                 } catch (InterruptedException ex) {
