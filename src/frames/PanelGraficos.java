@@ -16,7 +16,7 @@ public class PanelGraficos extends JPanel implements Runnable {
     private Thread hiloPanelGraficos;
 
     private double[] puntoFuga = {450, 300, 250};
-    
+
     private Objeto3D objetoActual;
     private ArrayList<Objeto3D> listaCubos = new ArrayList<>();
     private int currentIndex = 0;
@@ -54,11 +54,13 @@ public class PanelGraficos extends JPanel implements Runnable {
 
     public void siguienteElemento() {
         if (currentIndex < listaCubos.size() - 1) {
-            objetoActual.setSeleccionado(false);
+            objetoActual.iniciarAnimacionDeseleccionado();
+            
             currentIndex++;
             objetoActual = listaCubos.get(currentIndex);
+            objetoActual.iniciarAnimacionSeleccionado();
+            
             System.out.println("Seleccionado: " + objetoActual.getIdObjeto());
-            objetoActual.setSeleccionado(true);
         } else {
             System.out.println("No hay más elementos siguientes.");
         }
@@ -66,11 +68,12 @@ public class PanelGraficos extends JPanel implements Runnable {
 
     public void anteriorElemento() {
         if (currentIndex > 0) {
-            objetoActual.setSeleccionado(false);
+            objetoActual.iniciarAnimacionDeseleccionado();
             currentIndex--;
             objetoActual = listaCubos.get(currentIndex);
+            objetoActual.iniciarAnimacionSeleccionado();
+            
             System.out.println("Seleccionado: " + objetoActual.getIdObjeto());
-            objetoActual.setSeleccionado(true);
         } else {
             System.out.println("No hay más elementos anteriores.");
         }

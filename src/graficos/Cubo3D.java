@@ -151,6 +151,15 @@ public class Cubo3D extends Objeto3D implements Runnable {
         int contadorFPS = 0;
 
         while (true) {
+            if (!isSeleccionado()) {
+                try {
+                    Thread.sleep(64);
+                    continue;
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Cubo3D.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
             long inicio = System.currentTimeMillis();
 
             // CODIGO ----------------------------------------------------------
@@ -163,29 +172,28 @@ public class Cubo3D extends Objeto3D implements Runnable {
             long tiempoOperacion = System.currentTimeMillis() - inicio;
 
             if (System.currentTimeMillis() - tiempoAnterior >= 1000) {
-                if (isSeleccionado()) {
-                    String newInformacion = "<html><div style='text-align: right;'>------------------- INFORMACION -------------------<br><br>"
-                            + "ID OBJETO: #" + (idObjeto + 1) + "<br>"
-                            + "FPS: " + contadorFPS + "<br><br>"
-                            + "Puntos: Visibles<br>"
-                            + "Lineas: Visibles<br>"
-                            + "Caras: Invisibles<br><br>"
-                            + "Punto de origen:<br>"
-                            + "X -> 450 pixeles<br>"
-                            + "Y -> 300 pixeles<br>"
-                            + "Z -> 700 pixeles<br><br>"
-                            + "Punto de fuga:<br>"
-                            + "X -> 450 pixeles<br>"
-                            + "Y -> 300 pixeles<br>"
-                            + "Z -> 250 pixeles<br>"
-                            + "FOV -> 250 pixeles<br><br>"
-                            + "Ejes activos:<br>"
-                            + "X -> Activado<br>"
-                            + "Y -> Activado<br>"
-                            + "Z -> Desactivado<br><br>"
-                            + "</div></html>";
-                    labelManager.actualizarEtiquetaInformacion(idObjeto, newInformacion);
-                }
+                String newInformacion = "<html><div style='text-align: right;'>------------------- INFORMACION -------------------<br><br>"
+                        + "ID OBJETO: #" + (idObjeto + 1) + "<br>"
+                        + "FPS: " + contadorFPS + "<br><br>"
+                        + "Puntos: Visibles<br>"
+                        + "Lineas: Visibles<br>"
+                        + "Caras: Invisibles<br><br>"
+                        + "Punto de origen:<br>"
+                        + "X -> 450 pixeles<br>"
+                        + "Y -> 300 pixeles<br>"
+                        + "Z -> 700 pixeles<br><br>"
+                        + "Punto de fuga:<br>"
+                        + "X -> 450 pixeles<br>"
+                        + "Y -> 300 pixeles<br>"
+                        + "Z -> 250 pixeles<br>"
+                        + "FOV -> 250 pixeles<br><br>"
+                        + "Ejes activos:<br>"
+                        + "X -> Activado<br>"
+                        + "Y -> Activado<br>"
+                        + "Z -> Desactivado<br><br>"
+                        + "</div></html>";
+                labelManager.actualizarEtiquetaInformacion(idObjeto, newInformacion);
+
                 contadorFPS = 0;
                 tiempoAnterior = System.currentTimeMillis();
             }

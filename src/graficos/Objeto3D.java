@@ -4,6 +4,8 @@ import Interfaces.LabelManager;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Objeto3D {
 
@@ -202,7 +204,7 @@ public class Objeto3D {
         }
     }
 // </editor-fold>
-    
+
 // <editor-fold defaultstate="collapsed" desc="Metodos para el estado de visualizacion y animacion">
     public void setMostrarAnimacion() {
         this.mostrarAnimacion = !mostrarAnimacion;
@@ -232,7 +234,7 @@ public class Objeto3D {
         this.animacionEjeZ = !animacionEjeZ;
     }
 // </editor-fold>
-    
+
 // <editor-fold defaultstate="collapsed" desc="Metodos para el estado de seleccion">
     public void setSeleccionado(boolean seleccionado) {
         this.seleccionado = seleccionado;
@@ -242,7 +244,46 @@ public class Objeto3D {
         return this.seleccionado;
     }
 // </editor-fold>
-    
+
+    public void iniciarAnimacionDeseleccionado() {
+        Thread hiloAnimacion = new Thread(() -> {
+            int escalaOriginal = escala;
+            MyGraphics bufferOriginal = g2d;
+            try {
+                for (int i = escala; i > 0; i--) {
+                    escala -= 1;
+                    Thread.sleep(16);
+                }
+                g2d.resetBuffer();
+                setSeleccionado(false);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cubo3D.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            escala = escalaOriginal;
+            g2d.setBuffer(bufferOriginal.getBuffer());
+        });
+        hiloAnimacion.start();
+    }
+
+    public void iniciarAnimacionSeleccionado() {
+        Thread hiloAnimacion = new Thread(() -> {
+            int escalaOriginal = escala;
+            
+            escala = 0;
+            try {
+                setSeleccionado(true);
+                for (int i = escala; i < escalaOriginal; i++) {
+                    escala += 1;
+                    Thread.sleep(16);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cubo3D.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            escala = escalaOriginal;
+        });
+        hiloAnimacion.start();
+    }
+
     // Metodo para regresar el buffer
     public synchronized BufferedImage getBuffer() {
         return g2d.getBuffer();

@@ -353,6 +353,10 @@ public class MyGraphics {
         zBuffer = new HashMap<>();
     }
 
+    public void setBuffer(BufferedImage newBuffer) {
+        this.buffer = newBuffer;
+    }
+
     public BufferedImage getBuffer() {
         return this.buffer;
     }
