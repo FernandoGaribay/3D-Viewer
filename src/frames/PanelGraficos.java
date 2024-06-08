@@ -11,12 +11,12 @@ import Interfaces.LabelManager;
 import java.util.ArrayList;
 
 public class PanelGraficos extends JPanel implements Runnable {
-
+    
     private Thread hiloPanelGraficos;
-
+    
     private double[] puntoFuga = {450, 300, 250};
     ArrayList<Cubo3D> listaCubos = new ArrayList<>();
-
+    
     public PanelGraficos(LabelManager labelManager) {
         SwingUtilities.invokeLater(() -> {
             double[] origenCubo = {450, 300, 700};
@@ -27,21 +27,21 @@ public class PanelGraficos extends JPanel implements Runnable {
 //            listaCubos.add(new Cubo3D(getWidth(), getHeight(), origenCubo2, puntoFuga, labelManager));
 
             this.setBackground(new Color(38, 38, 38));
-
+            
             this.hiloPanelGraficos = new Thread(this);
             this.hiloPanelGraficos.start();
         });
     }
-
+    
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-
+        
         for (Cubo3D cubo : listaCubos) {
             g.drawImage(cubo.getBuffer(), 0, 0, null);
         }
     }
-
+    
     public void setMostrarAnimacion() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -49,7 +49,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void setEscala(int escala) {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -57,7 +57,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void setRotacionTransformacion() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -65,7 +65,15 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
+    public void setRotacionTransformacionMouse(int x, int y) {
+        for (Cubo3D cubo : listaCubos) {
+            if (cubo.isSeleccionado()) {
+                cubo.setRotacionTransformacionMouse(x, y);
+            }
+        }
+    }
+    
     public void setRotacionTransformacionArriba() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -73,7 +81,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void setRotacionTransformacionAbajo() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -81,7 +89,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void setRotacionTransformacionIzquierda() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -89,7 +97,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void setRotacionTransformacionDerecha() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -97,7 +105,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void setRotacionTransformacionZPositiva() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -105,7 +113,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void setRotacionTransformacionZNegativa() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -113,7 +121,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void setMostrarPuntos() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -121,7 +129,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void setMostrarLineas() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -129,7 +137,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void setMostrarCaras() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -137,7 +145,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void setEjeXAnimacion() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -145,7 +153,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void setEjeYAnimacion() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -153,7 +161,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void setEjeZAnimacion() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
@@ -161,13 +169,13 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-
+    
     public void trasladarCubos(int d) {
         for (Cubo3D cubo : listaCubos) {
             cubo.trasladarX(d);
         }
     }
-
+    
     @Override
     public void run() {
         while (true) {

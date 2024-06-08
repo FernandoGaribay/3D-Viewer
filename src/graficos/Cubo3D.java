@@ -237,7 +237,7 @@ public class Cubo3D implements Runnable {
 //        double xf = puntoFuga[0];
 //        double yf = puntoFuga[1];
 //        double zf = puntoFuga[2];
-//        double distanciaFocal = 600;
+//        double distanciaFocal = 500; // 250
 //
 //        double px = (distanciaFocal * -(x - xf)) / (z - zf) + xf;
 //        double py = (distanciaFocal * -(y - yf)) / (z - zf) + yf;
@@ -274,7 +274,7 @@ public class Cubo3D implements Runnable {
 
             // CODIGO ----------------------------------------------------------
             dibujarCubo();
-            
+
             Point2D.Double p1 = punto3D_a_2D(traslaciones[0] + origenCubo[0], traslaciones[1] + origenCubo[1], traslaciones[2] + origenCubo[2]);
             labelManager.actualizarEtiquetaObjeto(idCubo, (int) (p1.x - Constantes.OFFSET_TAG_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_TAG_LABEL_HEIGHT));
 
@@ -320,6 +320,11 @@ public class Cubo3D implements Runnable {
     public void setRotacionTransformacion() {
         this.traslacion = !traslacion;
         System.out.println("Traslacion : " + traslacion);
+    }
+
+    public void setRotacionTransformacionMouse(int x, int y) {
+        traslaciones[0] -= x;
+        traslaciones[1] -= y;
     }
 
     public void setRotacionTransformacionArriba() {

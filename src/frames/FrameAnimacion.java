@@ -10,6 +10,7 @@ import javax.swing.SwingConstants;
 import Interfaces.LabelManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.logging.Level;
@@ -27,6 +28,8 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
 
     private static int xInicialLabels;
     private static int yInicialLabels;
+    private static int xInicial;
+    private static int yInicial;
 
     static {
         listaInfoLabels = new ArrayList<>();
@@ -34,6 +37,8 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
         controlesEnPantalla = false;
         xInicialLabels = 675;
         yInicialLabels = 25;
+        xInicial = 0;
+        yInicial = 0;
     }
 
     public FrameAnimacion() {
@@ -86,7 +91,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
         labelInfoVisible.setBounds(-250, 20, 250, 575);
         panelGraficos.add(labelInfoVisible);
 
-        labelInfoOculta = new JLabel("<html> ESC -> Ocultar/Mostrar informacion<br></html>");
+        labelInfoOculta = new JLabel("<html> ESC -> Ocultar/Mostrar controles<br></html>");
         labelInfoOculta.setForeground(Color.WHITE);
         labelInfoOculta.setBounds(20, 570, 250, 10);
         panelGraficos.add(labelInfoOculta);
@@ -94,13 +99,26 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
 
     public void initEventos() {
         panelGraficos.setFocusTraversalKeysEnabled(false);
-
+        
         panelGraficos.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
-                System.out.println("Coordenadas del clic: (" + x + ", " + y + ")");
+            public void mousePressed(MouseEvent e) {
+                xInicial = e.getX();
+                yInicial = e.getY();
+                System.out.println("Coordenadas del clic: (" + xInicial + ", " + yInicial + ")");
+            }
+        });
+
+        panelGraficos.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int dx = e.getX() - xInicial;
+                int dy = e.getY() - yInicial;
+
+                xInicial = e.getX();
+                yInicial = e.getY();
+
+                panelGraficos.setRotacionTransformacionMouse(dx, dy);
             }
         });
 
