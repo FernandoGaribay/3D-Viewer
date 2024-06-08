@@ -237,10 +237,10 @@ public class Cubo3D implements Runnable {
 //        double xf = puntoFuga[0];
 //        double yf = puntoFuga[1];
 //        double zf = puntoFuga[2];
-//        double distanciaFocal = 300;
+//        double distanciaFocal = 600;
 //
-//        double px = (distanciaFocal * (x - xf)) / (z - zf) + xf;
-//        double py = (distanciaFocal * (y - yf)) / (z - zf) + yf;
+//        double px = (distanciaFocal * -(x - xf)) / (z - zf) + xf;
+//        double py = (distanciaFocal * -(y - yf)) / (z - zf) + yf;
         return new Point2D.Double(px, py);
     }
 
@@ -250,23 +250,14 @@ public class Cubo3D implements Runnable {
 
     public void trasladarX(int distancia) {
         this.traslaciones[0] += distancia;
-
-        Point2D.Double p1 = punto3D_a_2D(traslaciones[0] + origenCubo[0], traslaciones[1] + origenCubo[1], traslaciones[2] + origenCubo[2]);
-        labelManager.actualizarEtiquetaObjeto(idCubo, (int) (p1.x - Constantes.OFFSET_TAG_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_TAG_LABEL_HEIGHT));
     }
 
     public void trasladarY(int distancia) {
         this.traslaciones[1] += distancia;
-
-        Point2D.Double p1 = punto3D_a_2D(traslaciones[0] + origenCubo[0], traslaciones[1] + origenCubo[1], traslaciones[2] + origenCubo[2]);
-        labelManager.actualizarEtiquetaObjeto(idCubo, (int) (p1.x - Constantes.OFFSET_TAG_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_TAG_LABEL_HEIGHT));
     }
-    
+
     public void trasladarZ(int distancia) {
         this.traslaciones[2] += distancia;
-
-        Point2D.Double p1 = punto3D_a_2D(traslaciones[0] + origenCubo[0], traslaciones[1] + origenCubo[1], traslaciones[2] + origenCubo[2]);
-        labelManager.actualizarEtiquetaObjeto(idCubo, (int) (p1.x - Constantes.OFFSET_TAG_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_TAG_LABEL_HEIGHT));
     }
 
     @Override
@@ -283,6 +274,9 @@ public class Cubo3D implements Runnable {
 
             // CODIGO ----------------------------------------------------------
             dibujarCubo();
+            
+            Point2D.Double p1 = punto3D_a_2D(traslaciones[0] + origenCubo[0], traslaciones[1] + origenCubo[1], traslaciones[2] + origenCubo[2]);
+            labelManager.actualizarEtiquetaObjeto(idCubo, (int) (p1.x - Constantes.OFFSET_TAG_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_TAG_LABEL_HEIGHT));
 
             // -----------------------------------------------------------------
             long tiempoOperacion = System.currentTimeMillis() - inicio;
@@ -317,6 +311,10 @@ public class Cubo3D implements Runnable {
 
     public void setMostrarAnimacion() {
         this.mostrarAnimacion = !mostrarAnimacion;
+    }
+
+    public void setEscala(int escala) {
+        this.escala += escala;
     }
 
     public void setRotacionTransformacion() {

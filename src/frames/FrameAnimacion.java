@@ -10,6 +10,8 @@ import javax.swing.SwingConstants;
 import Interfaces.LabelManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.Constantes;
@@ -161,6 +163,18 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
             }
         });
 
+        panelGraficos.addMouseWheelListener(new MouseWheelListener() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                int notches = e.getWheelRotation();
+                if (notches < 0) {
+                    panelGraficos.setEscala(10);
+                } else {
+                    panelGraficos.setEscala(-10);
+                }
+            }
+        });
+
         panelGraficos.setFocusable(true);
         panelGraficos.requestFocusInWindow();
     }
@@ -173,14 +187,14 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
         tempLabel2.setForeground(Color.WHITE);
         listaTagLabels.add(tempLabel2);
         panelGraficos.add(tempLabel2);
-        
+
         JLabel tempLabel = infoLabel;
         tempLabel.setHorizontalAlignment(SwingConstants.TRAILING);
         tempLabel.setBounds(xInicialLabels, yInicialLabels, Constantes.INFO_LABEL_WIDTH, Constantes.INFO_LABEL_HEIGHT);
         tempLabel.setForeground(Color.WHITE);
         listaInfoLabels.add(tempLabel);
         panelGraficos.add(tempLabel);
-        
+
         panelGraficos.repaint();
         yInicialLabels += 20;
     }
@@ -196,7 +210,7 @@ public final class FrameAnimacion extends JFrame implements LabelManager {
 
     @Override
     public void actualizarEtiquetaObjeto(int indice, int x, int y) {
-        if (indice >= 0 && indice < listaTagLabels.size()) {            
+        if (indice >= 0 && indice < listaTagLabels.size()) {
             listaTagLabels.get(indice).setLocation(x, y);
             panelGraficos.repaint();
         }

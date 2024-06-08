@@ -23,8 +23,8 @@ public class PanelGraficos extends JPanel implements Runnable {
             Cubo3D cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, labelManager);
             cubo.setSeleccionado(true);
             listaCubos.add(cubo);
-            double[] origenCubo2 = {200, 300, 700};
-            listaCubos.add(new Cubo3D(getWidth(), getHeight(), origenCubo2, puntoFuga, labelManager));
+//            double[] origenCubo2 = {200, 300, 700};
+//            listaCubos.add(new Cubo3D(getWidth(), getHeight(), origenCubo2, puntoFuga, labelManager));
 
             this.setBackground(new Color(38, 38, 38));
 
@@ -46,6 +46,14 @@ public class PanelGraficos extends JPanel implements Runnable {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setMostrarAnimacion();
+            }
+        }
+    }
+
+    public void setEscala(int escala) {
+        for (Cubo3D cubo : listaCubos) {
+            if (cubo.isSeleccionado()) {
+                cubo.setEscala(escala);
             }
         }
     }
@@ -105,7 +113,7 @@ public class PanelGraficos extends JPanel implements Runnable {
             }
         }
     }
-    
+
     public void setMostrarPuntos() {
         for (Cubo3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
