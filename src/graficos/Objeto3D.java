@@ -256,12 +256,18 @@ public class Objeto3D {
             final double escalaOriginal = escala;
             double incrementoEscala = escalaOriginal / numIteraciones;
 
+            final double[] traslacionesOriginales = new double[traslaciones.length];
+            System.arraycopy(traslaciones, 0, traslacionesOriginales, 0, traslaciones.length);
+            double incrementoTraslacionX = (900) / numIteraciones;
+
             setSeleccionado(true);
             escala = 0;
+            traslaciones[0] += 900;
             while (tiempoTranscurrido <= tiempoAnimacion) {
                 tiempoTranscurrido = System.currentTimeMillis() - tiempoInicio;
 
                 escala += incrementoEscala;
+                traslaciones[0] -= incrementoTraslacionX;
 
                 try {
                     Thread.sleep(tiempoPorFotograma);
@@ -270,6 +276,7 @@ public class Objeto3D {
                 }
             }
             escala = escalaOriginal;
+            System.arraycopy(traslacionesOriginales, 0, traslaciones, 0, traslaciones.length);
         });
         hiloAnimacion.start();
     }
@@ -285,6 +292,10 @@ public class Objeto3D {
             final double escalaOriginal = escala;
             double incrementoEscala = escalaOriginal / numIteraciones;
 
+            final double[] traslacionesOriginales = new double[traslaciones.length];
+            System.arraycopy(traslaciones, 0, traslacionesOriginales, 0, traslaciones.length);
+            double incrementoTraslacionX = (900) / numIteraciones;
+
             final MyGraphics bufferOriginal = g2d;
 
             setSeleccionado(true);
@@ -292,6 +303,7 @@ public class Objeto3D {
                 tiempoTranscurrido = System.currentTimeMillis() - tiempoInicio;
 
                 escala -= incrementoEscala;
+                traslaciones[0] -= incrementoTraslacionX;
 
                 try {
                     Thread.sleep(tiempoPorFotograma);
@@ -301,6 +313,7 @@ public class Objeto3D {
             }
             g2d.resetBuffer();
             escala = escalaOriginal;
+            System.arraycopy(traslacionesOriginales, 0, traslaciones, 0, traslaciones.length);
             g2d.setBuffer(bufferOriginal.getBuffer());
             setSeleccionado(false);
         });
