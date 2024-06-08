@@ -8,15 +8,16 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import Interfaces.LabelManager;
+import graficos.Objeto3D;
 import java.util.ArrayList;
 
 public class PanelGraficos extends JPanel implements Runnable {
-    
+
     private Thread hiloPanelGraficos;
-    
+
     private double[] puntoFuga = {450, 300, 250};
-    ArrayList<Cubo3D> listaCubos = new ArrayList<>();
-    
+    ArrayList<Objeto3D> listaCubos = new ArrayList<>();
+
     public PanelGraficos(LabelManager labelManager) {
         SwingUtilities.invokeLater(() -> {
             double[] origenCubo = {450, 300, 700};
@@ -27,155 +28,155 @@ public class PanelGraficos extends JPanel implements Runnable {
 //            listaCubos.add(new Cubo3D(getWidth(), getHeight(), origenCubo2, puntoFuga, labelManager));
 
             this.setBackground(new Color(38, 38, 38));
-            
+
             this.hiloPanelGraficos = new Thread(this);
             this.hiloPanelGraficos.start();
         });
     }
-    
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        
-        for (Cubo3D cubo : listaCubos) {
+
+        for (Objeto3D cubo : listaCubos) {
             g.drawImage(cubo.getBuffer(), 0, 0, null);
         }
     }
-    
+
     public void setMostrarAnimacion() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setMostrarAnimacion();
             }
         }
     }
-    
+
     public void setEscala(int escala) {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setEscala(escala);
             }
         }
     }
-    
+
     public void setRotacionTransformacion() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setRotacionTransformacion();
             }
         }
     }
-    
+
     public void setRotacionTransformacionMouse(int x, int y) {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setRotacionTransformacionMouse(x, y);
             }
         }
     }
-    
+
     public void setRotacionTransformacionArriba() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setRotacionTransformacionArriba();
             }
         }
     }
-    
+
     public void setRotacionTransformacionAbajo() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setRotacionTransformacionAbajo();
             }
         }
     }
-    
+
     public void setRotacionTransformacionIzquierda() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setRotacionTransformacionIzquierda();
             }
         }
     }
-    
+
     public void setRotacionTransformacionDerecha() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setRotacionTransformacionDerecha();
             }
         }
     }
-    
+
     public void setRotacionTransformacionZPositiva() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setRotacionTransformacionZPositiva();
             }
         }
     }
-    
+
     public void setRotacionTransformacionZNegativa() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setRotacionTransformacionZNegativa();
             }
         }
     }
-    
+
     public void setMostrarPuntos() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setMostrarPuntos();
             }
         }
     }
-    
+
     public void setMostrarLineas() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setMostrarLineas();
             }
         }
     }
-    
+
     public void setMostrarCaras() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setMostrarCaras();
             }
         }
     }
-    
+
     public void setEjeXAnimacion() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setEjeXAnimacion();
             }
         }
     }
-    
+
     public void setEjeYAnimacion() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setEjeYAnimacion();
             }
         }
     }
-    
+
     public void setEjeZAnimacion() {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             if (cubo.isSeleccionado()) {
                 cubo.setEjeZAnimacion();
             }
         }
     }
-    
+
     public void trasladarCubos(int d) {
-        for (Cubo3D cubo : listaCubos) {
+        for (Objeto3D cubo : listaCubos) {
             cubo.trasladarX(d);
         }
     }
-    
+
     @Override
     public void run() {
         while (true) {
