@@ -22,7 +22,7 @@ public class Objeto3D {
     protected double[] puntoFuga;
 
     // Escala y transformaciones
-    protected int escala;
+    protected double escala;
     protected double[] rotaciones; // Rotaciones en los ejes X, Y, Z
     protected double[] traslaciones; // Traslaciones en los ejes X, Y, Z
 
@@ -245,41 +245,64 @@ public class Objeto3D {
     }
 // </editor-fold>
 
-    public void iniciarAnimacionDeseleccionado() {
+    public void iniciarAnimacionSeleccionado() {
         Thread hiloAnimacion = new Thread(() -> {
-            int escalaOriginal = escala;
-            MyGraphics bufferOriginal = g2d;
-            try {
-                for (int i = escala; i > 0; i--) {
-                    escala -= 1;
-                    Thread.sleep(16);
+            int tiempoAnimacion = 1000;
+            long tiempoPorFotograma = 1000 / 60;
+            int numIteraciones = (int) (tiempoAnimacion / tiempoPorFotograma);
+            long tiempoInicio = System.currentTimeMillis();
+            long tiempoTranscurrido = 0;
+
+            final double escalaOriginal = escala;
+            double incrementoEscala = escalaOriginal / numIteraciones;
+
+            setSeleccionado(true);
+            escala = 0;
+            while (tiempoTranscurrido <= tiempoAnimacion) {
+                tiempoTranscurrido = System.currentTimeMillis() - tiempoInicio;
+
+                escala += incrementoEscala;
+
+                try {
+                    Thread.sleep(tiempoPorFotograma);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
                 }
-                g2d.resetBuffer();
-                setSeleccionado(false);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Cubo3D.class.getName()).log(Level.SEVERE, null, ex);
             }
             escala = escalaOriginal;
-            g2d.setBuffer(bufferOriginal.getBuffer());
         });
         hiloAnimacion.start();
     }
 
-    public void iniciarAnimacionSeleccionado() {
+    public void iniciarAnimacionDeseleccionado() {
         Thread hiloAnimacion = new Thread(() -> {
-            int escalaOriginal = escala;
-            
-            escala = 0;
-            try {
-                setSeleccionado(true);
-                for (int i = escala; i < escalaOriginal; i++) {
-                    escala += 1;
-                    Thread.sleep(16);
+            int tiempoAnimacion = 1000;
+            long tiempoPorFotograma = 1000 / 60;
+            int numIteraciones = (int) (tiempoAnimacion / tiempoPorFotograma);
+            long tiempoInicio = System.currentTimeMillis();
+            long tiempoTranscurrido = 0;
+
+            final double escalaOriginal = escala;
+            double incrementoEscala = escalaOriginal / numIteraciones;
+
+            final MyGraphics bufferOriginal = g2d;
+
+            setSeleccionado(true);
+            while (tiempoTranscurrido <= tiempoAnimacion) {
+                tiempoTranscurrido = System.currentTimeMillis() - tiempoInicio;
+
+                escala -= incrementoEscala;
+
+                try {
+                    Thread.sleep(tiempoPorFotograma);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
                 }
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Cubo3D.class.getName()).log(Level.SEVERE, null, ex);
             }
+            g2d.resetBuffer();
             escala = escalaOriginal;
+            g2d.setBuffer(bufferOriginal.getBuffer());
+            setSeleccionado(false);
         });
         hiloAnimacion.start();
     }
