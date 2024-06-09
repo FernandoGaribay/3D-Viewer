@@ -153,7 +153,7 @@ public class Cubo3D extends Objeto3D implements Runnable {
         while (true) {
             if (!isSeleccionado()) {
                 try {
-                    Thread.sleep(64);
+                    Thread.sleep(300);
                     continue;
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Cubo3D.class.getName()).log(Level.SEVERE, null, ex);

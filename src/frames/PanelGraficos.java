@@ -63,7 +63,6 @@ public class PanelGraficos extends JPanel implements Runnable {
             currentIndex++;
             objetoActual = listaCubos.get(currentIndex);
             objetoActual.iniciarAnimacionSeleccionado();
-//            System.out.println("Seleccionado: " + (objetoActual.getIdObjeto() + 1));
         } else {
             currentIndex = -1;
             siguienteElemento();
@@ -76,7 +75,6 @@ public class PanelGraficos extends JPanel implements Runnable {
             currentIndex--;
             objetoActual = listaCubos.get(currentIndex);
             objetoActual.iniciarAnimacionSeleccionado();
-//            System.out.println("Seleccionado: " + (objetoActual.getIdObjeto() + 1));
         } else {
             currentIndex = listaCubos.size();
             anteriorElemento();

@@ -297,9 +297,6 @@ public class Objeto3D {
             System.arraycopy(traslaciones, 0, traslacionesOriginales, 0, traslaciones.length);
             double incrementoTraslacionX = (Constantes.TRANSFORMACION_ANIMACION_SELECCION_X) / numIteraciones;
 
-            final MyGraphics bufferOriginal = g2d;
-
-            setSeleccionado(true);
             while (tiempoTranscurrido <= tiempoAnimacion) {
                 tiempoTranscurrido = System.currentTimeMillis() - tiempoInicio;
 
@@ -312,11 +309,10 @@ public class Objeto3D {
                     ex.printStackTrace();
                 }
             }
-            g2d.resetBuffer();
+            setSeleccionado(false);
             escala = escalaOriginal;
             System.arraycopy(traslacionesOriginales, 0, traslaciones, 0, traslaciones.length);
-            g2d.setBuffer(bufferOriginal.getBuffer());
-            setSeleccionado(false);
+
         });
         hiloAnimacion.start();
     }
