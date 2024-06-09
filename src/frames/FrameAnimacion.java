@@ -32,7 +32,6 @@ public final class FrameAnimacion extends JFrame {
         setSize(900, 600);
         setResizable(false);
         setVisible(true);
-        setUndecorated(true);
         setLocationRelativeTo(null);
         setLayout(null);
 
