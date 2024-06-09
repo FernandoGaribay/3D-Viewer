@@ -11,20 +11,20 @@ import java.util.ArrayList;
 import java.util.Random;
 import utils.Constantes;
 
-public class PilaCubos3D extends Objeto3D implements Runnable {
+public class Cilindro3D extends Objeto3D implements Runnable {
 
     private final Thread hiloCubo;
-    double[][] verticesTrasladados;
+    private double[][] verticesTrasladados;
 
     private ArrayList<double[]> vertices = new ArrayList<>();
-    double anguloMaximo = 2 * Math.PI;
-    int numPuntos = 30;
-    double anguloIncremento = anguloMaximo / numPuntos;
+    private double anguloMaximo = 2 * Math.PI;
+    private int numPuntos = 30;
+    private double anguloIncremento = anguloMaximo / numPuntos;
 
-    int colorCount = 0;
-    Color[] colores = new Color[12];
+    private int colorCount = 0;
+    private Color[] colores = new Color[12];
 
-    public PilaCubos3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
+    public Cilindro3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
         this.verticesTrasladados = new double[8][3];
 

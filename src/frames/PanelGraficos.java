@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import Interfaces.LabelManager;
 import graficos.Objeto3D;
-import graficos.PilaCubos3D;
+import graficos.Cilindro3D;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -95,7 +95,7 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
             listaCubos.add(cubo);
             
             double[] origenCubo2 = {450, 300, 700};
-            PilaCubos3D cubo2 = new PilaCubos3D(getWidth(), getHeight(), origenCubo2, puntoFuga, this);
+            Cilindro3D cubo2 = new Cilindro3D(getWidth(), getHeight(), origenCubo2, puntoFuga, this);
             listaCubos.add(cubo2);
 
 
