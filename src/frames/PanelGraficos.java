@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import Interfaces.LabelManager;
 import graficos.Objeto3D;
+import graficos.PilaCubos3D;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -92,14 +93,11 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
             double[] origenCubo = {450, 300, 700};
             Cubo3D cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(cubo);
-
-            double[] origenCubo2 = {200, 300, 700};
-            Cubo3D cubo2 = new Cubo3D(getWidth(), getHeight(), origenCubo2, puntoFuga, this);
+            
+            double[] origenCubo2 = {450, 300, 700};
+            PilaCubos3D cubo2 = new PilaCubos3D(getWidth(), getHeight(), origenCubo2, puntoFuga, this);
             listaCubos.add(cubo2);
 
-            double[] origenCubo3 = {700, 300, 700};
-            Cubo3D cubo3 = new Cubo3D(getWidth(), getHeight(), origenCubo3, puntoFuga, this);
-            listaCubos.add(cubo3);
 
             if (!listaCubos.isEmpty()) {
                 objetoActual = listaCubos.get(currentIndex);
