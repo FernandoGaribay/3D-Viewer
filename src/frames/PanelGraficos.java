@@ -33,6 +33,10 @@ public class PanelGraficos extends JPanel implements Runnable {
             Cubo3D cubo2 = new Cubo3D(getWidth(), getHeight(), origenCubo2, puntoFuga, labelManager);
             listaCubos.add(cubo2);
 
+            double[] origenCubo3 = {700, 300, 700};
+            Cubo3D cubo3 = new Cubo3D(getWidth(), getHeight(), origenCubo3, puntoFuga, labelManager);
+            listaCubos.add(cubo3);
+
             if (!listaCubos.isEmpty()) {
                 objetoActual = listaCubos.get(currentIndex);
                 objetoActual.setSeleccionado(true);
@@ -61,7 +65,8 @@ public class PanelGraficos extends JPanel implements Runnable {
             objetoActual.iniciarAnimacionSeleccionado();
 //            System.out.println("Seleccionado: " + (objetoActual.getIdObjeto() + 1));
         } else {
-            System.out.println("No hay más elementos siguientes.");
+            currentIndex = -1;
+            siguienteElemento();
         }
     }
 
@@ -73,7 +78,8 @@ public class PanelGraficos extends JPanel implements Runnable {
             objetoActual.iniciarAnimacionSeleccionado();
 //            System.out.println("Seleccionado: " + (objetoActual.getIdObjeto() + 1));
         } else {
-            System.out.println("No hay más elementos anteriores.");
+            currentIndex = listaCubos.size();
+            anteriorElemento();
         }
     }
 

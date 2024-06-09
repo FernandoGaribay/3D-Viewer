@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utils.Constantes;
 
 public class Objeto3D {
 
@@ -247,8 +248,8 @@ public class Objeto3D {
 
     public void iniciarAnimacionSeleccionado() {
         Thread hiloAnimacion = new Thread(() -> {
-            int tiempoAnimacion = 1000;
-            long tiempoPorFotograma = 1000 / 60;
+            int tiempoAnimacion = Constantes.TIEMPO_ANIMACION_SELECCION;
+            long tiempoPorFotograma = tiempoAnimacion / 60;
             int numIteraciones = (int) (tiempoAnimacion / tiempoPorFotograma);
             long tiempoInicio = System.currentTimeMillis();
             long tiempoTranscurrido = 0;
@@ -258,11 +259,11 @@ public class Objeto3D {
 
             final double[] traslacionesOriginales = new double[traslaciones.length];
             System.arraycopy(traslaciones, 0, traslacionesOriginales, 0, traslaciones.length);
-            double incrementoTraslacionX = (900) / numIteraciones;
+            double incrementoTraslacionX = (Constantes.TRANSFORMACION_ANIMACION_SELECCION_X) / numIteraciones;
 
             setSeleccionado(true);
             escala = 0;
-            traslaciones[0] += 900;
+            traslaciones[0] += Constantes.TRANSFORMACION_ANIMACION_SELECCION_X;
             while (tiempoTranscurrido <= tiempoAnimacion) {
                 tiempoTranscurrido = System.currentTimeMillis() - tiempoInicio;
 
@@ -283,8 +284,8 @@ public class Objeto3D {
 
     public void iniciarAnimacionDeseleccionado() {
         Thread hiloAnimacion = new Thread(() -> {
-            int tiempoAnimacion = 1000;
-            long tiempoPorFotograma = 1000 / 60;
+            int tiempoAnimacion = Constantes.TIEMPO_ANIMACION_SELECCION;
+            long tiempoPorFotograma = tiempoAnimacion / 60;
             int numIteraciones = (int) (tiempoAnimacion / tiempoPorFotograma);
             long tiempoInicio = System.currentTimeMillis();
             long tiempoTranscurrido = 0;
@@ -294,7 +295,7 @@ public class Objeto3D {
 
             final double[] traslacionesOriginales = new double[traslaciones.length];
             System.arraycopy(traslaciones, 0, traslacionesOriginales, 0, traslaciones.length);
-            double incrementoTraslacionX = (900) / numIteraciones;
+            double incrementoTraslacionX = (Constantes.TRANSFORMACION_ANIMACION_SELECCION_X) / numIteraciones;
 
             final MyGraphics bufferOriginal = g2d;
 
