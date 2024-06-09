@@ -86,6 +86,7 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
             this.setBackground(new Color(38, 38, 38));
             this.setLayout(null);
             this.setFocusable(true);
+            this.requestFocus();
             this.requestFocusInWindow();
 
             double[] origenCubo = {450, 300, 700};
