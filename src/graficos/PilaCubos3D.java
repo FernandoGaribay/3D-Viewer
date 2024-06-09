@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import Interfaces.LabelManager;
 import java.util.ArrayList;
+import java.util.Random;
 import utils.Constantes;
 
 public class PilaCubos3D extends Objeto3D implements Runnable {
@@ -20,15 +21,15 @@ public class PilaCubos3D extends Objeto3D implements Runnable {
     int numPuntos = 30;
     double anguloIncremento = anguloMaximo / numPuntos;
 
-    Color[] strongColors = new Color[30];
+    int colorCount = 0;
+    Color[] colores = new Color[12];
 
     public PilaCubos3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
         this.verticesTrasladados = new double[8][3];
 
-        Point2D.Double p1 = punto3D_a_2D(origenCubo[0], origenCubo[1], origenCubo[2]);
         JLabel etiquetaActual = new JLabel("Cubo " + (idObjeto + 1));
-        this.labelManager.aniadirEtiqueta(etiquetaActual, (int) (p1.x - Constantes.OFFSET_INFO_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_INFO_LABEL_HEIGHT));
+        this.labelManager.aniadirEtiqueta(etiquetaActual);
 
         for (double alpha = 0; alpha < anguloMaximo; alpha += anguloIncremento) {
             for (double beta = 0; beta < anguloMaximo; beta += anguloIncremento) {
@@ -40,36 +41,11 @@ public class PilaCubos3D extends Objeto3D implements Runnable {
             }
         }
         verticesTrasladados = new double[vertices.size()][3];
-        strongColors[0] = new Color(255, 0, 0); // Red
-        strongColors[1] = new Color(0, 255, 0); // Green
-        strongColors[2] = new Color(0, 0, 255); // Blue
-        strongColors[3] = new Color(255, 255, 0); // Yellow
-        strongColors[4] = new Color(0, 255, 255); // Cyan
-        strongColors[5] = new Color(255, 0, 255); // Magenta
-        strongColors[6] = new Color(255, 165, 0); // Orange
-        strongColors[7] = new Color(128, 0, 128); // Purple
-        strongColors[8] = new Color(128, 128, 0); // Olive
-        strongColors[9] = new Color(128, 0, 0); // Maroon
-        strongColors[10] = new Color(0, 128, 128); // Teal
-        strongColors[11] = new Color(0, 0, 128); // Navy
-        strongColors[12] = new Color(139, 0, 0); // Dark Red
-        strongColors[13] = new Color(0, 100, 0); // Dark Green
-        strongColors[14] = new Color(0, 0, 139); // Dark Blue
-        strongColors[15] = new Color(85, 107, 47); // Dark Olive Green
-        strongColors[16] = new Color(218, 165, 32); // Goldenrod
-        strongColors[17] = new Color(244, 164, 96); // Sandy Brown
-        strongColors[18] = new Color(46, 139, 87); // Sea Green
-        strongColors[19] = new Color(72, 61, 139); // Dark Slate Blue
-        strongColors[20] = new Color(205, 92, 92); // Indian Red
-        strongColors[21] = new Color(255, 69, 0); // Orange Red
-        strongColors[22] = new Color(124, 252, 0); // Lawn Green
-        strongColors[23] = new Color(255, 20, 147); // Deep Pink
-        strongColors[24] = new Color(255, 105, 180); // Hot Pink
-        strongColors[25] = new Color(199, 21, 133); // Medium Violet Red
-        strongColors[26] = new Color(75, 0, 130); // Indigo
-        strongColors[27] = new Color(123, 104, 238); // Medium Slate Blue
-        strongColors[28] = new Color(32, 178, 170); // Light Sea Green
-        strongColors[29] = new Color(220, 20, 60); // Crimson
+
+        Random rand = new Random();
+        for (int i = 0; i < 12; i++) {
+            colores[i] = Color.getHSBColor(rand.nextFloat(), 1, 1);
+        }
 
         this.hiloCubo = new Thread(this);
         this.hiloCubo.start();
@@ -86,12 +62,6 @@ public class PilaCubos3D extends Objeto3D implements Runnable {
         }
         if (mostrarPuntos) {
             dibujarPuntos();
-        }
-        if (mostrarCaras) {
-            dibujarCaras();
-        }
-        if (mostrarLineas) {
-            dibujarLineas();
         }
     }
 
@@ -113,23 +83,8 @@ public class PilaCubos3D extends Objeto3D implements Runnable {
             };
             verticesTrasladados[i] = trasladado;
         }
-    }
 
-    private void dibujarPuntos() {
-        g2d.setColor(Color.WHITE);
-        for (int i = 0; i < verticesTrasladados.length; i++) {
-            double[] v = verticesTrasladados[i];
-            double x = v[0];
-            double y = v[1];
-            double z = v[2];
-            Point2D.Double p1 = punto3D_a_2D(x, y, z);
-            g2d.fillCircle3D((int) p1.x, (int) p1.y, 2, (int) 2);
-        }
-    }
-
-    private void dibujarLineas() {
-        int colorCount = 0;
-
+        colorCount = 0;
         for (int i = 0; i < numPuntos - 1; i++) {
             for (int j = 0; j < numPuntos; j++) {
                 int index0 = i * numPuntos + j;
@@ -153,25 +108,34 @@ public class PilaCubos3D extends Objeto3D implements Runnable {
                 poly.addPoint((int) p2.getX(), (int) p2.getY());
                 poly.addPoint((int) p3.getX(), (int) p3.getY());
 
-                double midZ = (vertice0[2] + vertice1[2] + vertice2[2] + vertice3[2]) / 4;
-                double dx = puntoFuga[0] - vertice0[0];
-                double dy = puntoFuga[1] - vertice0[1];
-                double dz = puntoFuga[2] - vertice0[2];
+                if (mostrarLineas) {
+                    g2d.setColor(Color.WHITE);
+                    g2d.drawLine((int) p0.getX(), (int) p0.getY(), (int) p1.getX(), (int) p1.getY());
+                    g2d.drawLine((int) p1.getX(), (int) p1.getY(), (int) p3.getX(), (int) p3.getY());
+                    g2d.drawLine((int) p3.getX(), (int) p3.getY(), (int) p2.getX(), (int) p2.getY());
+                    g2d.drawLine((int) p2.getX(), (int) p2.getY(), (int) p0.getX(), (int) p0.getY());
+                }
 
-                // Dibujar líneas entre los puntos
-//                g2d.drawLine((int) p0.getX(), (int) p0.getY(), (int) p1.getX(), (int) p1.getY());
-//                g2d.drawLine((int) p1.getX(), (int) p1.getY(), (int) p3.getX(), (int) p3.getY());
-//                g2d.drawLine((int) p3.getX(), (int) p3.getY(), (int) p2.getX(), (int) p2.getY());
-//                g2d.drawLine((int) p2.getX(), (int) p2.getY(), (int) p0.getX(), (int) p0.getY());
-                g2d.setColor(strongColors[colorCount % strongColors.length]);
-                g2d.fillPolygon3D(poly, midZ);
-                colorCount++;
+                if (mostrarCaras) {
+                    g2d.setColor(colores[colorCount % colores.length]);
+                    double midZ = (vertice0[2] + vertice1[2] + vertice2[2] + vertice3[2]) / 4;
+                    g2d.fillPolygon3D(poly, midZ);
+                    colorCount++;
+                }
             }
         }
     }
 
-    private void dibujarCaras() {
-
+    private void dibujarPuntos() {
+        g2d.setColor(Color.WHITE);
+        for (int i = 0; i < verticesTrasladados.length; i++) {
+            double[] v = verticesTrasladados[i];
+            double x = v[0];
+            double y = v[1];
+            double z = v[2];
+            Point2D.Double p1 = punto3D_a_2D(x, y, z);
+            g2d.fillCircle3D((int) p1.x, (int) p1.y, 2, (int) 2);
+        }
     }
 
     @Override

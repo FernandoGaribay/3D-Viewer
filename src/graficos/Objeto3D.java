@@ -109,18 +109,18 @@ public class Objeto3D {
     }
 
     protected Point2D.Double punto3D_a_2D(double x, double y, double z) {
-//        double u = -puntoFuga[2] / (z - puntoFuga[2]);
+        double u = -puntoFuga[2] / (z - puntoFuga[2]);
+
+        double px = puntoFuga[0] + (x - puntoFuga[0]) * u;
+        double py = puntoFuga[1] + (y - puntoFuga[1]) * u;
+
+//        double xf = puntoFuga[0];
+//        double yf = puntoFuga[1];
+//        double zf = puntoFuga[2];
+//        double distanciaFocal = 250; // 250
 //
-//        double px = puntoFuga[0] + (x - puntoFuga[0]) * u;
-//        double py = puntoFuga[1] + (y - puntoFuga[1]) * u;
-
-        double xf = puntoFuga[0];
-        double yf = puntoFuga[1];
-        double zf = puntoFuga[2];
-        double distanciaFocal = 250; // 250
-
-        double px = (distanciaFocal * -(x - xf)) / (z - zf) + xf;
-        double py = (distanciaFocal * -(y - yf)) / (z - zf) + yf;
+//        double px = (distanciaFocal * -(x - xf)) / (z - zf) + xf;
+//        double py = (distanciaFocal * -(y - yf)) / (z - zf) + yf;
         return new Point2D.Double(px, py);
     }
 

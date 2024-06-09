@@ -322,10 +322,10 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
     }
 
     @Override
-    public void aniadirEtiqueta(JLabel tagLabel, int x, int y) {
+    public void aniadirEtiqueta(JLabel tagLabel) {
         JLabel tempLabel2 = tagLabel;
         tempLabel2.setHorizontalAlignment(SwingConstants.TRAILING);
-        tempLabel2.setBounds(x, y, Constantes.TAG_LABEL_WIDTH, Constantes.TAG_LABEL_HEIGHT);
+        tempLabel2.setBounds(450, 30, Constantes.TAG_LABEL_WIDTH, Constantes.TAG_LABEL_HEIGHT);
         tempLabel2.setForeground(new Color(38, 38, 38));
         listaTagLabels.add(tempLabel2);
         add(tempLabel2);
@@ -338,6 +338,6 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
 
     @Override
     public void actualizarEtiquetaObjeto(int indice, int x, int y) {
-        listaTagLabels.get(indice).setLocation(x, y);
+        listaTagLabels.get(indice).setLocation(x, 30);
     }
 }
