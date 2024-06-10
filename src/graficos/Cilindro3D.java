@@ -21,14 +21,11 @@ public class Cilindro3D extends Objeto3D implements Runnable {
     private int numPuntos = 30;
     private double anguloIncremento = anguloMaximo / numPuntos;
 
-    private int colorCount = 0;
-    private Color[] colores = new Color[12];
-
     public Cilindro3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
         this.verticesTrasladados = new double[8][3];
 
-        JLabel etiquetaActual = new JLabel("Cubo " + (idObjeto + 1));
+        JLabel etiquetaActual = new JLabel("Cilindro3D #" + (idObjeto + 1));
         this.labelManager.aniadirEtiqueta(etiquetaActual);
 
         for (double alpha = 0; alpha < anguloMaximo; alpha += anguloIncremento) {
@@ -41,12 +38,7 @@ public class Cilindro3D extends Objeto3D implements Runnable {
             }
         }
         verticesTrasladados = new double[vertices.size()][3];
-
-        Random rand = new Random();
-        for (int i = 0; i < 12; i++) {
-            colores[i] = Color.getHSBColor(rand.nextFloat(), 1, 1);
-        }
-
+        
         this.hiloCubo = new Thread(this);
         this.hiloCubo.start();
     }
@@ -84,7 +76,7 @@ public class Cilindro3D extends Objeto3D implements Runnable {
             verticesTrasladados[i] = trasladado;
         }
 
-        colorCount = 0;
+        contadorColores = 0;
         for (int i = 0; i < numPuntos - 1; i++) {
             for (int j = 0; j < numPuntos; j++) {
                 int index0 = i * numPuntos + j;
@@ -117,10 +109,10 @@ public class Cilindro3D extends Objeto3D implements Runnable {
                 }
 
                 if (mostrarCaras) {
-                    g2d.setColor(colores[colorCount % colores.length]);
+                    g2d.setColor(colores[contadorColores % colores.length]);
                     double midZ = (vertice0[2] + vertice1[2] + vertice2[2] + vertice3[2]) / 4;
                     g2d.fillPolygon3D(poly, midZ);
-                    colorCount++;
+                    contadorColores++;
                 }
             }
         }

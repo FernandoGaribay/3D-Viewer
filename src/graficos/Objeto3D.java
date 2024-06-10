@@ -4,6 +4,7 @@ import Interfaces.LabelManager;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 import utils.Constantes;
 
 public class Objeto3D {
@@ -22,7 +23,7 @@ public class Objeto3D {
 
     // Escala y transformaciones
     protected double escala;
-    protected double aumentoEscala; 
+    protected double aumentoEscala;
     protected double[] rotaciones; // Rotaciones en los ejes X, Y, Z
     protected double[] traslaciones; // Traslaciones en los ejes X, Y, Z
 
@@ -40,14 +41,8 @@ public class Objeto3D {
     protected boolean seleccionado;
 
     // Colores de las caras
-    protected Color[] colores = {
-        new Color(204, 204, 204),
-        new Color(153, 204, 0),
-        new Color(255, 102, 102),
-        new Color(204, 51, 255),
-        new Color(255, 204, 204),
-        new Color(0, 51, 255),};
-    protected int contadorColores = 0;
+    protected int contadorColores;
+    protected Color[] colores;
 
     static {
         contadorObjetos = 0;
@@ -63,6 +58,7 @@ public class Objeto3D {
 
         initBanderas();
         initVariables();
+        initColores(15);
     }
 
     private void initBanderas() {
@@ -82,6 +78,16 @@ public class Objeto3D {
         this.aumentoEscala = 10;
         this.traslaciones = new double[3];
         this.rotaciones = new double[3];
+    }
+
+    private void initColores(int numColores) {
+        colores = new Color[numColores];
+        contadorColores = 0;
+
+        Random rand = new Random();
+        for (int i = 0; i < numColores; i++) {
+            colores[i] = Color.getHSBColor(rand.nextFloat(), 1, 1);
+        }
     }
 
     protected double[] rotarX(double[] point, double angle) {
@@ -333,5 +339,5 @@ public class Objeto3D {
     public void setAumentoEscala(double aumentoEscala) {
         this.aumentoEscala = aumentoEscala;
     }
-    
+
 }

@@ -41,7 +41,7 @@ public class Cubo3D extends Objeto3D implements Runnable {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
         this.verticesTrasladados = new double[8][3];
 
-        JLabel etiquetaActual = new JLabel("Cubo " + (idObjeto + 1));
+        JLabel etiquetaActual = new JLabel("Cubo #" + (idObjeto + 1));
         this.labelManager.aniadirEtiqueta(etiquetaActual);
 
         this.hiloCubo = new Thread(this);

@@ -24,16 +24,13 @@ public class Dona3D extends Objeto3D implements Runnable {
     private double radioMayor = 100;
     private double radioMenor = 50;
 
-    private int colorCount = 0;
-    private Color[] colores = new Color[12];
-
     public Dona3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
         this.verticesTrasladados = new double[8][3];
         this.escala = 1.5;
         this.aumentoEscala = 0.1;
         
-        JLabel etiquetaActual = new JLabel("Dona # " + (idObjeto + 1));
+        JLabel etiquetaActual = new JLabel("Dona #" + (idObjeto + 1));
         this.labelManager.aniadirEtiqueta(etiquetaActual);
 
         for (double alpha = 0; alpha <= anguloMaximo; alpha += anguloIncremento) {
@@ -46,11 +43,6 @@ public class Dona3D extends Objeto3D implements Runnable {
             }
         }
         verticesTrasladados = new double[vertices.size()][3];
-
-        Random rand = new Random();
-        for (int i = 0; i < 12; i++) {
-            colores[i] = Color.getHSBColor(rand.nextFloat(), 1, 1);
-        }
 
         this.hiloCubo = new Thread(this);
         this.hiloCubo.start();
@@ -89,7 +81,7 @@ public class Dona3D extends Objeto3D implements Runnable {
             verticesTrasladados[i] = trasladado;
         }
 
-        colorCount = 0;
+        contadorColores = 0;
         for (int i = 0; i < numPuntos; i++) {
             for (int j = 0; j < numPuntos; j++) {
                 int index0 = i * numPuntos + j;
@@ -122,10 +114,10 @@ public class Dona3D extends Objeto3D implements Runnable {
                 }
 
                 if (mostrarCaras) {
-                    g2d.setColor(colores[colorCount % colores.length]);
+                    g2d.setColor(colores[contadorColores % colores.length]);
                     double midZ = (vertice0[2] + vertice1[2] + vertice2[2] + vertice3[2]) / 4;
                     g2d.fillPolygon3D(poly, midZ);
-                    colorCount++;
+                    contadorColores++;
                 }
             }
         }

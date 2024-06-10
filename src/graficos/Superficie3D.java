@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import Interfaces.LabelManager;
 import java.util.ArrayList;
-import java.util.Random;
 import utils.Constantes;
 
 public class Superficie3D extends Objeto3D implements Runnable {
@@ -16,17 +15,16 @@ public class Superficie3D extends Objeto3D implements Runnable {
     private final Thread hiloCubo;
     private double[][] verticesTrasladados;
 
-    private ArrayList<double[]> vertices = new ArrayList<>();
-    double xMin = -1.0;  // Min X value
-    double xMax = 1.0;   // Max X value
-    double zMin = -1.0;  // Min Z value
-    double zMax = 1.0;   // Max Z value
-    int numPuntos = 50;  // Number of points along each axis
+    private final ArrayList<double[]> vertices = new ArrayList<>();
 
-    double xIncrement = (xMax - xMin) / numPuntos;
-    double zIncrement = (zMax - zMin) / numPuntos;
-    private int colorCount = 0;
-    private Color[] colores = new Color[12];
+    private double xMin = -4.0;
+    private double xMax = 1.0;
+    private double zMin = -1.0;
+    private double zMax = 1.0;
+    private int numPuntos = 50;
+
+    private double xIncrement = (xMax - xMin) / numPuntos;
+    private double zIncrement = (zMax - zMin) / numPuntos;
 
     public Superficie3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
@@ -34,7 +32,7 @@ public class Superficie3D extends Objeto3D implements Runnable {
         this.escala = 1.5;
         this.aumentoEscala = 0.1;
 
-        JLabel etiquetaActual = new JLabel("Dona # " + (idObjeto + 1));
+        JLabel etiquetaActual = new JLabel("Plano #" + (idObjeto + 1));
         this.labelManager.aniadirEtiqueta(etiquetaActual);
 
         for (int i = 0; i <= numPuntos; i++) {
@@ -45,19 +43,14 @@ public class Superficie3D extends Objeto3D implements Runnable {
                 double y = 100 - ((100 + 100) * ((double) i / numPuntos));
 
                 double[] vertice = new double[3];
-                vertice[0] = x * 100; 
-                vertice[1] = y;        
-                vertice[2] = z * 100; 
+                vertice[0] = x * 100;
+                vertice[1] = y;
+                vertice[2] = z * 100;
 
                 vertices.add(vertice);
             }
         }
         verticesTrasladados = new double[vertices.size()][3];
-
-        Random rand = new Random();
-        for (int i = 0; i < 12; i++) {
-            colores[i] = Color.getHSBColor(rand.nextFloat(), 1, 1);
-        }
 
         this.hiloCubo = new Thread(this);
         this.hiloCubo.start();
@@ -96,10 +89,10 @@ public class Superficie3D extends Objeto3D implements Runnable {
             verticesTrasladados[i] = trasladado;
         }
 
-        colorCount = 0;
+        contadorColores = 0;
         for (int i = 0; i < numPuntos; i++) {
             for (int j = 0; j < numPuntos; j++) {
-                if (i < numPuntos - 1 && j < numPuntos - 1) {
+                if (i < numPuntos && j < numPuntos) {
                     int index0 = i * (numPuntos + 1) + j;
                     int index1 = (i + 1) * (numPuntos + 1) + j;
                     int index2 = i * (numPuntos + 1) + (j + 1);
@@ -130,10 +123,10 @@ public class Superficie3D extends Objeto3D implements Runnable {
                     }
 
                     if (mostrarCaras) {
-                        g2d.setColor(colores[colorCount % colores.length]);
+                        g2d.setColor(colores[contadorColores % colores.length]);
                         double midZ = (vertice0[2] + vertice1[2] + vertice2[2] + vertice3[2]) / 4;
                         g2d.fillPolygon3D(poly, midZ);
-                        colorCount++;
+                        contadorColores++;
                     }
                 }
             }
