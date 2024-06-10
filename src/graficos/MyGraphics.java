@@ -334,8 +334,11 @@ public class MyGraphics {
         if (x >= 0 && x < buffer.getWidth() && y >= 0 && y < buffer.getHeight()) {
             Point2D.Double point = new Point2D.Double(x, y);
             if (!zBuffer.containsKey(point) || zBuffer.get(point) > z) {
-                zBuffer.put(point, z);
-                buffer.setRGB(x, y, color.getRGB());
+                try {
+                    zBuffer.put(point, z);
+                    buffer.setRGB(x, y, color.getRGB());
+                } catch (Exception e) {
+                }
             }
         }
     }

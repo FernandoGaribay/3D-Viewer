@@ -41,6 +41,15 @@ public class Cubo3D extends Objeto3D implements Runnable {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
         this.verticesTrasladados = new double[8][3];
 
+        colores = new Color[]{
+            new Color(255, 255, 51),
+            new Color(51, 51, 255),
+            new Color(255, 51, 51),
+            new Color(204, 204, 204),
+            new Color(51, 255, 51),
+            new Color(255, 0, 255)
+        };
+
         JLabel etiquetaActual = new JLabel("Cubo #" + (idObjeto + 1));
         this.labelManager.aniadirEtiqueta(etiquetaActual);
 
@@ -120,7 +129,7 @@ public class Cubo3D extends Objeto3D implements Runnable {
 
     private void dibujarCaras() {
         for (int[] face : caras) {
-            g2d.setColor(colores[contadorColores % 6]);
+            g2d.setColor(colores[contadorColores % colores.length]);
             Polygon poly = new Polygon();
             double midZIndex = 0;
             for (int i = 0; i < face.length; i++) {

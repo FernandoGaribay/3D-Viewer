@@ -14,6 +14,7 @@ import graficos.Dona3D;
 import graficos.Superficie3D;
 import java.util.ArrayList;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import utils.Constantes;
 
@@ -41,9 +42,12 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
                 + "TAB -> Alternar traslacion/Rotacion<br>"
                 + "SCROLL -> Aumentar/Disminuir la escala<br>"
                 + "IZQUIERDA -> Anterior objeto<br>"
-                + "DERECHA -> Siguiente objeto<br><br>"
-                + "Click Izq -> Rotacion (Ejes activados)<br>"
-                + "Click Der -> Traslacion (X e Y)<br><br>"
+                + "DERECHA -> Siguiente objeto<br>"
+                + "ARRIBA-> Aumentar escala<br>"
+                + "ABAJO-> Disminuir escala<br>"
+                + "CLICK IZQ -> Traslacion (X e Y)<br><br>"
+                + "P -> Generar paleta de colores<br>"
+                + "O -> Cambiar numero de puntos<br><br>"
                 + "W -> Transformar para arriba<br>"
                 + "A -> Transformar para la izquierda<br>"
                 + "S -> Transformar para abajo<br>"
@@ -95,19 +99,18 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
             double[] origenCubo = {450, 300, 700};
             Cubo3D cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(cubo);
-            
+
             double[] origenCubo2 = {450, 300, 700};
             Cilindro3D cubo2 = new Cilindro3D(getWidth(), getHeight(), origenCubo2, puntoFuga, this);
             listaCubos.add(cubo2);
-            
+
             double[] origenCubo3 = {450, 300, 700};
             Dona3D cubo3 = new Dona3D(getWidth(), getHeight(), origenCubo3, puntoFuga, this);
             listaCubos.add(cubo3);
-            
+
             double[] origenCubo4 = {450, 300, 700};
             Superficie3D cubo4 = new Superficie3D(getWidth(), getHeight(), origenCubo4, puntoFuga, this);
             listaCubos.add(cubo4);
-
 
             if (!listaCubos.isEmpty()) {
                 objetoActual = listaCubos.get(currentIndex);
@@ -119,7 +122,7 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
         });
     }
 
-    public void initComponentes() {
+    private void initComponentes() {
         labelInfoControles.setForeground(Color.WHITE);
         labelInfoControles.setVerticalAlignment(SwingConstants.TOP);
         labelInfoControles.setBounds(-250, 20, 250, 575);
@@ -178,6 +181,30 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
 
     public void setMostrarAnimacion() {
         objetoActual.setMostrarAnimacion();
+    }
+
+    public void generarColores() {
+        String input = JOptionPane.showInputDialog("Ingrese el número de colores a generar:");
+
+        if (input != null) {
+            try {
+                int numColores = Integer.parseInt(input);
+                objetoActual.initColores(numColores);
+            } catch (NumberFormatException e) {
+            }
+        }
+    }
+
+    public void generarPuntos() {
+        String input = JOptionPane.showInputDialog("Ingrese el número de puntos a generar:");
+
+        if (input != null) {
+            try {
+                int numPuntos = Integer.parseInt(input);
+                objetoActual.setNumPuntos(numPuntos);
+            } catch (NumberFormatException e) {
+            }
+        }
     }
 
     public void setEscala(boolean positivo) {

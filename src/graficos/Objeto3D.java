@@ -18,6 +18,7 @@ public class Objeto3D {
     protected LabelManager labelManager;
 
     // Coordenadas y transformaciones del cubo
+    protected int numPuntos;
     protected double[] origenCubo;
     protected double[] puntoFuga;
 
@@ -58,7 +59,6 @@ public class Objeto3D {
 
         initBanderas();
         initVariables();
-        initColores(15);
     }
 
     private void initBanderas() {
@@ -75,12 +75,13 @@ public class Objeto3D {
 
     private void initVariables() {
         this.escala = 100;
+        this.numPuntos = 50;
         this.aumentoEscala = 10;
         this.traslaciones = new double[3];
         this.rotaciones = new double[3];
     }
 
-    private void initColores(int numColores) {
+    public void initColores(int numColores) {
         colores = new Color[numColores];
         contadorColores = 0;
 
@@ -340,4 +341,8 @@ public class Objeto3D {
         this.aumentoEscala = aumentoEscala;
     }
 
+    public void setNumPuntos(int numPuntos) {
+        this.numPuntos = numPuntos;
+    }
+    
 }

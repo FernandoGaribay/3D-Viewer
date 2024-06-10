@@ -102,6 +102,18 @@ public final class FrameAnimacion extends JFrame {
                     case KeyEvent.VK_LEFT:
                         panelGraficos.anteriorElemento();
                         break;
+                    case KeyEvent.VK_UP:
+                        panelGraficos.setEscala(true);
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        panelGraficos.setEscala(false);
+                        break;
+                    case KeyEvent.VK_P:
+                        panelGraficos.generarColores();
+                        break;
+                    case KeyEvent.VK_O:
+                        panelGraficos.generarPuntos();
+                        break;
                     case KeyEvent.VK_W:
                         panelGraficos.setRotacionTransformacionArriba();
                         break;
