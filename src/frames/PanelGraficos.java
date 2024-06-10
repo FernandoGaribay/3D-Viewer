@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 import Interfaces.LabelManager;
 import graficos.Objeto3D;
 import graficos.Cilindro3D;
+import graficos.Dona3D;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -97,6 +98,10 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
             double[] origenCubo2 = {450, 300, 700};
             Cilindro3D cubo2 = new Cilindro3D(getWidth(), getHeight(), origenCubo2, puntoFuga, this);
             listaCubos.add(cubo2);
+            
+            double[] origenCubo3 = {450, 300, 700};
+            Dona3D cubo3 = new Dona3D(getWidth(), getHeight(), origenCubo3, puntoFuga, this);
+            listaCubos.add(cubo3);
 
 
             if (!listaCubos.isEmpty()) {
@@ -170,8 +175,9 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
         objetoActual.setMostrarAnimacion();
     }
 
-    public void setEscala(int escala) {
-        objetoActual.setEscala(escala);
+    public void setEscala(boolean positivo) {
+        double aumentoEscala = (positivo) ? objetoActual.getAumentoEscala() : -objetoActual.getAumentoEscala();
+        objetoActual.setEscala(aumentoEscala);
     }
 
     public void setRotacionTransformacion() {

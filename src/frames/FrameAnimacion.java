@@ -147,9 +147,9 @@ public final class FrameAnimacion extends JFrame {
             public void mouseWheelMoved(MouseWheelEvent e) {
                 int notches = e.getWheelRotation();
                 if (notches < 0) {
-                    panelGraficos.setEscala(10);
+                    panelGraficos.setEscala(true);
                 } else {
-                    panelGraficos.setEscala(-10);
+                    panelGraficos.setEscala(false);
                 }
             }
         });

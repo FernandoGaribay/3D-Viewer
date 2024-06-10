@@ -4,8 +4,6 @@ import Interfaces.LabelManager;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import utils.Constantes;
 
 public class Objeto3D {
@@ -24,6 +22,7 @@ public class Objeto3D {
 
     // Escala y transformaciones
     protected double escala;
+    protected double aumentoEscala; 
     protected double[] rotaciones; // Rotaciones en los ejes X, Y, Z
     protected double[] traslaciones; // Traslaciones en los ejes X, Y, Z
 
@@ -80,6 +79,7 @@ public class Objeto3D {
 
     private void initVariables() {
         this.escala = 100;
+        this.aumentoEscala = 10;
         this.traslaciones = new double[3];
         this.rotaciones = new double[3];
     }
@@ -137,7 +137,7 @@ public class Objeto3D {
         this.traslaciones[2] += distancia;
     }
 
-    public void setEscala(int escala) {
+    public void setEscala(double escala) {
         this.escala += escala;
     }
 
@@ -325,4 +325,13 @@ public class Objeto3D {
     public int getIdObjeto() {
         return idObjeto;
     }
+
+    public double getAumentoEscala() {
+        return aumentoEscala;
+    }
+
+    public void setAumentoEscala(double aumentoEscala) {
+        this.aumentoEscala = aumentoEscala;
+    }
+    
 }
