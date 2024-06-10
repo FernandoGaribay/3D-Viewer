@@ -169,6 +169,7 @@ public class Dona3D extends Objeto3D implements Runnable {
             if (!isSeleccionado()) {
                 try {
                     Thread.sleep(500);
+                    g2d.resetBuffer();
                     continue;
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Cubo3D.class.getName()).log(Level.SEVERE, null, ex);

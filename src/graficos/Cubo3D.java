@@ -39,8 +39,21 @@ public class Cubo3D extends Objeto3D implements Runnable {
 
     public Cubo3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
-        this.verticesTrasladados = new double[8][3];
 
+        initEtiqueta();
+        initVariables();
+
+        this.hiloCubo = new Thread(this);
+        this.hiloCubo.start();
+    }
+
+    private void initEtiqueta() {
+        JLabel etiquetaActual = new JLabel("Cubo #" + (idObjeto + 1));
+        this.labelManager.aniadirEtiqueta(etiquetaActual);
+    }
+
+    private void initVariables() {
+        verticesTrasladados = new double[8][3];
         colores = new Color[]{
             new Color(255, 255, 51),
             new Color(51, 51, 255),
@@ -49,12 +62,6 @@ public class Cubo3D extends Objeto3D implements Runnable {
             new Color(51, 255, 51),
             new Color(255, 0, 255)
         };
-
-        JLabel etiquetaActual = new JLabel("Cubo #" + (idObjeto + 1));
-        this.labelManager.aniadirEtiqueta(etiquetaActual);
-
-        this.hiloCubo = new Thread(this);
-        this.hiloCubo.start();
     }
 
     private synchronized void dibujarCubo() {
@@ -162,6 +169,7 @@ public class Cubo3D extends Objeto3D implements Runnable {
             if (!isSeleccionado()) {
                 try {
                     Thread.sleep(500);
+                    g2d.resetBuffer();
                     continue;
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Cubo3D.class.getName()).log(Level.SEVERE, null, ex);

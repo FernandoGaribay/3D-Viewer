@@ -13,18 +13,17 @@ import utils.Constantes;
 public class Superficie3D extends Objeto3D implements Runnable {
 
     private final Thread hiloCubo;
+
     private int numPuntosActual;
     private double[][] verticesTrasladados;
-
     private ArrayList<double[]> vertices;
 
-    private double xMin = -1.0;
-    private double xMax = 1.0;
-    private double zMin = -1.0;
-    private double zMax = 1.0;
-
-    private double xIncrement = (xMax - xMin) / numPuntos;
-    private double zIncrement = (zMax - zMin) / numPuntos;
+    private double xMin;
+    private double xMax;
+    private double zMin;
+    private double zMax;
+    private double xIncrement;
+    private double zIncrement;
 
     public Superficie3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
@@ -35,6 +34,7 @@ public class Superficie3D extends Objeto3D implements Runnable {
 
         initColores(15);
         initEtiqueta();
+        initVariables();
         initVertices();
 
         this.hiloCubo = new Thread(this);
@@ -44,6 +44,16 @@ public class Superficie3D extends Objeto3D implements Runnable {
     private void initEtiqueta() {
         JLabel etiquetaActual = new JLabel("Superficie #" + (idObjeto + 1));
         this.labelManager.aniadirEtiqueta(etiquetaActual);
+    }
+
+    private void initVariables() {
+        xMin = -1.0;
+        xMax = 1.0;
+        zMin = -1.0;
+        zMax = 1.0;
+        
+        xIncrement = (xMax - xMin) / numPuntos;
+        zIncrement = (zMax - zMin) / numPuntos;
     }
 
     private void initVertices() {
@@ -171,6 +181,7 @@ public class Superficie3D extends Objeto3D implements Runnable {
             if (!isSeleccionado()) {
                 try {
                     Thread.sleep(500);
+                    g2d.resetBuffer();
                     continue;
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Cubo3D.class.getName()).log(Level.SEVERE, null, ex);

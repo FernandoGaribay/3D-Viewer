@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.Constantes;
 
 public class Objeto3D {
@@ -317,6 +319,13 @@ public class Objeto3D {
                 }
             }
             setSeleccionado(false);
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Objeto3D.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             escala = escalaOriginal;
             System.arraycopy(traslacionesOriginales, 0, traslaciones, 0, traslaciones.length);
 
@@ -344,5 +353,5 @@ public class Objeto3D {
     public void setNumPuntos(int numPuntos) {
         this.numPuntos = numPuntos;
     }
-    
+
 }
