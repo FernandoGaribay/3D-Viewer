@@ -11,6 +11,7 @@ import Interfaces.LabelManager;
 import graficos.Objeto3D;
 import graficos.Cilindro3D;
 import graficos.Dona3D;
+import graficos.Superficie3D;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -102,6 +103,10 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
             double[] origenCubo3 = {450, 300, 700};
             Dona3D cubo3 = new Dona3D(getWidth(), getHeight(), origenCubo3, puntoFuga, this);
             listaCubos.add(cubo3);
+            
+            double[] origenCubo4 = {450, 300, 700};
+            Superficie3D cubo4 = new Superficie3D(getWidth(), getHeight(), origenCubo4, puntoFuga, this);
+            listaCubos.add(cubo4);
 
 
             if (!listaCubos.isEmpty()) {
