@@ -14,6 +14,8 @@ public class Objeto3D {
     // Contador estatico para el numero de Objetos3D
     protected static int contadorObjetos;
     protected final int idObjeto;
+    public static boolean animacionSeleccionActiva;
+    public static boolean animacionDeseleccionActiva;
 
     // Objetos grafico para dibujar el Objeto3D 
     protected final MyGraphics g2d;
@@ -49,6 +51,8 @@ public class Objeto3D {
 
     static {
         contadorObjetos = 0;
+        animacionSeleccionActiva = false;
+        animacionDeseleccionActiva = false;
     }
 
     public Objeto3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
@@ -198,7 +202,7 @@ public class Objeto3D {
 
     public void setRotacionTransformacionZPositiva() {
         if (traslacion) {
-            trasladarZ(10);
+            trasladarZ(-10);
         } else {
             rotaciones[2] += 5;
             rotarX(puntoFuga, escala);
@@ -207,7 +211,7 @@ public class Objeto3D {
 
     public void setRotacionTransformacionZNegativa() {
         if (traslacion) {
-            trasladarZ(-10);
+            trasladarZ(10);
         } else {
             rotaciones[2] -= 5;
             rotarX(puntoFuga, escala);
@@ -257,6 +261,8 @@ public class Objeto3D {
 
     public void iniciarAnimacionSeleccionado() {
         Thread hiloAnimacion = new Thread(() -> {
+            animacionSeleccionActiva = true;
+            
             int tiempoAnimacion = Constantes.TIEMPO_ANIMACION_SELECCION;
             long tiempoPorFotograma = tiempoAnimacion / 60;
             int numIteraciones = (int) (tiempoAnimacion / tiempoPorFotograma);
@@ -287,12 +293,16 @@ public class Objeto3D {
             }
             escala = escalaOriginal;
             System.arraycopy(traslacionesOriginales, 0, traslaciones, 0, traslaciones.length);
+            
+            animacionSeleccionActiva = false;
         });
         hiloAnimacion.start();
     }
 
     public void iniciarAnimacionDeseleccionado() {
         Thread hiloAnimacion = new Thread(() -> {
+            animacionDeseleccionActiva = true;
+            
             int tiempoAnimacion = Constantes.TIEMPO_ANIMACION_SELECCION;
             long tiempoPorFotograma = tiempoAnimacion / 60;
             int numIteraciones = (int) (tiempoAnimacion / tiempoPorFotograma);
@@ -328,7 +338,8 @@ public class Objeto3D {
 
             escala = escalaOriginal;
             System.arraycopy(traslacionesOriginales, 0, traslaciones, 0, traslaciones.length);
-
+            
+            animacionDeseleccionActiva = false;
         });
         hiloAnimacion.start();
     }

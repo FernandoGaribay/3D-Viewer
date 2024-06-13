@@ -152,12 +152,16 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
     }
 
     public void siguienteElemento() {
+        if (Objeto3D.animacionSeleccionActiva || Objeto3D.animacionDeseleccionActiva) {
+            return;
+        }
         if (currentIndex < listaCubos.size() - 1) {
             objetoActual.iniciarAnimacionDeseleccionado();
 
             currentIndex++;
             objetoActual = listaCubos.get(currentIndex);
             objetoActual.iniciarAnimacionSeleccionado();
+            Objeto3D.animacionSeleccionActiva = true;
         } else {
             currentIndex = -1;
             siguienteElemento();
@@ -165,6 +169,9 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
     }
 
     public void anteriorElemento() {
+        if (Objeto3D.animacionSeleccionActiva || Objeto3D.animacionDeseleccionActiva) {
+            return;
+        }
         if (currentIndex > 0) {
             objetoActual.iniciarAnimacionDeseleccionado();
             currentIndex--;
