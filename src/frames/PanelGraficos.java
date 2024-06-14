@@ -17,6 +17,7 @@ import graficos.Avion3D;
 import graficos.Arania3D;
 import graficos.Music3D;
 import graficos.Corazon3D;
+import graficos.Esfera3D;
 import graficos.Trofeo3D;
 import graficos.Superficie3D;
 import java.util.ArrayList;
@@ -105,6 +106,8 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
             this.requestFocusInWindow();
 
             double[] origenCubo = {450, 300, 700};
+            Esfera3D esfera = new Esfera3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(esfera);
             Cubo3D cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(cubo);
 
