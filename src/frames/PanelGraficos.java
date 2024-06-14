@@ -12,6 +12,7 @@ import graficos.Carro3D;
 import graficos.Objeto3D;
 import graficos.Cilindro3D;
 import graficos.Dona3D;
+import graficos.Isla3D;
 import graficos.Superficie3D;
 import java.util.ArrayList;
 import javax.swing.JLabel;
@@ -101,6 +102,9 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
             Cubo3D cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(cubo);
 
+            Isla3D isla = new Isla3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(isla);
+            
             Carro3D carro = new Carro3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(carro);
 
