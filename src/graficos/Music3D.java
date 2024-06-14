@@ -35,7 +35,7 @@ public class Music3D extends Objeto3D implements Runnable {
     }
 
     private void initEtiqueta() {
-        JLabel etiquetaActual = new JLabel("Araña #" + (idObjeto + 1));
+        JLabel etiquetaActual = new JLabel("Musica #" + (idObjeto + 1));
         this.labelManager.aniadirEtiqueta(etiquetaActual);
     }
 
@@ -162,7 +162,6 @@ public class Music3D extends Objeto3D implements Runnable {
     @Override
     public void run() {
         int fps = 60;
-        int fpsActuales = 0;
         int contadorFPS = 0;
 
         long tiempoPorFotograma = 1000000000 / fps; // En nanosegundos
@@ -194,27 +193,7 @@ public class Music3D extends Objeto3D implements Runnable {
             long tiempoOperacion = System.nanoTime() - inicio;
 
             if (System.nanoTime() - tiempoAnteriorLabel >= 250000000) { // 250 ms en nanosegundos
-                String newInformacion = "<html><div style='text-align: right;'>------------------- INFORMACION -------------------<br><br>"
-                        + "ID OBJETO: #" + (idObjeto + 1) + "<br>"
-                        + "FPS: " + fpsActuales + "<br><br>"
-                        + "Puntos: " + mostrarPuntos + "<br>"
-                        + "Lineas: " + mostrarLineas + "<br>"
-                        + "Caras: " + mostrarCaras + "<br><br>"
-                        + "Punto del objeto:<br>"
-                        + "X -> " + (origenCubo[0] + traslaciones[0]) + " pixeles<br>"
-                        + "Y -> " + (origenCubo[1] + traslaciones[1]) + " pixeles<br>"
-                        + "Z -> " + (origenCubo[2] + traslaciones[2]) + " pixeles<br><br>"
-                        + "Punto de fuga:<br>"
-                        + "X -> " + puntoFuga[0] + " pixeles<br>"
-                        + "Y -> " + puntoFuga[1] + " pixeles<br>"
-                        + "Z -> " + puntoFuga[2] + " pixeles<br>"
-                        + "FOV -> 250 pixeles<br><br>"
-                        + "Ejes activos:<br>"
-                        + "X (" + (rotaciones[0] % 360) + "°) -> " + animacionEjeX + "<br>"
-                        + "Y (" + (rotaciones[1] % 360) + "°) -> " + animacionEjeY + "<br>"
-                        + "Z (" + (rotaciones[2] % 360) + "°) -> " + animacionEjeZ + "<br><br>"
-                        + "</div></html>";
-                labelManager.actualizarEtiquetaInformacion(idObjeto, newInformacion);
+                labelManager.actualizarEtiquetaInformacion(idObjeto, getInformacionObjeto());
                 tiempoAnteriorLabel = System.nanoTime();
             }
 

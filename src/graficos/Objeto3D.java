@@ -32,6 +32,9 @@ public class Objeto3D {
     protected double[] rotaciones; // Rotaciones en los ejes X, Y, Z
     protected double[] traslaciones; // Traslaciones en los ejes X, Y, Z
 
+    // Variables tag informacion
+    protected int fpsActuales = 0;
+
     // Estado de visualizacion y animacion
     protected boolean mostrarAnimacion;
     protected boolean traslacion;
@@ -219,7 +222,7 @@ public class Objeto3D {
     }
 // </editor-fold>
 
-// <editor-fold defaultstate="collapsed" desc="Metodos para el estado de visualizacion y animacion">
+// <editor-fold defaultstate="collapsed" desc="Banderas para el estado de visualizacion y animacion">
     public void setMostrarAnimacion() {
         this.mostrarAnimacion = !mostrarAnimacion;
     }
@@ -249,7 +252,7 @@ public class Objeto3D {
     }
 // </editor-fold>
 
-// <editor-fold defaultstate="collapsed" desc="Metodos para el estado de seleccion">
+// <editor-fold defaultstate="collapsed" desc="Banderas para el estado de seleccion">
     public void setSeleccionado(boolean seleccionado) {
         this.seleccionado = seleccionado;
     }
@@ -259,10 +262,35 @@ public class Objeto3D {
     }
 // </editor-fold>
 
+    protected String getInformacionObjeto() {
+        String newInformacion = "<html><div style='text-align: right;'>------------------- INFORMACION -------------------<br><br>"
+                + "ID OBJETO: #" + (idObjeto + 1) + "<br>"
+                + "FPS: " + fpsActuales + "<br><br>"
+                + "Puntos: " + mostrarPuntos + "<br>"
+                + "Lineas: " + mostrarLineas + "<br>"
+                + "Caras: " + mostrarCaras + "<br><br>"
+                + "Caracteristicas del objeto:<br>"
+                + "Escala -> " + String.format("%.2f", escala) + " pixeles<br>"
+                + "X -> " + traslaciones[0] + " pixeles<br>"
+                + "Y -> " + traslaciones[1] + " pixeles<br>"
+                + "Z -> " + traslaciones[2] + " pixeles<br><br>"
+                + "Punto de fuga:<br>"
+                + "X -> " + puntoFuga[0] + " pixeles<br>"
+                + "Y -> " + puntoFuga[1] + " pixeles<br>"
+                + "Z -> " + puntoFuga[2] + " pixeles<br>"
+                + "FOV -> 250 pixeles<br><br>"
+                + "Ejes activos:<br>"
+                + "X (" + (rotaciones[0] % 360) + "°) -> " + animacionEjeX + "<br>"
+                + "Y (" + (rotaciones[1] % 360) + "°) -> " + animacionEjeY + "<br>"
+                + "Z (" + (rotaciones[2] % 360) + "°) -> " + animacionEjeZ + "<br><br>"
+                + "</div></html>";
+        return newInformacion;
+    }
+
     public void iniciarAnimacionSeleccionado() {
         Thread hiloAnimacion = new Thread(() -> {
             animacionSeleccionActiva = true;
-            
+
             int tiempoAnimacion = Constantes.TIEMPO_ANIMACION_SELECCION;
             long tiempoPorFotograma = tiempoAnimacion / 60;
             int numIteraciones = (int) (tiempoAnimacion / tiempoPorFotograma);
@@ -293,7 +321,7 @@ public class Objeto3D {
             }
             escala = escalaOriginal;
             System.arraycopy(traslacionesOriginales, 0, traslaciones, 0, traslaciones.length);
-            
+
             animacionSeleccionActiva = false;
         });
         hiloAnimacion.start();
@@ -302,7 +330,7 @@ public class Objeto3D {
     public void iniciarAnimacionDeseleccionado() {
         Thread hiloAnimacion = new Thread(() -> {
             animacionDeseleccionActiva = true;
-            
+
             int tiempoAnimacion = Constantes.TIEMPO_ANIMACION_SELECCION;
             long tiempoPorFotograma = tiempoAnimacion / 60;
             int numIteraciones = (int) (tiempoAnimacion / tiempoPorFotograma);
@@ -337,7 +365,7 @@ public class Objeto3D {
             }
             escala = escalaOriginal;
             System.arraycopy(traslacionesOriginales, 0, traslaciones, 0, traslaciones.length);
-            
+
             animacionDeseleccionActiva = false;
         });
         hiloAnimacion.start();
