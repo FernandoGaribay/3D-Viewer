@@ -159,16 +159,19 @@ public class Cubo3D extends Objeto3D implements Runnable {
     @Override
     public void run() {
         int fps = 60;
-        long tiempoPorFotograma = 1000 / fps;
-        int sleepTime;
-
-        long tiempoAnterior = System.currentTimeMillis();
+        int fpsActuales = 0;
         int contadorFPS = 0;
+
+        long tiempoPorFotograma = 1000000000 / fps; // En nanosegundos
+        long sleepTime;
+
+        long tiempoAnteriorFPS = System.nanoTime();
+        long tiempoAnteriorLabel = System.nanoTime();
 
         while (true) {
             if (!isSeleccionado()) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(250);
                     g2d.resetBuffer();
                     continue;
                 } catch (InterruptedException ex) {
@@ -176,7 +179,7 @@ public class Cubo3D extends Objeto3D implements Runnable {
                 }
             }
 
-            long inicio = System.currentTimeMillis();
+            long inicio = System.nanoTime();
 
             // CODIGO ----------------------------------------------------------
             dibujarCubo();
@@ -185,12 +188,12 @@ public class Cubo3D extends Objeto3D implements Runnable {
             labelManager.actualizarEtiquetaObjeto(idObjeto, (int) (p1.x - Constantes.OFFSET_TAG_LABEL_WIDTH), (int) (p1.y - escala - Constantes.OFFSET_TAG_LABEL_HEIGHT));
 
             // -----------------------------------------------------------------
-            long tiempoOperacion = System.currentTimeMillis() - inicio;
+            long tiempoOperacion = System.nanoTime() - inicio;
 
-            if (System.currentTimeMillis() - tiempoAnterior >= 1000) {
+            if (System.nanoTime() - tiempoAnteriorLabel >= 250000000) { // 250 ms en nanosegundos
                 String newInformacion = "<html><div style='text-align: right;'>------------------- INFORMACION -------------------<br><br>"
                         + "ID OBJETO: #" + (idObjeto + 1) + "<br>"
-                        + "FPS: " + contadorFPS + "<br><br>"
+                        + "FPS: " + fpsActuales + "<br><br>"
                         + "Puntos: " + mostrarPuntos + "<br>"
                         + "Lineas: " + mostrarLineas + "<br>"
                         + "Caras: " + mostrarCaras + "<br><br>"
@@ -204,18 +207,22 @@ public class Cubo3D extends Objeto3D implements Runnable {
                         + "Z -> " + puntoFuga[2] + " pixeles<br>"
                         + "FOV -> 250 pixeles<br><br>"
                         + "Ejes activos:<br>"
-                        + "X -> " + animacionEjeX + "<br>"
-                        + "Y -> " + animacionEjeY + "<br>"
-                        + "Z -> " + animacionEjeZ + "<br><br>"
+                        + "X (" + (rotaciones[0] % 360) + "°) -> " + animacionEjeX + "<br>"
+                        + "Y (" + (rotaciones[1] % 360) + "°) -> " + animacionEjeY + "<br>"
+                        + "Z (" + (rotaciones[2] % 360) + "°) -> " + animacionEjeZ + "<br><br>"
                         + "</div></html>";
                 labelManager.actualizarEtiquetaInformacion(idObjeto, newInformacion);
+                tiempoAnteriorLabel = System.nanoTime();
+            }
 
+            if (System.nanoTime() - tiempoAnteriorFPS >= 1000000000) { // 1 segundo en nanosegundos
+                fpsActuales = contadorFPS;
                 contadorFPS = 0;
-                tiempoAnterior = System.currentTimeMillis();
+                tiempoAnteriorFPS = System.nanoTime();
             }
             contadorFPS++;
 
-            sleepTime = (int) (tiempoPorFotograma - tiempoOperacion);
+            sleepTime = (tiempoPorFotograma - tiempoOperacion) / 1000000; // Convertir a milisegundos
             if (sleepTime > 0) {
                 try {
                     Thread.sleep(sleepTime);

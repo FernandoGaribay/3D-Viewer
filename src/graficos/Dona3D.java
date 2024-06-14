@@ -159,11 +159,14 @@ public class Dona3D extends Objeto3D implements Runnable {
     @Override
     public void run() {
         int fps = 60;
-        long tiempoPorFotograma = 1000 / fps;
-        int sleepTime;
-
-        long tiempoAnterior = System.currentTimeMillis();
+        int fpsActuales = 0;
         int contadorFPS = 0;
+
+        long tiempoPorFotograma = 1000 / fps;
+        long sleepTime;
+
+        long tiempoAnteriorFPS = System.currentTimeMillis();
+        long tiempoAnteriorLabel = System.currentTimeMillis();
 
         while (true) {
             if (!isSeleccionado()) {
@@ -193,10 +196,10 @@ public class Dona3D extends Objeto3D implements Runnable {
                 initVertices();
             }
 
-            if (System.currentTimeMillis() - tiempoAnterior >= 1000) {
+            if (System.currentTimeMillis() - tiempoAnteriorLabel >= 250) {
                 String newInformacion = "<html><div style='text-align: right;'>------------------- INFORMACION -------------------<br><br>"
                         + "ID OBJETO: #" + (idObjeto + 1) + "<br>"
-                        + "FPS: " + contadorFPS + "<br><br>"
+                        + "FPS: " + fpsActuales + "<br><br>"
                         + "Puntos: " + mostrarPuntos + "<br>"
                         + "Lineas: " + mostrarLineas + "<br>"
                         + "Caras: " + mostrarCaras + "<br><br>"
@@ -210,24 +213,26 @@ public class Dona3D extends Objeto3D implements Runnable {
                         + "Z -> " + puntoFuga[2] + " pixeles<br>"
                         + "FOV -> 250 pixeles<br><br>"
                         + "Ejes activos:<br>"
-                        + "X -> " + animacionEjeX + "<br>"
-                        + "Y -> " + animacionEjeY + "<br>"
-                        + "Z -> " + animacionEjeZ + "<br><br>"
+                        + "X (" + (rotaciones[0] % 360) + "°) -> " + animacionEjeX + "<br>"
+                        + "Y (" + (rotaciones[1] % 360) + "°) -> " + animacionEjeY + "<br>"
+                        + "Z (" + (rotaciones[2] % 360) + "°) -> " + animacionEjeZ + "<br><br>"
                         + "</div></html>";
                 labelManager.actualizarEtiquetaInformacion(idObjeto, newInformacion);
+                tiempoAnteriorLabel = System.currentTimeMillis();
+            }
 
+            if (System.currentTimeMillis() - tiempoAnteriorFPS >= 1000) {
+                fpsActuales = contadorFPS;
                 contadorFPS = 0;
-                tiempoAnterior = System.currentTimeMillis();
+                tiempoAnteriorFPS = System.currentTimeMillis();
             }
             contadorFPS++;
 
-            sleepTime = (int) (tiempoPorFotograma - tiempoOperacion);
-            if (sleepTime > 0) {
-                try {
-                    Thread.sleep(sleepTime);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Cubo3D.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            sleepTime = Math.abs(tiempoPorFotograma - tiempoOperacion);
+            try {
+                Thread.sleep(sleepTime);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cubo3D.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

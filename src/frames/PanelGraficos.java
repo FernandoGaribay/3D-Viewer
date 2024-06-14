@@ -79,9 +79,9 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
                 + "Z -> 250 pixeles<br>"
                 + "FOV -> 250 pixeles<br><br>"
                 + "Ejes activos:<br>"
-                + "X -> Activado<br>"
-                + "Y -> Activado<br>"
-                + "Z -> Desactivado<br><br>"
+                + "X (0°) -> Activado<br>"
+                + "Y (0°) -> Activado<br>"
+                + "Z (0°) -> Desactivado<br><br>"
                 + "</div></html>");
 
         labelInfoControlesPersistente = new JLabel("<html>CTRL -> Ocultar/Mostrar controles<br></html>");
