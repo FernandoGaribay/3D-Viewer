@@ -13,6 +13,11 @@ import graficos.Objeto3D;
 import graficos.Cilindro3D;
 import graficos.Dona3D;
 import graficos.Isla3D;
+import graficos.Avion3D;
+import graficos.Arania3D;
+import graficos.Music3D;
+import graficos.Corazon3D;
+import graficos.Trofeo3D;
 import graficos.Superficie3D;
 import java.util.ArrayList;
 import javax.swing.JLabel;
@@ -102,11 +107,26 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
             Cubo3D cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(cubo);
 
-            Isla3D isla = new Isla3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
-            listaCubos.add(isla);
-            
             Carro3D carro = new Carro3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(carro);
+
+            Isla3D isla = new Isla3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(isla);
+
+            Trofeo3D render = new Trofeo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(render);
+
+            Corazon3D corazon = new Corazon3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(corazon);
+
+            Music3D music = new Music3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(music);
+
+            Arania3D arania = new Arania3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(arania);
+
+            Avion3D avion = new Avion3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(avion);
 
             Cilindro3D cubo2 = new Cilindro3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(cubo2);

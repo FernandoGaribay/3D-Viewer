@@ -25,10 +25,11 @@ public class Isla3D extends Objeto3D implements Runnable {
     public Isla3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
         escala = 1.5;
-        aumentoEscala = 0.3;
+        aumentoEscala = 0.1;
 
-        initColores(20);
+        initColores(2);
         initEtiqueta();
+        initVariables();
         initVertices();
 
         this.hiloCubo = new Thread(this);
@@ -38,6 +39,13 @@ public class Isla3D extends Objeto3D implements Runnable {
     private void initEtiqueta() {
         JLabel etiquetaActual = new JLabel("Isla #" + (idObjeto + 1));
         this.labelManager.aniadirEtiqueta(etiquetaActual);
+    }
+
+    private void initVariables() {
+        escala = 3.5;
+        aumentoEscala = 0.1;
+        mostrarPuntos = false;
+        traslaciones[1] -= 100;
     }
 
     private void initVertices() {

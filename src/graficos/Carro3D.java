@@ -27,6 +27,7 @@ public class Carro3D extends Objeto3D implements Runnable {
 
         initColores(20);
         initEtiqueta();
+        initVariables();
         initVertices();
 
         this.hiloCubo = new Thread(this);
@@ -38,10 +39,18 @@ public class Carro3D extends Objeto3D implements Runnable {
         this.labelManager.aniadirEtiqueta(etiquetaActual);
     }
 
+    private void initVariables() {
+        escala = 100;
+        aumentoEscala = 2;
+        mostrarPuntos = false;
+        traslaciones[1] -= 100;
+        rotaciones[0] = 15;
+    }
+
     private void initVertices() {
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("recursos/car.obj");
-        
+
         modelo = LectorOBJ.readObjFile(inputStream);
         vertices = modelo.getVertices();
         caras = modelo.getCaras();

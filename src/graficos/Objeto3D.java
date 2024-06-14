@@ -74,8 +74,8 @@ public class Objeto3D {
         this.mostrarPuntos = true;
         this.mostrarLineas = true;
         this.mostrarCaras = false;
-        this.animacionEjeX = true;
-        this.animacionEjeY = false;
+        this.animacionEjeX = false;
+        this.animacionEjeY = true;
         this.animacionEjeZ = false;
     }
 
