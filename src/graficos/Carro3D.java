@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import Interfaces.LabelManager;
+import java.io.InputStream;
 import java.util.ArrayList;
 import modelos3D.LectorOBJ;
 import modelos3D.Modelo3D;
@@ -38,7 +39,10 @@ public class Carro3D extends Objeto3D implements Runnable {
     }
 
     private void initVertices() {
-        modelo = LectorOBJ.readObjFile("/home/fernando/Downloads/car.obj");
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("recursos/car.obj");
+        
+        modelo = LectorOBJ.readObjFile(inputStream);
         vertices = modelo.getVertices();
         caras = modelo.getCaras();
 

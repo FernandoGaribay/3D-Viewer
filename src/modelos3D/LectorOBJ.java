@@ -1,13 +1,18 @@
 package modelos3D;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class LectorOBJ {
 
-    public static Modelo3D readObjFile(String filename) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+    public static Modelo3D readObjFile(InputStream inputStream) {
+        if (inputStream == null) {
+            throw new IllegalArgumentException("Archivo no encontrado");
+        }
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
             // Declara un BufferedReader que lee del archivo cuyo nombre se pasa como argumento.
             // El try-with-resources asegura que el BufferedReader se cierre automáticamente.
 
