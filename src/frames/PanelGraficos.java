@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import Interfaces.LabelManager;
+import graficos.Carro3D;
 import graficos.Objeto3D;
 import graficos.Cilindro3D;
 import graficos.Dona3D;
@@ -99,6 +100,9 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
             double[] origenCubo = {450, 300, 700};
             Cubo3D cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(cubo);
+
+            Carro3D carro = new Carro3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(carro);
 
             Cilindro3D cubo2 = new Cilindro3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(cubo2);

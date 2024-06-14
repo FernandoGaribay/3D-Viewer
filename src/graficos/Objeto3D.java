@@ -335,7 +335,6 @@ public class Objeto3D {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Objeto3D.class.getName()).log(Level.SEVERE, null, ex);
             }
-
             escala = escalaOriginal;
             System.arraycopy(traslacionesOriginales, 0, traslaciones, 0, traslaciones.length);
             
