@@ -41,7 +41,7 @@ public class Esfera3D extends Objeto3D implements Runnable {
 
     private void initVariables() {
         escala = 28.5;
-        aumentoEscala = 0.1;
+        aumentoEscala = 0.5;
         mostrarPuntos = false;
         rotaciones[0] = 280;
     }
@@ -54,7 +54,6 @@ public class Esfera3D extends Objeto3D implements Runnable {
         vertices = modelo.getVertices();
         caras = modelo.getCaras();
 
-        System.out.println("Caras Size: " + caras.size());
         verticesTrasladados = new double[vertices.size()][3];
     }
 

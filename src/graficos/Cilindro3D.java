@@ -40,6 +40,11 @@ public class Cilindro3D extends Objeto3D implements Runnable {
     }
 
     private void initVariables() {
+        escala = 70;
+        aumentoEscala = 5;
+        traslaciones[1] = 200;
+        rotaciones[0] = 90;
+
         anguloMaximo = 2 * Math.PI;
         anguloIncremento = anguloMaximo / numPuntos;
     }
@@ -79,15 +84,11 @@ public class Cilindro3D extends Objeto3D implements Runnable {
                 vertice = rotarX(vertice, rotaciones[0]);
                 vertice = rotarY(vertice, rotaciones[1]);
                 vertice = rotarZ(vertice, rotaciones[2]);
-                verticesTrasladados[i] = vertice;
-            }
 
-            for (int i = 0; i < vertices.size(); i++) {
-                double[] v = verticesTrasladados[i];
                 double[] trasladado = {
-                    (v[0] * escala) + traslaciones[0] + origenCubo[0],
-                    (v[1] * escala) + traslaciones[1] + origenCubo[1],
-                    (v[2] * escala) + traslaciones[2] + origenCubo[2]
+                    (vertice[0] * escala) + traslaciones[0] + origenCubo[0],
+                    (vertice[1] * escala) + traslaciones[1] + origenCubo[1],
+                    (vertice[2] * escala) + traslaciones[2] + origenCubo[2]
                 };
                 verticesTrasladados[i] = trasladado;
             }

@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import Interfaces.LabelManager;
+import graficos.AnimacionCilindro;
 import graficos.Carro3D;
 import graficos.Objeto3D;
 import graficos.Cilindro3D;
@@ -106,8 +107,13 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
             this.requestFocusInWindow();
 
             double[] origenCubo = {450, 300, 700};
+            
+            AnimacionCilindro animacionCilindro = new AnimacionCilindro(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(animacionCilindro);
+            
             Esfera3D esfera = new Esfera3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(esfera);
+            
             Cubo3D cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(cubo);
 
