@@ -1,7 +1,6 @@
 package animaciones;
 
 import java.awt.Color;
-import java.awt.geom.Point2D;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,30 +9,40 @@ import modelos3D.Modelo3D;
 
 public class Esferas {
 
-    private Modelo3D modelo = new Modelo3D();
-    protected Color[] colores;
-    int contadorColores = 0;
-    double escala;
-    double multiplicadorEscala;
-    double velocidadRotacionX = 1;
-    double velocidadRotacionY = 1;
-    double velocidadRotacionZ = 1;
+    private Modelo3D modelo;
+    public Color[] colores;
+
+    public double escala;
+    public double multiplicadorEscala;
+
+    public double velocidadRotacionX = 1;
+    public double velocidadRotacionY = 1;
+    public double velocidadRotacionZ = 1;
+    public double velocidadOrbitar = 1;
 
     public double[][] verticesTrasladadosEsfera;
     public ArrayList<double[]> verticesEsfera;
     public ArrayList<int[]> carasEsfera;
 
-    boolean rotacionInversa = false;
+    public boolean rotacionInversa = false;
+    public double[] puntoOrbita;
     public double[] origenCubo;
     public double[] origenEsfera;
-
-    public Esferas(double[] origenCubo, double multiplicadorEscala) {
+    
+    public Esferas(double[] origenCubo, double[] puntoOrbita, double multiplicadorEscala) {
+        this.modelo = new Modelo3D();
         this.origenCubo = origenCubo;
+        this.puntoOrbita = puntoOrbita;
         this.multiplicadorEscala = multiplicadorEscala;
     }
 
-    public void setEscala(double escala) {
-        this.escala = escala * multiplicadorEscala;
+    public void initColores(int numColores) {
+        colores = new Color[numColores];
+
+        Random rand = new Random();
+        for (int i = 0; i < numColores; i++) {
+            colores[i] = Color.getHSBColor(rand.nextFloat(), 1, 1);
+        }
     }
 
     public void initVertices() {
@@ -46,12 +55,19 @@ public class Esferas {
         verticesTrasladadosEsfera = new double[verticesEsfera.size()][3];
     }
 
-    public void setOrigenEsfera(int x, int y, int z) {
-        origenEsfera = new double[]{
-            origenCubo[0] - x,
-            origenCubo[1] + y,
-            origenCubo[2] - z
+    public void orbitarEsfera() {
+        double[] puntoRelativo = {
+            origenEsfera[0] - puntoOrbita[0],
+            origenEsfera[1] - puntoOrbita[1],
+            origenEsfera[2] - puntoOrbita[2]
         };
+
+        double angulo = (rotacionInversa) ? -velocidadOrbitar : velocidadOrbitar;
+        puntoRelativo = rotarY(puntoRelativo, angulo);
+
+        origenEsfera[0] = puntoRelativo[0] + puntoOrbita[0];
+        origenEsfera[1] = puntoRelativo[1] + puntoOrbita[1];
+        origenEsfera[2] = puntoRelativo[2] + puntoOrbita[2];
     }
 
     public void transformarVertices(double[] rotaciones, double[] traslaciones) {
@@ -68,16 +84,6 @@ public class Esferas {
                 (vertice[2] * escala) + origenEsfera[2] + traslaciones[2]
             };
             verticesTrasladadosEsfera[i] = trasladado;
-        }
-    }
-
-    public void initColores(int numColores) {
-        colores = new Color[numColores];
-        contadorColores = 0;
-
-        Random rand = new Random();
-        for (int i = 0; i < numColores; i++) {
-            colores[i] = Color.getHSBColor(rand.nextFloat(), 1, 1);
         }
     }
 
@@ -103,5 +109,17 @@ public class Esferas {
         result[1] = point[0] * Math.sin(Math.toRadians(angle)) + point[1] * Math.cos(Math.toRadians(angle));
         result[2] = point[2];
         return result;
+    }
+
+    public void setOrigenEsfera(int x, int y, int z) {
+        origenEsfera = new double[]{
+            origenCubo[0] - x,
+            origenCubo[1] + y,
+            origenCubo[2] - z
+        };
+    }
+
+    public void setEscala(double escala) {
+        this.escala = escala * multiplicadorEscala;
     }
 }

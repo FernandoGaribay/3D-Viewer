@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import Interfaces.LabelManager;
 import graficos.Cubo3D;
 import graficos.Objeto3D;
-import java.util.ArrayList;
 import utils.Constantes;
 
 public class AnimacionCilindro extends Objeto3D implements Runnable {
@@ -41,7 +40,7 @@ public class AnimacionCilindro extends Objeto3D implements Runnable {
         aumentoEscala = 0.5;
         animacionEjeX = true;
 
-        Esferas sol = new Esferas(origenCubo, 1);
+        Esferas sol = new Esferas(origenCubo, puntoOrbita, 1);
         Color[] solColores = new Color[]{
             new Color(161, 27, 8),
             new Color(192, 42, 10),
@@ -55,24 +54,26 @@ public class AnimacionCilindro extends Objeto3D implements Runnable {
         sol.velocidadRotacionX = 0.05;
         listaEsferas.add(sol);
 
-        Esferas mercurio = new Esferas(origenCubo, 0.05);
+        Esferas mercurio = new Esferas(origenCubo, puntoOrbita, 0.05);
         Color[] mercurioColores = new Color[]{
             new Color(159, 159, 159),
             new Color(116, 115, 125),
             new Color(144, 138, 113)};
         mercurio.colores = mercurioColores;
         mercurio.rotacionInversa = true;
+        mercurio.velocidadOrbitar = 0.1;
         listaEsferas.add(mercurio);
 
-        Esferas venus = new Esferas(origenCubo, 0.11);
+        Esferas venus = new Esferas(origenCubo, puntoOrbita, 0.11);
         Color[] venusColores = new Color[]{
             new Color(215, 200, 170),
             new Color(186, 148, 102),
             new Color(145, 104, 75)};
         venus.colores = venusColores;
+        venus.velocidadOrbitar = 0.15;
         listaEsferas.add(venus);
 
-        Esferas tierra = new Esferas(origenCubo, 0.125);
+        Esferas tierra = new Esferas(origenCubo, puntoOrbita, 0.125);
         Color[] tierraColores = new Color[]{
             new Color(0, 122, 215),
             new Color(28, 100, 0),
@@ -81,15 +82,16 @@ public class AnimacionCilindro extends Objeto3D implements Runnable {
         tierra.rotacionInversa = true;
         listaEsferas.add(tierra);
 
-        Esferas marte = new Esferas(origenCubo, 0.1);
+        Esferas marte = new Esferas(origenCubo, puntoOrbita, 0.1);
         Color[] marteColores = new Color[]{
             new Color(89, 45, 37),
             new Color(235, 44, 22),
             new Color(182, 55, 35)};
         marte.colores = marteColores;
+        marte.velocidadOrbitar = 0.1;
         listaEsferas.add(marte);
 
-        Esferas jupiter = new Esferas(origenCubo, 0.23);
+        Esferas jupiter = new Esferas(origenCubo, puntoOrbita, 0.23);
         Color[] jupiterColores = new Color[]{
             new Color(227, 233, 233),
             new Color(224, 210, 143),
@@ -97,33 +99,36 @@ public class AnimacionCilindro extends Objeto3D implements Runnable {
         jupiter.colores = jupiterColores;
         listaEsferas.add(jupiter);
 
-        Esferas saturno = new Esferas(origenCubo, 0.19);
+        Esferas saturno = new Esferas(origenCubo, puntoOrbita, 0.19);
         Color[] saturnoColores = new Color[]{
             new Color(218, 188, 122),
             new Color(188, 145, 97),
             new Color(103, 89, 86)};
         saturno.colores = saturnoColores;
         saturno.rotacionInversa = true;
+        saturno.velocidadOrbitar = 0.09;
         listaEsferas.add(saturno);
 
-        Esferas urano = new Esferas(origenCubo, 0.13);
+        Esferas urano = new Esferas(origenCubo, puntoOrbita, 0.13);
         Color[] uranoColores = new Color[]{
             new Color(226, 243, 241),
             new Color(87, 185, 223),
             new Color(12, 121, 169)};
         urano.colores = uranoColores;
+        urano.velocidadOrbitar = 1.6;
         listaEsferas.add(urano);
 
-        Esferas neptuno = new Esferas(origenCubo, 0.12);
+        Esferas neptuno = new Esferas(origenCubo, puntoOrbita, 0.12);
         Color[] neptunoColores = new Color[]{
             new Color(133, 212, 244),
             new Color(76, 122, 254),
             new Color(51, 57, 135)};
         neptuno.colores = neptunoColores;
         neptuno.rotacionInversa = true;
+        neptuno.velocidadOrbitar = 1.4;
         listaEsferas.add(neptuno);
 
-        Esferas pluton = new Esferas(origenCubo, 0.06);
+        Esferas pluton = new Esferas(origenCubo, puntoOrbita, 0.06);
         Color[] plutonColores = new Color[]{
             new Color(203, 169, 140),
             new Color(163, 127, 102),
@@ -132,7 +137,7 @@ public class AnimacionCilindro extends Objeto3D implements Runnable {
         listaEsferas.add(pluton);
 
         int angulo = 0;
-        int yIncremento = -70;
+        int yIncremento = -150;
         int radio = 130;
         for (int i = 1; i < listaEsferas.size(); i++) {
             int xTemp = (int) (radio * Math.cos(Math.toRadians(angulo)));
@@ -143,7 +148,7 @@ public class AnimacionCilindro extends Objeto3D implements Runnable {
 
             angulo += 40;
             radio += (i <= listaEsferas.size() / 2) ? escala * 2 : -escala * 2;
-            yIncremento += escala * 0.75;
+            yIncremento += escala * 1.65;
         }
 
         mostrarPuntos = false;
@@ -181,18 +186,7 @@ public class AnimacionCilindro extends Objeto3D implements Runnable {
 
     private void orbitarPuntoCubo() {
         for (Esferas esfera : listaEsferas) {
-            double[] puntoRelativo = {
-                esfera.origenEsfera[0] - puntoOrbita[0],
-                esfera.origenEsfera[1] - puntoOrbita[1],
-                esfera.origenEsfera[2] - puntoOrbita[2]
-            };
-
-            int angulo = (esfera.rotacionInversa) ? -1 : 1;
-            puntoRelativo = rotarY(puntoRelativo, angulo);
-
-            esfera.origenEsfera[0] = puntoRelativo[0] + puntoOrbita[0];
-            esfera.origenEsfera[1] = puntoRelativo[1] + puntoOrbita[1];
-            esfera.origenEsfera[2] = puntoRelativo[2] + puntoOrbita[2];
+            esfera.orbitarEsfera();
         }
     }
 
