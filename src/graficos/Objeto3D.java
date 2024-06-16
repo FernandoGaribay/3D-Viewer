@@ -1,9 +1,11 @@
 package graficos;
 
 import Interfaces.LabelManager;
+import animaciones.Esferas;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +18,9 @@ public class Objeto3D {
     protected final int idObjeto;
     public static boolean animacionSeleccionActiva;
     public static boolean animacionDeseleccionActiva;
+
+    // SubObjetos
+    protected ArrayList<Esferas> listaEsferas = new ArrayList<>();
 
     // Objetos grafico para dibujar el Objeto3D 
     protected final MyGraphics g2d;
@@ -91,12 +96,16 @@ public class Objeto3D {
     }
 
     public void initColores(int numColores) {
+        Random rand = new Random();
         colores = new Color[numColores];
         contadorColores = 0;
 
-        Random rand = new Random();
         for (int i = 0; i < numColores; i++) {
             colores[i] = Color.getHSBColor(rand.nextFloat(), 1, 1);
+        }
+        
+        for (Esferas listaEsfera : listaEsferas) {
+            listaEsfera.initColores(numColores);
         }
     }
 

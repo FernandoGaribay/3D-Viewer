@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import Interfaces.LabelManager;
-import graficos.AnimacionCilindro;
+import animaciones.AnimacionCilindro;
 import graficos.Carro3D;
 import graficos.Objeto3D;
 import graficos.Cilindro3D;
