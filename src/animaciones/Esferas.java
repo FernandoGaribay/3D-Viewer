@@ -14,6 +14,7 @@ public class Esferas {
     protected Color[] colores;
     int contadorColores = 0;
     double escala;
+    double multiplicadorEscala;
     double velocidadRotacionX = 1;
     double velocidadRotacionY = 1;
     double velocidadRotacionZ = 1;
@@ -26,10 +27,13 @@ public class Esferas {
     public double[] origenCubo;
     public double[] origenEsfera;
 
-    public Esferas(double[] origenCubo, double escala) {
+    public Esferas(double[] origenCubo, double multiplicadorEscala) {
         this.origenCubo = origenCubo;
-        this.escala = escala;
+        this.multiplicadorEscala = multiplicadorEscala;
+    }
 
+    public void setEscala(double escala) {
+        this.escala = escala * multiplicadorEscala;
     }
 
     public void initVertices() {

@@ -103,7 +103,7 @@ public class Objeto3D {
         for (int i = 0; i < numColores; i++) {
             colores[i] = Color.getHSBColor(rand.nextFloat(), 1, 1);
         }
-        
+
         for (Esferas listaEsfera : listaEsferas) {
             listaEsfera.initColores(numColores);
         }
