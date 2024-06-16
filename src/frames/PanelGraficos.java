@@ -55,17 +55,17 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
                 + "ARRIBA-> Aumentar escala<br>"
                 + "ABAJO-> Disminuir escala<br>"
                 + "CLICK IZQ -> Traslacion (X e Y)<br><br>"
-                + "P -> Generar paleta de colores<br>"
-                + "O -> Cambiar numero de puntos<br><br>"
                 + "W -> Transformar para arriba<br>"
                 + "A -> Transformar para la izquierda<br>"
                 + "S -> Transformar para abajo<br>"
                 + "D -> Transformar para la derecha<br>"
                 + "Q -> Transformar para Z negativo<br>"
                 + "E -> Transformar para Z positivo<br><br>"
-                + "Z -> Activar/Desactivar Puntos<br>"
+                + "Z -> Activar/Desactivar Vertices<br>"
                 + "X -> Activar/Desactivar Lineas<br>"
                 + "C -> Activar/Desactivar Caras<br><br>"
+                + "P -> Generar paleta de colores<br>"
+                + "O -> Cambiar numero de puntos<br><br>"
                 + "1 -> Activar/Desactivar Eje X<br>"
                 + "2 -> Activar/Desactivar Eje Y<br>"
                 + "3 -> Activar/Desactivar Eje Z<br>"
@@ -107,13 +107,13 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
             this.requestFocusInWindow();
 
             double[] origenCubo = {450, 300, 700};
-            
+
             AnimacionCilindro animacionCilindro = new AnimacionCilindro(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(animacionCilindro);
-            
+
             Esfera3D esfera = new Esfera3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(esfera);
-            
+
             Cubo3D cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(cubo);
 
