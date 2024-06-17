@@ -2,6 +2,10 @@ package graficos;
 
 import Interfaces.LabelManager;
 import animaciones.Esferas;
+import enums.Alternaciones;
+import static enums.Alternaciones.ILUMINACION;
+import static enums.Alternaciones.ROTACION;
+import static enums.Alternaciones.TRASLACION;
 import iluminacion.IluminacionPhong;
 import java.awt.Color;
 import java.awt.geom.Point2D;
@@ -49,8 +53,8 @@ public class Objeto3D {
     protected int fpsActuales = 0;
 
     // Estado de visualizacion y animacion
+    protected Alternaciones estadoAlternacion;
     protected boolean mostrarAnimacion;
-    protected boolean traslacion;
     protected boolean mostrarOrigenLuz;
     protected boolean mostrarLuz;
     protected boolean mostrarPuntos;
@@ -86,9 +90,9 @@ public class Objeto3D {
     }
 
     private void initBanderas() {
+        this.estadoAlternacion = Alternaciones.ROTACION;
         this.seleccionado = false;
         this.mostrarAnimacion = false;
-        this.traslacion = false;
         this.mostrarOrigenLuz = false;
         this.mostrarLuz = false;
         this.mostrarPuntos = true;
@@ -168,6 +172,18 @@ public class Objeto3D {
     }
 
 // <editor-fold defaultstate="collapsed" desc="Metodos de transformacion">
+    public void trasladarLuzX(int distancia) {
+        this.lightPosition[0] += distancia;
+    }
+
+    public void trasladarLuzY(int distancia) {
+        this.lightPosition[1] += distancia;
+    }
+
+    public void trasladarLuzZ(int distancia) {
+        this.lightPosition[2] += distancia;
+    }
+
     public void trasladarX(int distancia) {
         this.traslaciones[0] += distancia;
     }
@@ -184,9 +200,19 @@ public class Objeto3D {
         this.escala += escala;
     }
 
-    public void setRotacionTransformacion() {
-        this.traslacion = !traslacion;
-        System.out.println("Traslacion : " + traslacion);
+    public void setAlternacionRTI() {
+        switch (estadoAlternacion) {
+            case ROTACION:
+                estadoAlternacion = Alternaciones.TRASLACION;
+                break;
+            case TRASLACION:
+                estadoAlternacion = Alternaciones.ILUMINACION;
+                break;
+            case ILUMINACION:
+                estadoAlternacion = Alternaciones.ROTACION;
+                break;
+        }
+        System.out.println("estadoAlternacion : " + estadoAlternacion);
     }
 
     public void setRotacionTransformacionMouse(int x, int y) {
@@ -195,56 +221,92 @@ public class Objeto3D {
     }
 
     public void setRotacionTransformacionArriba() {
-        if (traslacion) {
-            trasladarY(10);
-        } else {
-            rotaciones[0] += 5;
-            rotarX(puntoFuga, escala);
+        switch (estadoAlternacion) {
+            case ROTACION:
+                rotaciones[0] += 5;
+                rotarX(puntoFuga, escala);
+                break;
+            case TRASLACION:
+                trasladarY(10);
+                break;
+            case ILUMINACION:
+                trasladarLuzY(5);
+                break;
         }
     }
 
     public void setRotacionTransformacionAbajo() {
-        if (traslacion) {
-            trasladarY(-10);
-        } else {
-            rotaciones[0] -= 5;
-            rotarX(puntoFuga, escala);
+        switch (estadoAlternacion) {
+            case ROTACION:
+                rotaciones[0] -= 5;
+                rotarX(puntoFuga, escala);
+                break;
+            case TRASLACION:
+                trasladarY(-10);
+                break;
+            case ILUMINACION:
+                trasladarLuzY(-5);
+                break;
         }
     }
 
     public void setRotacionTransformacionIzquierda() {
-        if (traslacion) {
-            trasladarX(10);
-        } else {
-            rotaciones[1] -= 5;
-            rotarX(puntoFuga, escala);
+        switch (estadoAlternacion) {
+            case ROTACION:
+                rotaciones[1] -= 5;
+                rotarX(puntoFuga, escala);
+                break;
+            case TRASLACION:
+                trasladarX(10);
+                break;
+            case ILUMINACION:
+                trasladarLuzX(5);
+                break;
         }
     }
 
     public void setRotacionTransformacionDerecha() {
-        if (traslacion) {
-            trasladarX(-10);
-        } else {
-            rotaciones[1] += 5;
-            rotarX(puntoFuga, escala);
+        switch (estadoAlternacion) {
+            case ROTACION:
+                rotaciones[1] += 5;
+                rotarX(puntoFuga, escala);
+                break;
+            case TRASLACION:
+                trasladarX(-10);
+                break;
+            case ILUMINACION:
+                trasladarLuzX(-5);
+                break;
         }
     }
 
     public void setRotacionTransformacionZPositiva() {
-        if (traslacion) {
-            trasladarZ(-10);
-        } else {
-            rotaciones[2] += 5;
-            rotarX(puntoFuga, escala);
+        switch (estadoAlternacion) {
+            case ROTACION:
+                rotaciones[2] -= 5;
+                rotarX(puntoFuga, escala);
+                break;
+            case TRASLACION:
+                trasladarZ(-10);
+                break;
+            case ILUMINACION:
+                trasladarLuzZ(-5);
+                break;
         }
     }
 
     public void setRotacionTransformacionZNegativa() {
-        if (traslacion) {
-            trasladarZ(10);
-        } else {
-            rotaciones[2] -= 5;
-            rotarX(puntoFuga, escala);
+        switch (estadoAlternacion) {
+            case ROTACION:
+                rotaciones[2] += 5;
+                rotarX(puntoFuga, escala);
+                break;
+            case TRASLACION:
+                trasladarZ(10);
+                break;
+            case ILUMINACION:
+                trasladarLuzZ(5);
+                break;
         }
     }
 // </editor-fold>
@@ -303,10 +365,10 @@ public class Objeto3D {
                 + "FPS: " + fpsActuales + "<br><br>"
                 + "Banderas del objeto:<br>"
                 + "Origen Luz: " + mostrarOrigenLuz + "<br>"
-                + "Luz: " + mostrarLuz + "<br>"
                 + "Puntos: " + mostrarPuntos + "<br>"
                 + "Lineas: " + mostrarLineas + "<br>"
-                + "Caras: " + mostrarCaras + "<br><br>"
+                + "Caras: " + mostrarCaras + "<br>"
+                + "Luz: " + mostrarLuz + "<br><br>"
                 + "Coordenadas del objeto:<br>"
                 + "Escala -> " + String.format("%.2f", escala) + " pixeles<br>"
                 + "X -> " + traslaciones[0] + " pixeles<br>"

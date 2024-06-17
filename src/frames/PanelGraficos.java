@@ -63,7 +63,9 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
                 + "E -> Transformar para Z positivo<br><br>"
                 + "Z -> Activar/Desactivar Vertices<br>"
                 + "X -> Activar/Desactivar Lineas<br>"
-                + "C -> Activar/Desactivar Caras<br><br>"
+                + "C -> Activar/Desactivar Caras<br>"
+                + "N -> Activar/Desactivar Origen Luz<br>"
+                + "M -> Activar/Desactivar Luz<br><br>"
                 + "P -> Generar paleta de colores<br>"
                 + "O -> Cambiar numero de puntos<br><br>"
                 + "1 -> Activar/Desactivar Eje X<br>"
@@ -254,8 +256,8 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
         objetoActual.setEscala(aumentoEscala);
     }
 
-    public void setRotacionTransformacion() {
-        objetoActual.setRotacionTransformacion();
+    public void setAlternacionRTI() {
+        objetoActual.setAlternacionRTI();
     }
 
     public void setRotacionTransformacionMouse(int x, int y) {

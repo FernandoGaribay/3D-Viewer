@@ -94,7 +94,7 @@ public final class FrameAnimacion extends JFrame {
                         panelGraficos.setMostrarAnimacion();
                         break;
                     case KeyEvent.VK_TAB:
-                        panelGraficos.setRotacionTransformacion();
+                        panelGraficos.setAlternacionRTI();
                         break;
                     case KeyEvent.VK_RIGHT:
                         panelGraficos.siguienteElemento();
@@ -140,6 +140,12 @@ public final class FrameAnimacion extends JFrame {
                         break;
                     case KeyEvent.VK_C:
                         panelGraficos.setMostrarCaras();
+                        break;
+                    case KeyEvent.VK_N:
+                        panelGraficos.setMostrarOrigenLuz();
+                        break;
+                    case KeyEvent.VK_M:
+                        panelGraficos.setMostrarLuz();
                         break;
                     case KeyEvent.VK_1:
                         panelGraficos.setEjeXAnimacion();

@@ -170,8 +170,10 @@ public class Cilindro3D extends Objeto3D implements Runnable {
 
     private void mostrarOrigenLuz() {
         Point2D pLight = punto3D_a_2D(lightPosition[0], lightPosition[1], lightPosition[2]);
-        g2d.setColor(Color.RED);
-        g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 1);
+        g2d.setColor(Color.BLACK);
+        g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 6);
+        g2d.setColor(Color.WHITE);
+        g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 4);
     }
 
     private void mostrarLuz() {
