@@ -176,10 +176,6 @@ public class Cilindro3D extends Objeto3D implements Runnable {
         g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 4);
     }
 
-    private void mostrarLuz() {
-
-    }
-
     @Override
     public void run() {
         int fps = 60;

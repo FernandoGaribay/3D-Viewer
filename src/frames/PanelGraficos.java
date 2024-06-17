@@ -110,6 +110,9 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
 
             double[] origenCubo = {450, 300, 700};
 
+            Isla3D isla = new Isla3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(isla);
+
             Cilindro3D cubo2 = new Cilindro3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(cubo2);
 
@@ -124,9 +127,6 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
 
             Carro3D carro = new Carro3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(carro);
-
-            Isla3D isla = new Isla3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
-            listaCubos.add(isla);
 
             Trofeo3D render = new Trofeo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(render);
@@ -287,12 +287,12 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
     public void setRotacionTransformacionZNegativa() {
         objetoActual.setRotacionTransformacionZNegativa();
     }
-    
-    public void setMostrarOrigenLuz(){
+
+    public void setMostrarOrigenLuz() {
         objetoActual.setMostrarOrigenLuz();
     }
-    
-    public void setMostrarLuz(){
+
+    public void setMostrarLuz() {
         objetoActual.setMostrarLuz();
     }
 

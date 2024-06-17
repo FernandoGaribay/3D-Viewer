@@ -28,6 +28,7 @@ public class Isla3D extends Objeto3D implements Runnable {
         aumentoEscala = 0.1;
 
         initColores(2);
+        System.out.println(colores.length);
         initEtiqueta();
         initVariables();
         initVertices();
@@ -69,14 +70,17 @@ public class Isla3D extends Objeto3D implements Runnable {
             rotaciones[1] += (animacionEjeY) ? 1 : 0;
             rotaciones[2] += (animacionEjeZ) ? 1 : 0;
         }
-        if (mostrarPuntos) {
-            dibujarPuntos();
-        }
         if (mostrarCaras) {
             dibujarCaras();
         }
         if (mostrarLineas) {
             dibujarLineas();
+        }
+        if (mostrarPuntos) {
+            dibujarPuntos();
+        }
+        if (mostrarOrigenLuz) {
+            mostrarOrigenLuz();
         }
     }
 
@@ -115,6 +119,14 @@ public class Isla3D extends Objeto3D implements Runnable {
         }
     }
 
+    private void mostrarOrigenLuz() {
+        Point2D pLight = punto3D_a_2D(lightPosition[0], lightPosition[1], lightPosition[2]);
+        g2d.setColor(Color.BLACK);
+        g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 6);
+        g2d.setColor(Color.WHITE);
+        g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 4);
+    }
+
     private void dibujarCaras() {
         contadorColores = 0;
         for (int[] cara : caras) {
@@ -130,8 +142,20 @@ public class Isla3D extends Objeto3D implements Runnable {
                 poly.addPoint((int) punto.x, (int) punto.y);
             }
             midZIndez /= cara.length;
-            g2d.setColor(colores[contadorColores++ % colores.length]);
-            g2d.fillPolygon3D(poly, midZIndez);
+            if (mostrarLuz) {
+                float[][] vertices = new float[cara.length][];
+                for (int i = 0; i < cara.length; i++) {
+                    double[] vertice = verticesTrasladados[cara[i]];
+                    float[] v0 = arrayDoubleToFloat(vertice);
+                    vertices[i] = arrayDoubleToFloat(vertice);
+                }
+                float[] color = phong.getIluminacionColor(colores[contadorColores++ % colores.length], vertices[0]);
+                g2d.setColor(new Color(color[0], color[1], color[2]));
+                g2d.fillPolygon3D(poly, midZIndez);
+            } else {
+                g2d.setColor(colores[contadorColores++ % colores.length]);
+                g2d.fillPolygon3D(poly, midZIndez);
+            }
         }
     }
 
