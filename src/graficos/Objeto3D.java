@@ -2,6 +2,7 @@ package graficos;
 
 import Interfaces.LabelManager;
 import animaciones.Esferas;
+import iluminacion.IluminacionPhong;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -21,6 +22,13 @@ public class Objeto3D {
 
     // SubObjetos
     protected ArrayList<Esferas> listaEsferas = new ArrayList<>();
+
+    // Iluminacion Phong
+    protected IluminacionPhong phong;
+    protected float[] lightPosition;
+    protected float[] normalVector;
+    protected Color ambientColor;
+    protected Color lightColor;
 
     // Objetos grafico para dibujar el Objeto3D 
     protected final MyGraphics g2d;
@@ -43,6 +51,8 @@ public class Objeto3D {
     // Estado de visualizacion y animacion
     protected boolean mostrarAnimacion;
     protected boolean traslacion;
+    protected boolean mostrarOrigenLuz;
+    protected boolean mostrarLuz;
     protected boolean mostrarPuntos;
     protected boolean mostrarLineas;
     protected boolean mostrarCaras;
@@ -79,6 +89,8 @@ public class Objeto3D {
         this.seleccionado = false;
         this.mostrarAnimacion = false;
         this.traslacion = false;
+        this.mostrarOrigenLuz = false;
+        this.mostrarLuz = false;
         this.mostrarPuntos = true;
         this.mostrarLineas = true;
         this.mostrarCaras = false;
@@ -88,6 +100,12 @@ public class Objeto3D {
     }
 
     private void initVariables() {
+        this.lightPosition = new float[]{450, 300, 650};
+        this.normalVector = new float[]{0.0f, 0.0f, 1.0f};
+        this.ambientColor = new Color(38, 38, 38);
+        this.lightColor = new Color(255, 255, 255);
+        this.phong = new IluminacionPhong(ambientColor, lightPosition, lightColor);
+
         this.escala = 100;
         this.numPuntos = 50;
         this.aumentoEscala = 10;
@@ -236,6 +254,14 @@ public class Objeto3D {
         this.mostrarAnimacion = !mostrarAnimacion;
     }
 
+    public void setMostrarOrigenLuz() {
+        this.mostrarOrigenLuz = !mostrarOrigenLuz;
+    }
+
+    public void setMostrarLuz() {
+        this.mostrarLuz = !mostrarLuz;
+    }
+
     public void setMostrarPuntos() {
         this.mostrarPuntos = !mostrarPuntos;
     }
@@ -275,10 +301,13 @@ public class Objeto3D {
         String newInformacion = "<html><div style='text-align: right;'>------------------- INFORMACION -------------------<br><br>"
                 + "ID OBJETO: #" + (idObjeto + 1) + "<br>"
                 + "FPS: " + fpsActuales + "<br><br>"
+                + "Banderas del objeto:<br>"
+                + "Origen Luz: " + mostrarOrigenLuz + "<br>"
+                + "Luz: " + mostrarLuz + "<br>"
                 + "Puntos: " + mostrarPuntos + "<br>"
                 + "Lineas: " + mostrarLineas + "<br>"
                 + "Caras: " + mostrarCaras + "<br><br>"
-                + "Caracteristicas del objeto:<br>"
+                + "Coordenadas del objeto:<br>"
                 + "Escala -> " + String.format("%.2f", escala) + " pixeles<br>"
                 + "X -> " + traslaciones[0] + " pixeles<br>"
                 + "Y -> " + traslaciones[1] + " pixeles<br>"
@@ -378,6 +407,16 @@ public class Objeto3D {
             animacionDeseleccionActiva = false;
         });
         hiloAnimacion.start();
+    }
+
+    public static float[] arrayDoubleToFloat(double[] doubleArray) {
+        float[] floatArray = new float[doubleArray.length];
+
+        for (int i = 0; i < doubleArray.length; i++) {
+            floatArray[i] = (float) doubleArray[i];
+        }
+
+        return floatArray;
     }
 
     // Metodo para regresar el buffer

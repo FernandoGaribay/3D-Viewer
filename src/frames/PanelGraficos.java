@@ -48,7 +48,7 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
 
         labelInfoControles = new JLabel("<html>--------------------- CONTROLES ---------------------<br><br>"
                 + "ESPACIO -> Parar/Reanudar la animacion<br>"
-                + "TAB -> Alternar traslacion/Rotacion<br>"
+                + "TAB -> Alternar Traslacion/Rotacion/Iluminacion<br>"
                 + "SCROLL -> Aumentar/Disminuir la escala<br>"
                 + "IZQUIERDA -> Anterior objeto<br>"
                 + "DERECHA -> Siguiente objeto<br>"
@@ -108,14 +108,17 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
 
             double[] origenCubo = {450, 300, 700};
 
+            Cilindro3D cubo2 = new Cilindro3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(cubo2);
+
+            Cubo3D cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(cubo);
+
             AnimacionCilindro animacionCilindro = new AnimacionCilindro(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(animacionCilindro);
 
             Esfera3D esfera = new Esfera3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(esfera);
-
-            Cubo3D cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
-            listaCubos.add(cubo);
 
             Carro3D carro = new Carro3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(carro);
@@ -137,9 +140,6 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
 
             Avion3D avion = new Avion3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(avion);
-
-            Cilindro3D cubo2 = new Cilindro3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
-            listaCubos.add(cubo2);
 
             Dona3D cubo3 = new Dona3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(cubo3);
@@ -284,6 +284,14 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
 
     public void setRotacionTransformacionZNegativa() {
         objetoActual.setRotacionTransformacionZNegativa();
+    }
+    
+    public void setMostrarOrigenLuz(){
+        objetoActual.setMostrarOrigenLuz();
+    }
+    
+    public void setMostrarLuz(){
+        objetoActual.setMostrarLuz();
     }
 
     public void setMostrarPuntos() {

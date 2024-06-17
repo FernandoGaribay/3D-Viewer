@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import Interfaces.LabelManager;
+import iluminacion.IluminacionPhong;
 import java.util.ArrayList;
 import utils.Constantes;
 
@@ -45,6 +46,10 @@ public class Cilindro3D extends Objeto3D implements Runnable {
         traslaciones[1] = 200;
         rotaciones[0] = 90;
 
+        mostrarCaras = true;
+        mostrarPuntos = false;
+        mostrarLineas = false;
+
         anguloMaximo = 2 * Math.PI;
         anguloIncremento = anguloMaximo / numPuntos;
     }
@@ -74,6 +79,9 @@ public class Cilindro3D extends Objeto3D implements Runnable {
         }
         if (mostrarPuntos) {
             dibujarPuntos();
+        }
+        if (mostrarOrigenLuz) {
+            mostrarOrigenLuz();
         }
     }
 
@@ -126,7 +134,17 @@ public class Cilindro3D extends Objeto3D implements Runnable {
                     }
 
                     if (mostrarCaras) {
-                        g2d.setColor(colores[contadorColores % colores.length]);
+                        if (mostrarLuz) {
+                            float[] v0 = arrayDoubleToFloat(vertice0);
+                            float[] v1 = arrayDoubleToFloat(vertice1);
+                            float[] v2 = arrayDoubleToFloat(vertice2);
+                            float[] v3 = arrayDoubleToFloat(vertice3);
+
+                            float[] color = phong.getIluminacionColor(colores[contadorColores % colores.length], v0, v1, v2, v3);
+                            g2d.setColor(new Color(color[0], color[1], color[2]));
+                        } else {
+                            g2d.setColor(colores[contadorColores % colores.length]);
+                        }
                         double midZ = (vertice0[2] + vertice1[2] + vertice2[2] + vertice3[2]) / 4;
                         g2d.fillPolygon3D(poly, midZ);
                         contadorColores++;
@@ -134,6 +152,7 @@ public class Cilindro3D extends Objeto3D implements Runnable {
                 }
             }
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -147,6 +166,16 @@ public class Cilindro3D extends Objeto3D implements Runnable {
             Point2D.Double p1 = punto3D_a_2D(x, y, z);
             g2d.fillCircle3D((int) p1.x, (int) p1.y, 2, (int) 2);
         }
+    }
+
+    private void mostrarOrigenLuz() {
+        Point2D pLight = punto3D_a_2D(lightPosition[0], lightPosition[1], lightPosition[2]);
+        g2d.setColor(Color.RED);
+        g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 1);
+    }
+
+    private void mostrarLuz() {
+
     }
 
     @Override
