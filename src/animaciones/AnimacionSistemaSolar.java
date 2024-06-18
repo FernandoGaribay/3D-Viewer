@@ -8,7 +8,9 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import Interfaces.LabelManager;
 import graficos.Cubo3D;
+import graficos.MyGraphics;
 import graficos.Objeto3D;
+import java.util.Random;
 import utils.Constantes;
 
 public class AnimacionSistemaSolar extends Objeto3D implements Runnable {

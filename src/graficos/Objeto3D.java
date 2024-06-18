@@ -74,7 +74,9 @@ public class Objeto3D {
 
     protected double[][] verticesTrasladados;
     protected ArrayList<double[]> vertices;
+    protected ArrayList<double[]> normales;
     protected ArrayList<int[]> caras;
+    protected ArrayList<int[]> normalesPorCara;
 
     static {
         contadorObjetos = 0;
@@ -352,7 +354,9 @@ public class Objeto3D {
     public void setEjeZAnimacion() {
         this.animacionEjeZ = !animacionEjeZ;
     }
+// </editor-fold>
 
+// <editor-fold defaultstate="collapsed" desc="Metodos para el dibujado de iluminacion">
     public void mostrarOrigenLuz() {
         Point2D pLight = punto3D_a_2D(lightPosition[0], lightPosition[1], lightPosition[2]);
         g2d.setColor(Color.BLACK);
@@ -376,10 +380,39 @@ public class Objeto3D {
     }
 
     public void dibujarConLuz(Polygon poly, double midZIndez, int[] cara) {
-        float[][] vertices = convertirVertices(cara);
-        float[] color = phong.getIluminacionColor(colores[contadorColores++ % colores.length], vertices[0]);
+        float[][] v = convertirVertices(cara);
+        float[] color = phong.getIluminacionColor(colores[contadorColores++ % colores.length], v[0]);
         g2d.setColor(new Color(color[0], color[1], color[2]));
         g2d.fillPolygon3D(poly, midZIndez);
+    }
+
+    public void dibujarConLuz(Polygon poly, double midZIndez, int[] cara, int[] normalesCara) {
+        float[][] v = convertirVertices(cara);
+//        System.out.println("v: " + v.length);
+        float[][] n = convertirNormales(normalesCara);
+//        System.out.println("n: " + n.length);
+        float[] color = phong.getIluminacionColor(colores[contadorColores++ % colores.length], v[0], n[0]);
+        g2d.setColor(new Color(color[0], color[1], color[2]));
+        g2d.fillPolygon3D(poly, midZIndez);
+    }
+
+    public float[][] convertirNormales(int[] normalesCara) {
+        float[][] n = new float[normalesCara.length][];
+
+        for (int i = 0; i < normalesCara.length; i++) {
+            double[] normal = normales.get(normalesCara[i]);
+            n[i] = arrayDoubleToFloat(normal);
+        }
+        return n;
+    }
+
+    public float[][] convertirVertices(int[] cara) {
+        float[][] v = new float[cara.length][];
+        for (int i = 0; i < cara.length; i++) {
+            double[] vertice = verticesTrasladados[cara[i]];
+            v[i] = arrayDoubleToFloat(vertice);
+        }
+        return v;
     }
 
     public void dibujarSinLuz(Polygon poly, double midZIndez) {
@@ -387,16 +420,7 @@ public class Objeto3D {
         g2d.fillPolygon3D(poly, midZIndez);
     }
 
-    public float[][] convertirVertices(int[] cara) {
-        float[][] vertices = new float[cara.length][];
-        for (int i = 0; i < cara.length; i++) {
-            double[] vertice = verticesTrasladados[cara[i]];
-            vertices[i] = arrayDoubleToFloat(vertice);
-        }
-        return vertices;
-    }
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="Banderas para el estado de seleccion">
     public void setSeleccionado(boolean seleccionado) {
         this.seleccionado = seleccionado;

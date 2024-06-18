@@ -67,6 +67,31 @@ public class IluminacionPhong {
         return finalColor;
     }
 
+    public float[] getIluminacionColor(Color modelColor, float[][] vertice, float[][] normal) {
+        float[] finalColor = new float[3];
+
+        for (int i = 0; i < vertice.length; i++) {
+            this.modelColorNormalized = normalizeColor(modelColor);
+            this.lightVector = getLightVector(vertice[i]);
+            this.vertice = vertice[i];
+            this.normalVector = normal[i];
+
+            float[] vectorAmbient = getVectorAmbient();
+            float[] vectorDiffuce = getVectorDiffuce();
+            float[] vectorEspecular = getVectorEspecular();
+
+            finalColor[0] += Math.min(1.0f, (vectorAmbient[0] + vectorDiffuce[0] + vectorEspecular[0]));
+            finalColor[1] += Math.min(1.0f, (vectorAmbient[1] + vectorDiffuce[1] + vectorEspecular[1]));
+            finalColor[2] += Math.min(1.0f, (vectorAmbient[2] + vectorDiffuce[2] + vectorEspecular[2]));
+        }
+        int size = vertice.length;
+        finalColor[0] /= size;
+        finalColor[1] /= size;
+        finalColor[2] /= size;
+
+        return finalColor;
+    }
+
     private float[] getVectorAmbient() {
         float[] ambientVector = new float[]{
             modelColorNormalized[0] * ambientColorNormalized[0],

@@ -52,7 +52,6 @@ public class Isla3D extends Objeto3D implements Runnable {
         vertices = modelo.getVertices();
         caras = modelo.getCaras();
 
-        System.out.println("Caras Size: " + caras.size());
         verticesTrasladados = new double[vertices.size()][3];
     }
 
