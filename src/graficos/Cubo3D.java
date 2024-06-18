@@ -81,6 +81,9 @@ public class Cubo3D extends Objeto3D implements Runnable {
         if (mostrarLineas) {
             dibujarLineas();
         }
+        if (mostrarOrigenLuz) {
+            mostrarOrigenLuz();
+        }
     }
 
     private void transformarVertices() {
@@ -136,11 +139,13 @@ public class Cubo3D extends Objeto3D implements Runnable {
     private void dibujarCaras() {
         for (int[] face : caras) {
             g2d.setColor(colores[contadorColores % colores.length]);
+            float[][] vertices = new float[face.length][];
             Polygon poly = new Polygon();
             double midZIndex = 0;
             for (int i = 0; i < face.length; i++) {
                 int index = face[i];
                 double[] vertex = verticesTrasladados[index];
+                vertices[i] = arrayDoubleToFloat(vertex);
                 Point2D p = punto3D_a_2D(vertex[0], vertex[1], vertex[2]);
 
                 double dx = puntoFuga[0] - vertex[0];
@@ -149,7 +154,17 @@ public class Cubo3D extends Objeto3D implements Runnable {
                 midZIndex += Math.sqrt(dx * dx + dy * dy + dz * dz);
                 poly.addPoint((int) p.getX(), (int) p.getY());
             }
-            midZIndex = midZIndex / 4;
+            if (mostrarLuz) {
+                float[] v0 = vertices[0];
+                float[] v1 = vertices[1];
+                float[] v2 = vertices[2];
+                float[] v3 = vertices[3];
+
+                float[] color = phong.getIluminacionColor(colores[contadorColores % colores.length], v0, v1, v2, v3);
+                g2d.setColor(new Color(color[0], color[1], color[2]));
+            } else {
+                g2d.setColor(colores[contadorColores % colores.length]);
+            }
             g2d.fillPolygon3D(poly, midZIndex);
             contadorColores++;
         }

@@ -86,6 +86,9 @@ public class Superficie3D extends Objeto3D implements Runnable {
         if (mostrarPuntos) {
             dibujarPuntos();
         }
+        if (mostrarOrigenLuz) {
+            mostrarOrigenLuz();
+        }
     }
 
     private void transformarVertices() {
@@ -142,7 +145,17 @@ public class Superficie3D extends Objeto3D implements Runnable {
                         }
 
                         if (mostrarCaras) {
-                            g2d.setColor(colores[contadorColores % colores.length]);
+                            if (mostrarLuz) {
+                                float[] v0 = arrayDoubleToFloat(vertice0);
+                                float[] v1 = arrayDoubleToFloat(vertice1);
+                                float[] v2 = arrayDoubleToFloat(vertice2);
+                                float[] v3 = arrayDoubleToFloat(vertice3);
+
+                                float[] color = phong.getIluminacionColor(colores[contadorColores % colores.length], v0, v1, v2, v3);
+                                g2d.setColor(new Color(color[0], color[1], color[2]));
+                            } else {
+                                g2d.setColor(colores[contadorColores % colores.length]);
+                            }
                             double midZ = (vertice0[2] + vertice1[2] + vertice2[2] + vertice3[2]) / 4;
                             g2d.fillPolygon3D(poly, midZ);
                             contadorColores++;

@@ -295,7 +295,7 @@ public class Objeto3D {
                 trasladarZ(-10);
                 break;
             case ILUMINACION:
-                trasladarLuzZ(-5);
+                trasladarLuzZ(5);
                 break;
         }
     }
@@ -310,7 +310,7 @@ public class Objeto3D {
                 trasladarZ(10);
                 break;
             case ILUMINACION:
-                trasladarLuzZ(5);
+                trasladarLuzZ(-5);
                 break;
         }
     }
