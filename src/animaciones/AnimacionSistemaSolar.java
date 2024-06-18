@@ -182,6 +182,9 @@ public class AnimacionSistemaSolar extends Objeto3D implements Runnable {
         if (mostrarPuntos) {
             dibujarPuntos();
         }
+        if (mostrarOrigenLuz) {
+            mostrarOrigenLuz();
+        }
     }
 
     private void orbitarPuntoCubo() {
@@ -218,9 +221,11 @@ public class AnimacionSistemaSolar extends Objeto3D implements Runnable {
             contadorColores = 0;
             for (int[] cara : esfera.carasEsfera) {
                 Polygon poly = new Polygon();
+                float[][] vertices = new float[cara.length][];
                 double midZIndez = 0;
                 for (int i = 0; i < cara.length; i++) {
                     double[] vertice = esfera.verticesTrasladadosEsfera[cara[i]];
+                    vertices[i] = arrayDoubleToFloat(vertice);
                     int xPoints = (int) (vertice[0]);
                     int yPoints = (int) (vertice[1]);
                     int zPoints = (int) (vertice[2]);
@@ -229,8 +234,14 @@ public class AnimacionSistemaSolar extends Objeto3D implements Runnable {
                     poly.addPoint((int) punto.x, (int) punto.y);
                 }
                 midZIndez /= cara.length;
-                g2d.setColor(esfera.colores[contadorColores++ % esfera.colores.length]);
+                if (mostrarLuz) {
+                    float[] color = phong.getIluminacionColor(esfera.colores[contadorColores % esfera.colores.length], vertices[0]);
+                    g2d.setColor(new Color(color[0], color[1], color[2]));
+                } else {
+                    g2d.setColor(esfera.colores[contadorColores % esfera.colores.length]);
+                }
                 g2d.fillPolygon3D(poly, midZIndez);
+                contadorColores++;
             }
         }
     }
