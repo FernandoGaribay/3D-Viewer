@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
 import Interfaces.LabelManager;
-import iluminacion.IluminacionPhong;
 import java.util.ArrayList;
 import utils.Constantes;
 
@@ -16,9 +15,6 @@ public class Cilindro3D extends Objeto3D implements Runnable {
     private final Thread hiloCubo;
 
     private int numPuntosActual;
-    private double[][] verticesTrasladados;
-
-    private ArrayList<double[]> vertices;
     private double anguloMaximo;
     private double anguloIncremento;
 
@@ -166,14 +162,6 @@ public class Cilindro3D extends Objeto3D implements Runnable {
             Point2D.Double p1 = punto3D_a_2D(x, y, z);
             g2d.fillCircle3D((int) p1.x, (int) p1.y, 2, (int) 2);
         }
-    }
-
-    private void mostrarOrigenLuz() {
-        Point2D pLight = punto3D_a_2D(lightPosition[0], lightPosition[1], lightPosition[2]);
-        g2d.setColor(Color.BLACK);
-        g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 6);
-        g2d.setColor(Color.WHITE);
-        g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 4);
     }
 
     @Override

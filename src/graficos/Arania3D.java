@@ -18,9 +18,6 @@ public class Arania3D extends Objeto3D implements Runnable {
     private final Thread hiloCubo;
 
     private Modelo3D modelo = new Modelo3D();
-    private double[][] verticesTrasladados;
-    private ArrayList<double[]> vertices;
-    private ArrayList<int[]> caras;
 
     public Arania3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
@@ -55,7 +52,6 @@ public class Arania3D extends Objeto3D implements Runnable {
         vertices = modelo.getVertices();
         caras = modelo.getCaras();
 
-        System.out.println("Caras Size: " + caras.size());
         verticesTrasladados = new double[vertices.size()][3];
     }
 
@@ -68,14 +64,17 @@ public class Arania3D extends Objeto3D implements Runnable {
             rotaciones[1] += (animacionEjeY) ? 1 : 0;
             rotaciones[2] += (animacionEjeZ) ? 1 : 0;
         }
-        if (mostrarPuntos) {
-            dibujarPuntos();
-        }
         if (mostrarCaras) {
             dibujarCaras();
         }
         if (mostrarLineas) {
             dibujarLineas();
+        }
+        if (mostrarPuntos) {
+            dibujarPuntos();
+        }
+        if (mostrarOrigenLuz) {
+            mostrarOrigenLuz();
         }
     }
 
@@ -118,19 +117,12 @@ public class Arania3D extends Objeto3D implements Runnable {
         contadorColores = 0;
         for (int[] cara : caras) {
             Polygon poly = new Polygon();
-            double midZIndez = 0;
-            for (int i = 0; i < cara.length; i++) {
-                double[] vertice = verticesTrasladados[cara[i]];
-                int xPoints = (int) (vertice[0]);
-                int yPoints = (int) (vertice[1]);
-                int zPoints = (int) (vertice[2]);
-                midZIndez += zPoints;
-                Point2D.Double punto = punto3D_a_2D(xPoints, yPoints, zPoints);
-                poly.addPoint((int) punto.x, (int) punto.y);
+            double midZIndez = calcularMidZIndez(cara, poly);
+            if (mostrarLuz) {
+                dibujarConLuz(poly, midZIndez, cara);
+            } else {
+                dibujarSinLuz(poly, midZIndez);
             }
-            midZIndez /= cara.length;
-            g2d.setColor(colores[contadorColores++ % colores.length]);
-            g2d.fillPolygon3D(poly, midZIndez);
         }
     }
 

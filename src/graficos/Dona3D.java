@@ -15,8 +15,6 @@ public class Dona3D extends Objeto3D implements Runnable {
     private final Thread hiloCubo;
 
     private int numPuntosActual;
-    private ArrayList<double[]> vertices;
-    private double[][] verticesTrasladados;
 
     private double anguloMaximo;
     private double anguloIncremento;

@@ -5,11 +5,10 @@
         <group>
             <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/frames/PanelGraficos.java</file>
             <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/graficos/Cilindro3D.java</file>
-            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/animaciones/AnimacionCilindro.java</file>
-            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/animaciones/Esferas.java</file>
-            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/frames/FrameAnimacion.java</file>
+            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/graficos/Isla3D.java</file>
             <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/graficos/Objeto3D.java</file>
-            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/main/Main.java</file>
+            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/iluminacion/IluminacionPhong.java</file>
+            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/graficos/Cubo3D.java</file>
         </group>
     </open-files>
 </project-private>

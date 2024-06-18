@@ -15,8 +15,6 @@ public class Superficie3D extends Objeto3D implements Runnable {
     private final Thread hiloCubo;
 
     private int numPuntosActual;
-    private double[][] verticesTrasladados;
-    private ArrayList<double[]> vertices;
 
     private double xMin;
     private double xMax;

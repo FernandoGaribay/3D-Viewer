@@ -8,6 +8,7 @@ import static enums.Alternaciones.ROTACION;
 import static enums.Alternaciones.TRASLACION;
 import iluminacion.IluminacionPhong;
 import java.awt.Color;
+import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -70,6 +71,10 @@ public class Objeto3D {
     // Colores de las caras
     protected int contadorColores;
     protected Color[] colores;
+
+    protected double[][] verticesTrasladados;
+    protected ArrayList<double[]> vertices;
+    protected ArrayList<int[]> caras;
 
     static {
         contadorObjetos = 0;
@@ -346,6 +351,49 @@ public class Objeto3D {
 
     public void setEjeZAnimacion() {
         this.animacionEjeZ = !animacionEjeZ;
+    }
+
+    public void mostrarOrigenLuz() {
+        Point2D pLight = punto3D_a_2D(lightPosition[0], lightPosition[1], lightPosition[2]);
+        g2d.setColor(Color.BLACK);
+        g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 6);
+        g2d.setColor(Color.WHITE);
+        g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 4);
+    }
+
+    public double calcularMidZIndez(int[] cara, Polygon poly) {
+        double midZIndez = 0;
+        for (int indice : cara) {
+            double[] vertice = verticesTrasladados[indice];
+            int xPoints = (int) vertice[0];
+            int yPoints = (int) vertice[1];
+            int zPoints = (int) vertice[2];
+            midZIndez += zPoints;
+            Point2D.Double punto = punto3D_a_2D(xPoints, yPoints, zPoints);
+            poly.addPoint((int) punto.x, (int) punto.y);
+        }
+        return midZIndez / cara.length;
+    }
+
+    public void dibujarConLuz(Polygon poly, double midZIndez, int[] cara) {
+        float[][] vertices = convertirVertices(cara);
+        float[] color = phong.getIluminacionColor(colores[contadorColores++ % colores.length], vertices[0]);
+        g2d.setColor(new Color(color[0], color[1], color[2]));
+        g2d.fillPolygon3D(poly, midZIndez);
+    }
+
+    public void dibujarSinLuz(Polygon poly, double midZIndez) {
+        g2d.setColor(colores[contadorColores++ % colores.length]);
+        g2d.fillPolygon3D(poly, midZIndez);
+    }
+
+    public float[][] convertirVertices(int[] cara) {
+        float[][] vertices = new float[cara.length][];
+        for (int i = 0; i < cara.length; i++) {
+            double[] vertice = verticesTrasladados[cara[i]];
+            vertices[i] = arrayDoubleToFloat(vertice);
+        }
+        return vertices;
     }
 // </editor-fold>
 

@@ -12,7 +12,6 @@ import utils.Constantes;
 public class Cubo3D extends Objeto3D implements Runnable {
 
     private final Thread hiloCubo;
-    protected double[][] verticesTrasladados;
 
     private final double[][] vertices = {
         {1, 1, 1},

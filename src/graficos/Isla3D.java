@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import Interfaces.LabelManager;
 import java.io.InputStream;
-import java.util.ArrayList;
 import modelos3D.LectorOBJ;
 import modelos3D.Modelo3D;
 import utils.Constantes;
@@ -18,9 +17,6 @@ public class Isla3D extends Objeto3D implements Runnable {
     private final Thread hiloCubo;
 
     private Modelo3D modelo = new Modelo3D();
-    private double[][] verticesTrasladados;
-    private ArrayList<double[]> vertices;
-    private ArrayList<int[]> caras;
 
     public Isla3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
@@ -28,7 +24,6 @@ public class Isla3D extends Objeto3D implements Runnable {
         aumentoEscala = 0.1;
 
         initColores(2);
-        System.out.println(colores.length);
         initEtiqueta();
         initVariables();
         initVertices();
@@ -119,42 +114,15 @@ public class Isla3D extends Objeto3D implements Runnable {
         }
     }
 
-    private void mostrarOrigenLuz() {
-        Point2D pLight = punto3D_a_2D(lightPosition[0], lightPosition[1], lightPosition[2]);
-        g2d.setColor(Color.BLACK);
-        g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 6);
-        g2d.setColor(Color.WHITE);
-        g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 4);
-    }
-
     private void dibujarCaras() {
         contadorColores = 0;
         for (int[] cara : caras) {
             Polygon poly = new Polygon();
-            double midZIndez = 0;
-            for (int i = 0; i < cara.length; i++) {
-                double[] vertice = verticesTrasladados[cara[i]];
-                int xPoints = (int) (vertice[0]);
-                int yPoints = (int) (vertice[1]);
-                int zPoints = (int) (vertice[2]);
-                midZIndez += zPoints;
-                Point2D.Double punto = punto3D_a_2D(xPoints, yPoints, zPoints);
-                poly.addPoint((int) punto.x, (int) punto.y);
-            }
-            midZIndez /= cara.length;
+            double midZIndez = calcularMidZIndez(cara, poly);
             if (mostrarLuz) {
-                float[][] vertices = new float[cara.length][];
-                for (int i = 0; i < cara.length; i++) {
-                    double[] vertice = verticesTrasladados[cara[i]];
-                    float[] v0 = arrayDoubleToFloat(vertice);
-                    vertices[i] = arrayDoubleToFloat(vertice);
-                }
-                float[] color = phong.getIluminacionColor(colores[contadorColores++ % colores.length], vertices[0]);
-                g2d.setColor(new Color(color[0], color[1], color[2]));
-                g2d.fillPolygon3D(poly, midZIndez);
+                dibujarConLuz(poly, midZIndez, cara);
             } else {
-                g2d.setColor(colores[contadorColores++ % colores.length]);
-                g2d.fillPolygon3D(poly, midZIndez);
+                dibujarSinLuz(poly, midZIndez);
             }
         }
     }
