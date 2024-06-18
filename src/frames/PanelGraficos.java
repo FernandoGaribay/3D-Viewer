@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import Interfaces.LabelManager;
-import animaciones.AnimacionCilindro;
+import animaciones.AnimacionSistemaSolar;
 import graficos.Carro3D;
 import graficos.Objeto3D;
 import graficos.Cilindro3D;
@@ -110,44 +110,44 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
 
             double[] origenCubo = {450, 300, 700};
 
-            Isla3D isla = new Isla3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
-            listaCubos.add(isla);
-
-            Cilindro3D cubo2 = new Cilindro3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
-            listaCubos.add(cubo2);
-
             Cubo3D cubo = new Cubo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(cubo);
 
-            AnimacionCilindro animacionCilindro = new AnimacionCilindro(getWidth(), getHeight(), origenCubo, puntoFuga, this);
-            listaCubos.add(animacionCilindro);
+            Superficie3D superficie = new Superficie3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(superficie);
+
+            Cilindro3D cilindro = new Cilindro3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(cilindro);
+
+            Dona3D dona = new Dona3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(dona);
 
             Esfera3D esfera = new Esfera3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(esfera);
-
+            
             Carro3D carro = new Carro3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(carro);
-
-            Trofeo3D render = new Trofeo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
-            listaCubos.add(render);
+            
+            Avion3D avion = new Avion3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(avion);
+            
+            Music3D music = new Music3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(music);
+            
+            Arania3D arania = new Arania3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(arania);
+            
+            Trofeo3D trofeo = new Trofeo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(trofeo);
 
             Corazon3D corazon = new Corazon3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(corazon);
 
-            Music3D music = new Music3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
-            listaCubos.add(music);
+            Isla3D isla = new Isla3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(isla);
 
-            Arania3D arania = new Arania3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
-            listaCubos.add(arania);
-
-            Avion3D avion = new Avion3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
-            listaCubos.add(avion);
-
-            Dona3D cubo3 = new Dona3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
-            listaCubos.add(cubo3);
-
-            Superficie3D cubo4 = new Superficie3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
-            listaCubos.add(cubo4);
+            AnimacionSistemaSolar sitemaSolar = new AnimacionSistemaSolar(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            listaCubos.add(sitemaSolar);
 
             if (!listaCubos.isEmpty()) {
                 objetoActual = listaCubos.get(currentIndex);

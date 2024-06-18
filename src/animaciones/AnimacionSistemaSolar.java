@@ -11,14 +11,14 @@ import graficos.Cubo3D;
 import graficos.Objeto3D;
 import utils.Constantes;
 
-public class AnimacionCilindro extends Objeto3D implements Runnable {
+public class AnimacionSistemaSolar extends Objeto3D implements Runnable {
 
     private final Thread hiloCubo;
 
     private final double[] puntoOrbita = {450, 300, 700};
     private double escalaActual;
 
-    public AnimacionCilindro(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
+    public AnimacionSistemaSolar(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
 
         initEtiqueta();
