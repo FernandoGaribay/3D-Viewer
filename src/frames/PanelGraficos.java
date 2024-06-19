@@ -51,6 +51,7 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
                 + "ESPACIO -> Parar/Reanudar la animacion<br>"
                 + "TAB -> Traslacion/Rotacion/Iluminacion<br>"
                 + "SCROLL -> Aumentar/Disminuir la escala<br>"
+                + "ENTER -> Con/Sin Normales<br>"
                 + "CLICK IZQ -> Traslacion Objeto (X e Y)<br>"
                 + "CLICK DER -> Traslacion Luz (X e Y)<br><br>"
                 + "IZQUIERDA -> Anterior objeto<br>"
@@ -268,9 +269,11 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
     }
 
     public void setAlternacionRTI() {
-        
-        
         objetoActual.setAlternacionRTI();
+    }
+    
+    public void setConSinNormales() {
+        objetoActual.setConSinNormales();
     }
 
     public void setRotacionTransformacionMouse(int x, int y) {

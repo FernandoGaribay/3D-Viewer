@@ -160,7 +160,7 @@ public class Cubo3D extends Objeto3D implements Runnable {
                 float[] v2 = vertices[2];
                 float[] v3 = vertices[3];
 
-                float[] color = phong.getIluminacionColor(colores[contadorColores % colores.length], v0, v1, v2, v3);
+                float[] color = phong.getIluminacionColor(colores[contadorColores % colores.length], brilloEspecular, v0, v1, v2, v3);
                 g2d.setColor(new Color(color[0], color[1], color[2]));
             } else {
                 g2d.setColor(colores[contadorColores % colores.length]);

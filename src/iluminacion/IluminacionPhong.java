@@ -19,8 +19,7 @@ public class IluminacionPhong {
         1
     };
 
-    public IluminacionPhong(Color ambientColor, float brilloEspectacular, float[] lightPosition, Color lightColor) {
-        this.brilloEspecular = brilloEspectacular;
+    public IluminacionPhong(Color ambientColor, float[] lightPosition, Color lightColor) {
         this.ambientColorNormalized = normalizeColor(ambientColor);
         this.lightColorNormalized = normalizeColor(lightColor);
 
@@ -45,7 +44,8 @@ public class IluminacionPhong {
         return finalColor;
     }
 
-    public float[] getIluminacionColor(Color modelColor, float[]... vertice) {
+    public float[] getIluminacionColor(Color modelColor, float brilloEspectacular, float[]... vertice) {
+        this.brilloEspecular = brilloEspectacular;
         float[] finalColor = new float[3];
 
         for (float[] v : vertice) {
@@ -69,7 +69,7 @@ public class IluminacionPhong {
         return finalColor;
     }
 
-    public float[] getIluminacionColor(Color modelColor, float[][] vertice, float[][] normal) {
+    public float[] getIluminacionColor(Color modelColor, float brilloEspectacular, float[][] vertice, float[][] normal) {
         float[] finalColor = new float[3];
 
         for (int i = 0; i < vertice.length; i++) {

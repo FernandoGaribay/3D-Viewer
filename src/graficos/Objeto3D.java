@@ -57,6 +57,7 @@ public class Objeto3D {
 
     // Estado de visualizacion y animacion
     public Alternaciones estadoAlternacion;
+    protected boolean sinNormales;
     protected boolean mostrarAnimacion;
     protected boolean mostrarOrigenLuz;
     protected boolean mostrarLuz;
@@ -100,6 +101,7 @@ public class Objeto3D {
 
     private void initBanderas() {
         this.estadoAlternacion = Alternaciones.ROTACION;
+        this.sinNormales = true;
         this.seleccionado = false;
         this.mostrarAnimacion = false;
         this.mostrarOrigenLuz = false;
@@ -114,11 +116,13 @@ public class Objeto3D {
 
     private void initVariables() {
         this.brilloEspecular = 32.0f;
+        this.aumentoBrillo = 0.5f;
+
         this.lightPosition = new float[]{450, 300, 650};
         this.normalVector = new float[]{0.0f, 0.0f, 1.0f};
         this.ambientColor = new Color(38, 38, 38);
         this.lightColor = new Color(255, 255, 255);
-        this.phong = new IluminacionPhong(ambientColor, brilloEspecular, lightPosition, lightColor);
+        this.phong = new IluminacionPhong(ambientColor, lightPosition, lightColor);
 
         this.escala = 100;
         this.numPuntos = 50;
@@ -209,8 +213,8 @@ public class Objeto3D {
     public void setEscala(double escala) {
         this.escala += escala;
     }
-    
-    public void setBrillo(double brilloEspecular){
+
+    public void setBrillo(double brilloEspecular) {
         this.brilloEspecular += brilloEspecular;
     }
 
@@ -227,6 +231,10 @@ public class Objeto3D {
                 break;
         }
         System.out.println("estadoAlternacion : " + estadoAlternacion);
+    }
+
+    public void setConSinNormales() {
+        this.sinNormales = !sinNormales;
     }
 
     public void setRotacionTransformacionMouse(int x, int y) {
@@ -393,7 +401,7 @@ public class Objeto3D {
 
     public void dibujarConLuz(Polygon poly, double midZIndez, int[] cara) {
         float[][] v = convertirVertices(cara);
-        float[] color = phong.getIluminacionColor(colores[contadorColores++ % colores.length], v[0]);
+        float[] color = phong.getIluminacionColor(colores[contadorColores++ % colores.length], brilloEspecular, v[0]);
         g2d.setColor(new Color(color[0], color[1], color[2]));
         g2d.fillPolygon3D(poly, midZIndez);
     }
@@ -403,7 +411,7 @@ public class Objeto3D {
 //        System.out.println("v: " + v.length);
         float[][] n = convertirNormales(normalesCara);
 //        System.out.println("n: " + n.length);
-        float[] color = phong.getIluminacionColor(colores[contadorColores++ % colores.length], v[0], n[0]);
+        float[] color = phong.getIluminacionColor(colores[contadorColores++ % colores.length], brilloEspecular, v[0], n[0]);
         g2d.setColor(new Color(color[0], color[1], color[2]));
         g2d.fillPolygon3D(poly, midZIndez);
     }
@@ -452,7 +460,8 @@ public class Objeto3D {
                 + "Puntos: " + mostrarPuntos + "<br>"
                 + "Lineas: " + mostrarLineas + "<br>"
                 + "Caras: " + mostrarCaras + "<br>"
-                + "Luz: " + mostrarLuz + "<br><br>"
+                + "Luz: " + mostrarLuz + "<br>"
+                + "Brillo: " + brilloEspecular + "<br><br>"
                 + "Coordenadas del objeto:<br>"
                 + "Escala -> " + String.format("%.2f", escala) + " pixeles<br>"
                 + "X -> " + traslaciones[0] + " pixeles<br>"

@@ -106,6 +106,9 @@ public final class FrameAnimacion extends JFrame {
                     case KeyEvent.VK_TAB:
                         panelGraficos.setAlternacionRTI();
                         break;
+                    case KeyEvent.VK_ENTER:
+                        panelGraficos.setConSinNormales();
+                        break;
                     case KeyEvent.VK_RIGHT:
                         panelGraficos.siguienteElemento();
                         break;

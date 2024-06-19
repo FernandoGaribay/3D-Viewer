@@ -151,7 +151,7 @@ public class Superficie3D extends Objeto3D implements Runnable {
                                 float[] v2 = arrayDoubleToFloat(vertice2);
                                 float[] v3 = arrayDoubleToFloat(vertice3);
 
-                                float[] color = phong.getIluminacionColor(colores[contadorColores % colores.length], v0, v1, v2, v3);
+                                float[] color = phong.getIluminacionColor(colores[contadorColores % colores.length], brilloEspecular, v0, v1, v2, v3);
                                 g2d.setColor(new Color(color[0], color[1], color[2]));
                             } else {
                                 g2d.setColor(colores[contadorColores % colores.length]);
