@@ -4,13 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/frames/PanelGraficos.java</file>
-            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/modelos3D/LectorOBJ.java</file>
             <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/graficos/Carro3D.java</file>
-            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/graficos/Objeto3D.java</file>
-            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/graficos/Isla3D.java</file>
-            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/modelos3D/Modelo3D.java</file>
-            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/iluminacion/IluminacionPhong.java</file>
-            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/test/TesterLectorOBJ.java</file>
+            <file>file:/home/fernando/Documents/NetBeansProjects/ProyectoGraficas/src/animaciones/AnimacionSistemaSolar.java</file>
         </group>
     </open-files>
 </project-private>

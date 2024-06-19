@@ -13,13 +13,13 @@ import modelos3D.LectorOBJ;
 import modelos3D.Modelo3D;
 import utils.Constantes;
 
-public class Carro3D extends Objeto3D implements Runnable {
+public class Mano3D extends Objeto3D implements Runnable {
 
     private final Thread hiloCubo;
 
     private Modelo3D modelo = new Modelo3D();
 
-    public Carro3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
+    public Mano3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
 
         initColores(2);
@@ -32,21 +32,22 @@ public class Carro3D extends Objeto3D implements Runnable {
     }
 
     private void initEtiqueta() {
-        JLabel etiquetaActual = new JLabel("Carro #" + (idObjeto + 1));
+        JLabel etiquetaActual = new JLabel("Mano #" + (idObjeto + 1));
         this.labelManager.aniadirEtiqueta(etiquetaActual);
     }
 
     private void initVariables() {
-        escala = 100;
-        aumentoEscala = 2;
+        escala = 22;
+        aumentoEscala = 0.5;
         mostrarPuntos = false;
-        traslaciones[1] -= 100;
-        rotaciones[0] = 15;
+        traslaciones[1] -= 220;
+        rotaciones[0] = -90;
+        rotaciones[1] = 60;
     }
 
     private void initVertices() {
         ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("recursos/car.obj");
+        InputStream inputStream = classLoader.getResourceAsStream("recursos/mano.obj");
 
         modelo = LectorOBJ.readObjFile(inputStream);
         vertices = modelo.getVertices();
@@ -114,15 +115,18 @@ public class Carro3D extends Objeto3D implements Runnable {
     }
 
     private void dibujarCaras() {
-        contadorColores = 0;
-        for (int[] cara : caras) {
-            Polygon poly = new Polygon();
-            double midZIndez = calcularMidZIndez(cara, poly);
-            if (mostrarLuz) {
-                dibujarConLuz(poly, midZIndez, cara);
-            } else {
-                dibujarSinLuz(poly, midZIndez);
+        try {
+            contadorColores = 0;
+            for (int[] cara : caras) {
+                Polygon poly = new Polygon();
+                double midZIndez = calcularMidZIndez(cara, poly);
+                if (mostrarLuz) {
+                    dibujarConLuz(poly, midZIndez, cara);
+                } else {
+                    dibujarSinLuz(poly, midZIndez);
+                }
             }
+        } catch (Exception e) {
         }
     }
 

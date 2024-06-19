@@ -115,15 +115,18 @@ public class Music3D extends Objeto3D implements Runnable {
     }
 
     private void dibujarCaras() {
-        contadorColores = 0;
-        for (int[] cara : caras) {
-            Polygon poly = new Polygon();
-            double midZIndez = calcularMidZIndez(cara, poly);
-            if (mostrarLuz) {
-                dibujarConLuz(poly, midZIndez, cara);
-            } else {
-                dibujarSinLuz(poly, midZIndez);
+        try {
+            contadorColores = 0;
+            for (int[] cara : caras) {
+                Polygon poly = new Polygon();
+                double midZIndez = calcularMidZIndez(cara, poly);
+                if (mostrarLuz) {
+                    dibujarConLuz(poly, midZIndez, cara);
+                } else {
+                    dibujarSinLuz(poly, midZIndez);
+                }
             }
+        } catch (Exception e) {
         }
     }
 
