@@ -20,7 +20,7 @@ import graficos.Arania3D;
 import graficos.Music3D;
 import graficos.Corazon3D;
 import graficos.Esfera3D;
-import graficos.Trofeo3D;
+import graficos.Pinguino3D;
 import graficos.Superficie3D;
 import java.util.ArrayList;
 import javax.swing.JLabel;
@@ -140,7 +140,7 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
             Arania3D arania = new Arania3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(arania);
 
-            Trofeo3D trofeo = new Trofeo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
+            Pinguino3D trofeo = new Pinguino3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(trofeo);
 
             Corazon3D corazon = new Corazon3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);

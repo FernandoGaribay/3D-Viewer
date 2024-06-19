@@ -50,6 +50,7 @@ public class Superficie3D extends Objeto3D implements Runnable {
         zMin = -1.0;
         zMax = 1.0;
 
+        rotaciones[1] += 90;
         xIncrement = (xMax - xMin) / numPuntos;
         zIncrement = (zMax - zMin) / numPuntos;
     }

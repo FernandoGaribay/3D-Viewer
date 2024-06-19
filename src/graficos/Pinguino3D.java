@@ -13,16 +13,16 @@ import modelos3D.LectorOBJ;
 import modelos3D.Modelo3D;
 import utils.Constantes;
 
-public class Trofeo3D extends Objeto3D implements Runnable {
+public class Pinguino3D extends Objeto3D implements Runnable {
 
     private final Thread hiloCubo;
 
     private Modelo3D modelo = new Modelo3D();
 
-    public Trofeo3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
+    public Pinguino3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
 
-        initColores(2);
+        initColores(1);
         initEtiqueta();
         initVariables();
         initVertices();
@@ -32,21 +32,21 @@ public class Trofeo3D extends Objeto3D implements Runnable {
     }
 
     private void initEtiqueta() {
-        JLabel etiquetaActual = new JLabel("Trofeo #" + (idObjeto + 1));
+        JLabel etiquetaActual = new JLabel("Pinguino #" + (idObjeto + 1));
         this.labelManager.aniadirEtiqueta(etiquetaActual);
     }
 
     private void initVariables() {
-        escala = 150;
+        escala = 290;
         aumentoEscala = 5;
         mostrarPuntos = false;
-        traslaciones[1] -= 275;
-        rotaciones[0] = 270;
+        traslaciones[1] -= 45;
+        rotaciones[0] = 345;
     }
 
     private void initVertices() {
         ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("recursos/luna.obj");
+        InputStream inputStream = classLoader.getResourceAsStream("recursos/pinguino.obj");
 
         modelo = LectorOBJ.readObjFile(inputStream);
         vertices = modelo.getVertices();
