@@ -17,6 +17,7 @@ public class Cilindro3D extends Objeto3D implements Runnable {
     private int numPuntosActual;
     private double anguloMaximo;
     private double anguloIncremento;
+    private double faseOnda = 0;
 
     public Cilindro3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
@@ -40,11 +41,8 @@ public class Cilindro3D extends Objeto3D implements Runnable {
         escala = 70;
         aumentoEscala = 5;
         traslaciones[1] = 200;
-        rotaciones[0] = 90;
-
-        mostrarCaras = true;
-        mostrarPuntos = false;
-        mostrarLineas = false;
+        velRotacion = 3;
+        rotaciones[0] = 180;
 
         anguloMaximo = 2 * Math.PI;
         anguloIncremento = anguloMaximo / numPuntos;
@@ -55,9 +53,10 @@ public class Cilindro3D extends Objeto3D implements Runnable {
         for (double alpha = 0; alpha < anguloMaximo; alpha += anguloIncremento) {
             for (double beta = 0; beta < anguloMaximo; beta += anguloIncremento) {
                 double[] vertice = new double[3];
-                vertice[0] = (2 + Math.cos(alpha)) * Math.cos(beta);
-                vertice[1] = (2 + Math.cos(alpha)) * Math.sin(beta);
-                vertice[2] = alpha;
+                double radio = 2 + Math.cos(alpha + faseOnda);
+                vertice[0] = radio * Math.cos(beta);
+                vertice[2] = radio * Math.sin(beta);
+                vertice[1] = alpha;
                 vertices.add(vertice);
             }
         }
@@ -66,12 +65,14 @@ public class Cilindro3D extends Objeto3D implements Runnable {
 
     private synchronized void dibujarCubo() {
         g2d.resetBuffer();
+        initVertices();
         transformarVertices();
 
         if (mostrarAnimacion) {
             rotaciones[0] += (animacionEjeX) ? 1 : 0;
             rotaciones[1] += (animacionEjeY) ? 1 : 0;
             rotaciones[2] += (animacionEjeZ) ? 1 : 0;
+            faseOnda += 0.01;
         }
         if (mostrarPuntos) {
             dibujarPuntos();
@@ -148,7 +149,6 @@ public class Cilindro3D extends Objeto3D implements Runnable {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e);
         }
     }
 

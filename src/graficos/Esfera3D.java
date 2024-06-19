@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import Interfaces.LabelManager;
 import java.io.InputStream;
-import java.util.ArrayList;
 import modelos3D.LectorOBJ;
 import modelos3D.Modelo3D;
 import utils.Constantes;
@@ -39,7 +38,6 @@ public class Esfera3D extends Objeto3D implements Runnable {
     private void initVariables() {
         escala = 28.5;
         aumentoEscala = 0.5;
-        mostrarPuntos = false;
         rotaciones[0] = 280;
     }
 

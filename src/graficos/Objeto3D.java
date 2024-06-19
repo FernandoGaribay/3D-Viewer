@@ -50,6 +50,7 @@ public class Objeto3D {
     protected double escala;
     protected double aumentoEscala;
     protected double[] rotaciones; // Rotaciones en los ejes X, Y, Z
+    protected int velRotacion;
     protected double[] traslaciones; // Traslaciones en los ejes X, Y, Z
 
     // Variables tag informacion
@@ -106,7 +107,7 @@ public class Objeto3D {
         this.mostrarAnimacion = false;
         this.mostrarOrigenLuz = false;
         this.mostrarLuz = false;
-        this.mostrarPuntos = true;
+        this.mostrarPuntos = false;
         this.mostrarLineas = true;
         this.mostrarCaras = false;
         this.animacionEjeX = false;
@@ -127,6 +128,7 @@ public class Objeto3D {
         this.escala = 100;
         this.numPuntos = 50;
         this.aumentoEscala = 10;
+        this.velRotacion = 5;
         this.traslaciones = new double[3];
         this.rotaciones = new double[3];
     }
@@ -250,7 +252,7 @@ public class Objeto3D {
     public void setRotacionTransformacionArriba() {
         switch (estadoAlternacion) {
             case ROTACION:
-                rotaciones[0] += 5;
+                rotaciones[0] += velRotacion;
                 rotarX(puntoFuga, escala);
                 break;
             case TRASLACION:
@@ -265,7 +267,7 @@ public class Objeto3D {
     public void setRotacionTransformacionAbajo() {
         switch (estadoAlternacion) {
             case ROTACION:
-                rotaciones[0] -= 5;
+                rotaciones[0] -= velRotacion;
                 rotarX(puntoFuga, escala);
                 break;
             case TRASLACION:
@@ -280,7 +282,7 @@ public class Objeto3D {
     public void setRotacionTransformacionIzquierda() {
         switch (estadoAlternacion) {
             case ROTACION:
-                rotaciones[1] -= 5;
+                rotaciones[1] -= velRotacion;
                 rotarX(puntoFuga, escala);
                 break;
             case TRASLACION:
@@ -295,7 +297,7 @@ public class Objeto3D {
     public void setRotacionTransformacionDerecha() {
         switch (estadoAlternacion) {
             case ROTACION:
-                rotaciones[1] += 5;
+                rotaciones[1] += velRotacion;
                 rotarX(puntoFuga, escala);
                 break;
             case TRASLACION:
@@ -310,7 +312,7 @@ public class Objeto3D {
     public void setRotacionTransformacionZPositiva() {
         switch (estadoAlternacion) {
             case ROTACION:
-                rotaciones[2] -= 5;
+                rotaciones[2] -= velRotacion;
                 rotarX(puntoFuga, escala);
                 break;
             case TRASLACION:
@@ -325,7 +327,7 @@ public class Objeto3D {
     public void setRotacionTransformacionZNegativa() {
         switch (estadoAlternacion) {
             case ROTACION:
-                rotaciones[2] += 5;
+                rotaciones[2] += velRotacion;
                 rotarX(puntoFuga, escala);
                 break;
             case TRASLACION:
@@ -441,6 +443,7 @@ public class Objeto3D {
     }
 
 // </editor-fold>
+    
 // <editor-fold defaultstate="collapsed" desc="Banderas para el estado de seleccion">
     public void setSeleccionado(boolean seleccionado) {
         this.seleccionado = seleccionado;
