@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import Interfaces.LabelManager;
 import graficos.Cubo3D;
-import graficos.MyGraphics;
 import graficos.Objeto3D;
 import java.util.Random;
 import utils.Constantes;
@@ -18,6 +17,11 @@ public class AnimacionSistemaSolar extends Objeto3D implements Runnable {
     private final Thread hiloCubo;
 
     private final double[] puntoOrbita = {450, 300, 700};
+
+    private Random random;
+    private int numEstrellas;
+    private int[][] estrellas;
+
     private double escalaActual;
 
     public AnimacionSistemaSolar(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
@@ -37,10 +41,22 @@ public class AnimacionSistemaSolar extends Objeto3D implements Runnable {
     }
 
     private void initVariables() {
+        numEstrellas = 40;
+        estrellas = new int[numEstrellas][];
+        random = new Random();
         escala = 20;
         escalaActual = escala;
         aumentoEscala = 0.5;
         animacionEjeX = true;
+
+        for (int i = 0; i < estrellas.length; i++) {
+            int x = (int) random.nextInt(800) + 50;
+            int y = (int) random.nextInt(500) + 50;
+            System.out.println("estrella generada: " + x + " " + y);
+            estrellas[i] = new int[]{
+                x, y
+            };
+        }
 
         Esferas sol = new Esferas(origenCubo, puntoOrbita, 1);
         Color[] solColores = new Color[]{
@@ -167,6 +183,7 @@ public class AnimacionSistemaSolar extends Objeto3D implements Runnable {
 
     private synchronized void dibujarCubo() {
         g2d.resetBuffer();
+        dibujarEstrellas();
         transformarVertices();
 
         if (mostrarAnimacion) {
@@ -186,6 +203,13 @@ public class AnimacionSistemaSolar extends Objeto3D implements Runnable {
         }
         if (mostrarOrigenLuz) {
             mostrarOrigenLuz();
+        }
+    }
+
+    private void dibujarEstrellas() {
+        g2d.setColor(Color.WHITE);
+        for (int[] estrella : estrellas) {
+            g2d.fillCircle3D(estrella[0], estrella[1], random.nextInt(2), 1500);
         }
     }
 
