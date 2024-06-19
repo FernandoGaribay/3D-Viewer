@@ -30,6 +30,8 @@ public class Objeto3D {
 
     // Iluminacion Phong
     protected IluminacionPhong phong;
+    protected float brilloEspecular;
+    protected float aumentoBrillo;
     protected float[] lightPosition;
     protected float[] normalVector;
     protected Color ambientColor;
@@ -54,7 +56,7 @@ public class Objeto3D {
     protected int fpsActuales = 0;
 
     // Estado de visualizacion y animacion
-    protected Alternaciones estadoAlternacion;
+    public Alternaciones estadoAlternacion;
     protected boolean mostrarAnimacion;
     protected boolean mostrarOrigenLuz;
     protected boolean mostrarLuz;
@@ -111,11 +113,12 @@ public class Objeto3D {
     }
 
     private void initVariables() {
+        this.brilloEspecular = 32.0f;
         this.lightPosition = new float[]{450, 300, 650};
         this.normalVector = new float[]{0.0f, 0.0f, 1.0f};
         this.ambientColor = new Color(38, 38, 38);
         this.lightColor = new Color(255, 255, 255);
-        this.phong = new IluminacionPhong(ambientColor, lightPosition, lightColor);
+        this.phong = new IluminacionPhong(ambientColor, brilloEspecular, lightPosition, lightColor);
 
         this.escala = 100;
         this.numPuntos = 50;
@@ -205,6 +208,10 @@ public class Objeto3D {
 
     public void setEscala(double escala) {
         this.escala += escala;
+    }
+    
+    public void setBrillo(double brilloEspecular){
+        this.brilloEspecular += brilloEspecular;
     }
 
     public void setAlternacionRTI() {
@@ -573,6 +580,14 @@ public class Objeto3D {
 
     public void setAumentoEscala(double aumentoEscala) {
         this.aumentoEscala = aumentoEscala;
+    }
+
+    public float getAumentoBrillo() {
+        return aumentoBrillo;
+    }
+
+    public void setAumentoBrillo(float aumentoBrillo) {
+        this.aumentoBrillo = aumentoBrillo;
     }
 
     public void setNumPuntos(int numPuntos) {

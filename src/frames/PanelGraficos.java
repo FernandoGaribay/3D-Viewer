@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import Interfaces.LabelManager;
 import animaciones.AnimacionSistemaSolar;
+import enums.Alternaciones;
 import graficos.Mano3D;
 import graficos.Objeto3D;
 import graficos.Cilindro3D;
@@ -54,8 +55,8 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
                 + "CLICK DER -> Traslacion Luz (X e Y)<br><br>"
                 + "IZQUIERDA -> Anterior objeto<br>"
                 + "DERECHA -> Siguiente objeto<br>"
-                + "ARRIBA-> Aumentar escala<br>"
-                + "ABAJO-> Disminuir escala<br><br>"
+                + "ARRIBA-> Aumentar escala/brillo<br>"
+                + "ABAJO-> Disminuir escala/brillo<br><br>"
                 + "W -> Transformar para arriba<br>"
                 + "A -> Transformar para la izquierda<br>"
                 + "S -> Transformar para abajo<br>"
@@ -163,7 +164,7 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
     private void initComponentes() {
         labelInfoControles.setForeground(Color.WHITE);
         labelInfoControles.setVerticalAlignment(SwingConstants.TOP);
-        labelInfoControles.setBounds(-250, 20, 250, 575);
+        labelInfoControles.setBounds(-250, 10, 250, 575);
         add(labelInfoControles);
 
         labelInfoControlesPersistente.setForeground(Color.WHITE);
@@ -252,12 +253,23 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
         }
     }
 
-    public void setEscala(boolean positivo) {
-        double aumentoEscala = (positivo) ? objetoActual.getAumentoEscala() : -objetoActual.getAumentoEscala();
-        objetoActual.setEscala(aumentoEscala);
+    public void setEscala_Brillo(boolean positivo) {
+        switch (objetoActual.estadoAlternacion) {
+            case Alternaciones.TRASLACION:
+            case Alternaciones.ROTACION:
+                double aumentoEscala = (positivo) ? objetoActual.getAumentoEscala() : -objetoActual.getAumentoEscala();
+                objetoActual.setEscala(aumentoEscala);
+                break;
+            case Alternaciones.ILUMINACION:
+                double aumentoBrillo = (positivo) ? objetoActual.getAumentoBrillo(): -objetoActual.getAumentoBrillo();
+                objetoActual.setBrillo(aumentoBrillo);
+                break;
+        }
     }
 
     public void setAlternacionRTI() {
+        
+        
         objetoActual.setAlternacionRTI();
     }
 

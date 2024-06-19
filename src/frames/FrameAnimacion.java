@@ -113,10 +113,10 @@ public final class FrameAnimacion extends JFrame {
                         panelGraficos.anteriorElemento();
                         break;
                     case KeyEvent.VK_UP:
-                        panelGraficos.setEscala(true);
+                        panelGraficos.setEscala_Brillo(true);
                         break;
                     case KeyEvent.VK_DOWN:
-                        panelGraficos.setEscala(false);
+                        panelGraficos.setEscala_Brillo(false);
                         break;
                     case KeyEvent.VK_P:
                         panelGraficos.generarColores();
@@ -175,9 +175,9 @@ public final class FrameAnimacion extends JFrame {
             public void mouseWheelMoved(MouseWheelEvent e) {
                 int notches = e.getWheelRotation();
                 if (notches < 0) {
-                    panelGraficos.setEscala(true);
+                    panelGraficos.setEscala_Brillo(true);
                 } else {
-                    panelGraficos.setEscala(false);
+                    panelGraficos.setEscala_Brillo(false);
                 }
             }
         });

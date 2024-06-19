@@ -8,6 +8,7 @@ public class IluminacionPhong {
     private float[] ambientColorNormalized;
     private float[] lightColorNormalized;
 
+    private float brilloEspecular;
     private float[] lightPosition;
     private float[] lightVector;
     private float[] vertice;
@@ -18,7 +19,8 @@ public class IluminacionPhong {
         1
     };
 
-    public IluminacionPhong(Color ambientColor, float[] lightPosition, Color lightColor) {
+    public IluminacionPhong(Color ambientColor, float brilloEspectacular, float[] lightPosition, Color lightColor) {
+        this.brilloEspecular = brilloEspectacular;
         this.ambientColorNormalized = normalizeColor(ambientColor);
         this.lightColorNormalized = normalizeColor(lightColor);
 
@@ -118,8 +120,7 @@ public class IluminacionPhong {
         float[] viewVector = normalize(new float[]{(float) -vertice[0], (float) -vertice[1], (float) -vertice[2]});
         float viewAngle = dot(viewVector, reflectVector);
 
-        float shininess = 32.0f; // Coeficiente de brillo especular
-        float specularStrength = (float) Math.pow(Math.max(0, viewAngle), shininess);
+        float specularStrength = (float) Math.pow(Math.max(0, viewAngle), brilloEspecular);
 
         float[] vectorEspecular = new float[]{
             Math.min(1.0f, lightColorNormalized[0] * specularStrength),
