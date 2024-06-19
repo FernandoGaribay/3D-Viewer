@@ -11,7 +11,7 @@ public class Constantes {
     public static final int OFFSET_INFO_LABEL_HEIGHT = 30;
 
     public static final int TAG_LABEL_WIDTH = 200;
-    public static final int TAG_LABEL_HEIGHT = 10;
+    public static final int TAG_LABEL_HEIGHT = 15;
     public static final int OFFSET_TAG_LABEL_WIDTH = 180;
     public static final int OFFSET_TAG_LABEL_HEIGHT = 30;
     

@@ -58,7 +58,7 @@ public class Objeto3D {
 
     // Estado de visualizacion y animacion
     public Alternaciones estadoAlternacion;
-    protected boolean sinNormales;
+    protected boolean usoNormales;
     protected boolean mostrarAnimacion;
     protected boolean mostrarOrigenLuz;
     protected boolean mostrarLuz;
@@ -102,7 +102,7 @@ public class Objeto3D {
 
     private void initBanderas() {
         this.estadoAlternacion = Alternaciones.ROTACION;
-        this.sinNormales = true;
+        this.usoNormales = false;
         this.seleccionado = false;
         this.mostrarAnimacion = false;
         this.mostrarOrigenLuz = false;
@@ -236,7 +236,7 @@ public class Objeto3D {
     }
 
     public void setConSinNormales() {
-        this.sinNormales = !sinNormales;
+        this.usoNormales = !usoNormales;
     }
 
     public void setRotacionTransformacionMouse(int x, int y) {
@@ -443,7 +443,6 @@ public class Objeto3D {
     }
 
 // </editor-fold>
-    
 // <editor-fold defaultstate="collapsed" desc="Banderas para el estado de seleccion">
     public void setSeleccionado(boolean seleccionado) {
         this.seleccionado = seleccionado;
@@ -457,24 +456,26 @@ public class Objeto3D {
     protected String getInformacionObjeto() {
         String newInformacion = "<html><div style='text-align: right;'>------------------- INFORMACION -------------------<br><br>"
                 + "ID OBJETO: #" + (idObjeto + 1) + "<br>"
-                + "FPS: " + fpsActuales + "<br><br>"
+                + "FPS: " + fpsActuales + "<br>"
+                + "TRANSFORMACION: " + estadoAlternacion + "<br><br>"
                 + "Banderas del objeto:<br>"
-                + "Origen Luz: " + mostrarOrigenLuz + "<br>"
                 + "Puntos: " + mostrarPuntos + "<br>"
                 + "Lineas: " + mostrarLineas + "<br>"
-                + "Caras: " + mostrarCaras + "<br>"
-                + "Luz: " + mostrarLuz + "<br>"
+                + "Caras: " + mostrarCaras + "<br><br>"
+                + "Variables de Luz: <br>"
+                + "Origen Luz: " + mostrarOrigenLuz + "<br>"
+                + "Mostrar Luz: " + mostrarLuz + "<br>"
+                + "Normales: " + usoNormales + "<br>"
                 + "Brillo: " + brilloEspecular + "<br><br>"
                 + "Coordenadas del objeto:<br>"
                 + "Escala -> " + String.format("%.2f", escala) + " pixeles<br>"
                 + "X -> " + traslaciones[0] + " pixeles<br>"
                 + "Y -> " + traslaciones[1] + " pixeles<br>"
                 + "Z -> " + traslaciones[2] + " pixeles<br><br>"
-                + "Punto de fuga:<br>"
-                + "X -> " + puntoFuga[0] + " pixeles<br>"
-                + "Y -> " + puntoFuga[1] + " pixeles<br>"
-                + "Z -> " + puntoFuga[2] + " pixeles<br>"
-                + "FOV -> 250 pixeles<br><br>"
+                + "Coordenadas de la luz:<br>"
+                + "X -> " + origenLuz[0] + " pixeles<br>"
+                + "Y -> " + origenLuz[1] + " pixeles<br>"
+                + "Z -> " + origenLuz[2] + " pixeles<br><br>"
                 + "Ejes activos:<br>"
                 + "X (" + (rotaciones[0] % 360) + "°) -> " + animacionEjeX + "<br>"
                 + "Y (" + (rotaciones[1] % 360) + "°) -> " + animacionEjeY + "<br>"

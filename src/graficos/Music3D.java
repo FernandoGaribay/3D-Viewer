@@ -125,12 +125,11 @@ public class Music3D extends Objeto3D implements Runnable {
                 Polygon poly = new Polygon();
                 double midZIndez = calcularMidZIndez(cara, poly);
                 if (mostrarLuz) {
-                    if (sinNormales) {
-                        dibujarConLuz(poly, midZIndez, cara);
-                    } else {
+                    if (usoNormales) {
                         dibujarConLuz(poly, midZIndez, cara, normalesCara);
+                    } else {
+                        dibujarConLuz(poly, midZIndez, cara);
                     }
-
                 } else {
                     dibujarSinLuz(poly, midZIndez);
                 }
