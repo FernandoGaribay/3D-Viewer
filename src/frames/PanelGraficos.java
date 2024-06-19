@@ -48,26 +48,27 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
 
         labelInfoControles = new JLabel("<html>--------------------- CONTROLES ---------------------<br><br>"
                 + "ESPACIO -> Parar/Reanudar la animacion<br>"
-                + "TAB -> Alternar Traslacion/Rotacion/Iluminacion<br>"
+                + "TAB -> Traslacion/Rotacion/Iluminacion<br>"
                 + "SCROLL -> Aumentar/Disminuir la escala<br>"
+                + "CLICK IZQ -> Traslacion Objeto (X e Y)<br>"
+                + "CLICK DER -> Traslacion Luz (X e Y)<br><br>"
                 + "IZQUIERDA -> Anterior objeto<br>"
                 + "DERECHA -> Siguiente objeto<br>"
                 + "ARRIBA-> Aumentar escala<br>"
-                + "ABAJO-> Disminuir escala<br>"
-                + "CLICK IZQ -> Traslacion (X e Y)<br><br>"
+                + "ABAJO-> Disminuir escala<br><br>"
                 + "W -> Transformar para arriba<br>"
                 + "A -> Transformar para la izquierda<br>"
                 + "S -> Transformar para abajo<br>"
                 + "D -> Transformar para la derecha<br>"
                 + "Q -> Transformar para Z negativo<br>"
                 + "E -> Transformar para Z positivo<br><br>"
+                + "P -> Generar paleta de colores<br>"
+                + "O -> Cambiar numero de puntos<br>"
                 + "Z -> Activar/Desactivar Vertices<br>"
                 + "X -> Activar/Desactivar Lineas<br>"
                 + "C -> Activar/Desactivar Caras<br>"
                 + "N -> Activar/Desactivar Origen Luz<br>"
                 + "M -> Activar/Desactivar Luz<br><br>"
-                + "P -> Generar paleta de colores<br>"
-                + "O -> Cambiar numero de puntos<br><br>"
                 + "1 -> Activar/Desactivar Eje X<br>"
                 + "2 -> Activar/Desactivar Eje Y<br>"
                 + "3 -> Activar/Desactivar Eje Z<br>"
@@ -124,19 +125,19 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
 
             Esfera3D esfera = new Esfera3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(esfera);
-            
+
             Mano3D carro = new Mano3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(carro);
-            
+
             Avion3D avion = new Avion3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(avion);
-            
+
             Music3D music = new Music3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(music);
-            
+
             Arania3D arania = new Arania3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(arania);
-            
+
             Trofeo3D trofeo = new Trofeo3D(getWidth(), getHeight(), origenCubo, puntoFuga, this);
             listaCubos.add(trofeo);
 
@@ -262,6 +263,10 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
 
     public void setRotacionTransformacionMouse(int x, int y) {
         objetoActual.setRotacionTransformacionMouse(x, y);
+    }
+
+    public void setTraslacionLuzMouse(int x, int y) {
+        objetoActual.setTraslacionLuzMouse(x, y);
     }
 
     public void setRotacionTransformacionArriba() {

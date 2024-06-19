@@ -227,6 +227,11 @@ public class Objeto3D {
         traslaciones[1] -= y;
     }
 
+    public void setTraslacionLuzMouse(int x, int y) {
+        lightPosition[0] -= x;
+        lightPosition[1] -= y;
+    }
+
     public void setRotacionTransformacionArriba() {
         switch (estadoAlternacion) {
             case ROTACION:

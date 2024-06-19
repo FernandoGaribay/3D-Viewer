@@ -52,7 +52,6 @@ public class AnimacionSistemaSolar extends Objeto3D implements Runnable {
         for (int i = 0; i < estrellas.length; i++) {
             int x = (int) random.nextInt(800) + 50;
             int y = (int) random.nextInt(500) + 50;
-            System.out.println("estrella generada: " + x + " " + y);
             estrellas[i] = new int[]{
                 x, y
             };

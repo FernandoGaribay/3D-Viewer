@@ -59,13 +59,23 @@ public final class FrameAnimacion extends JFrame {
         panelGraficos.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                int dx = e.getX() - xInicial;
-                int dy = e.getY() - yInicial;
+                if ((e.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) != 0) {
+                    int dx = e.getX() - xInicial;
+                    int dy = e.getY() - yInicial;
 
-                xInicial = e.getX();
-                yInicial = e.getY();
+                    xInicial = e.getX();
+                    yInicial = e.getY();
 
-                panelGraficos.setRotacionTransformacionMouse(dx, dy);
+                    panelGraficos.setRotacionTransformacionMouse(dx, dy);
+                } else if ((e.getModifiersEx() & MouseEvent.BUTTON3_DOWN_MASK) != 0) {
+                    int dx = e.getX() - xInicial;
+                    int dy = e.getY() - yInicial;
+
+                    xInicial = e.getX();
+                    yInicial = e.getY();
+
+                    panelGraficos.setTraslacionLuzMouse(dx, dy);
+                }
             }
         });
 
