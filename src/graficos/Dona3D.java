@@ -20,6 +20,8 @@ public class Dona3D extends Objeto3D implements Runnable {
     private double anguloIncremento;
     private double radioMayor;
     private double radioMenor;
+    private double stepRadioMenor;
+    private boolean decrementando;
 
     public Dona3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
@@ -47,6 +49,8 @@ public class Dona3D extends Objeto3D implements Runnable {
 
         radioMayor = 100;
         radioMenor = 50;
+        stepRadioMenor = 0.1;
+        decrementando = true;
     }
 
     private void initVertices() {
@@ -66,12 +70,24 @@ public class Dona3D extends Objeto3D implements Runnable {
 
     private synchronized void dibujarCubo() {
         g2d.resetBuffer();
+        initVertices();
         transformarVertices();
 
         if (mostrarAnimacion) {
             rotaciones[0] += (animacionEjeX) ? 1 : 0;
             rotaciones[1] += (animacionEjeY) ? 1 : 0;
             rotaciones[2] += (animacionEjeZ) ? 1 : 0;
+            if (decrementando) {
+                radioMenor -= stepRadioMenor;
+                if (radioMenor <= 20) {
+                    decrementando = false;
+                }
+            } else {
+                radioMenor += stepRadioMenor;
+                if (radioMenor >= 50) {
+                    decrementando = true;
+                }
+            }
         }
         if (mostrarPuntos) {
             dibujarPuntos();
