@@ -175,7 +175,7 @@ public class PanelGraficos extends JPanel implements Runnable, LabelManager {
         labelInfoObjeto.setForeground(Color.WHITE);
         labelInfoObjeto.setVerticalAlignment(SwingConstants.TOP);
         labelInfoObjeto.setHorizontalAlignment(SwingConstants.TRAILING);
-        labelInfoObjeto.setBounds(905, 20, 250, 575);
+        labelInfoObjeto.setBounds(905, 10, 250, 575);
         add(labelInfoObjeto);
 
         labelInfoObjetoPersistente.setForeground(Color.WHITE);

@@ -4,79 +4,61 @@ import java.awt.Color;
 
 public class IluminacionPhong {
 
-    private float[] modelColorNormalized;
-    private float[] ambientColorNormalized;
-    private float[] lightColorNormalized;
+    private float[] colorModeloNormalizado;
+    private float[] colorAmbienteNormalizado;
+    private float[] colorLuzNormalizado;
 
     private float brilloEspecular;
-    private float[] lightPosition;
-    private float[] lightVector;
+    private float[] origenLuz;
+    private float[] vectorLuz;
     private float[] vertice;
 
-    private float[] normalVector = new float[]{ // vector normalizado
+    private float[] vectorNormal = new float[]{ // vector default normalizado
         0,
         0,
         1
     };
 
-    public IluminacionPhong(Color ambientColor, float[] lightPosition, Color lightColor) {
-        this.ambientColorNormalized = normalizeColor(ambientColor);
-        this.lightColorNormalized = normalizeColor(lightColor);
+    public IluminacionPhong(Color colorAmbiente, float[] origenLuz, Color colorLuz) {
+        this.colorAmbienteNormalizado = normalizeColor(colorAmbiente);
+        this.colorLuzNormalizado = normalizeColor(colorLuz);
 
-        this.lightPosition = lightPosition;
+        this.origenLuz = origenLuz;
     }
 
-    public float[] getIluminacionColor(Color modelColor, float[] vertice) {
-        this.modelColorNormalized = normalizeColor(modelColor);
-        this.lightVector = getLightVector(vertice);
-        this.vertice = vertice;
-
-        float[] vectorAmbient = getVectorAmbient();
-        float[] vectorDiffuce = getVectorDiffuce();
-        float[] vectorEspecular = getVectorEspecular();
-
-        float[] finalColor = new float[]{
-            Math.min(1.0f, (vectorAmbient[0] + vectorDiffuce[0] + vectorEspecular[0])),
-            Math.min(1.0f, (vectorAmbient[1] + vectorDiffuce[1] + vectorEspecular[1])),
-            Math.min(1.0f, (vectorAmbient[2] + vectorDiffuce[2] + vectorEspecular[2]))
-        };
-
-        return finalColor;
-    }
-
-    public float[] getIluminacionColor(Color modelColor, float brilloEspectacular, float[]... vertice) {
+    public float[] getColorIluminacion(Color colorModelo, float brilloEspectacular, float[]... vertice) {
         this.brilloEspecular = brilloEspectacular;
-        float[] finalColor = new float[3];
+        float[] colorFinal = new float[3];
 
         for (float[] v : vertice) {
-            this.modelColorNormalized = normalizeColor(modelColor);
-            this.lightVector = getLightVector(v);
+            this.colorModeloNormalizado = normalizeColor(colorModelo);
+            this.vectorLuz = getLightVector(v);
             this.vertice = v;
 
             float[] vectorAmbient = getVectorAmbient();
             float[] vectorDiffuce = getVectorDiffuce();
             float[] vectorEspecular = getVectorEspecular();
 
-            finalColor[0] += Math.min(1.0f, (vectorAmbient[0] + vectorDiffuce[0] + vectorEspecular[0]));
-            finalColor[1] += Math.min(1.0f, (vectorAmbient[1] + vectorDiffuce[1] + vectorEspecular[1]));
-            finalColor[2] += Math.min(1.0f, (vectorAmbient[2] + vectorDiffuce[2] + vectorEspecular[2]));
+            colorFinal[0] += Math.min(1.0f, (vectorAmbient[0] + vectorDiffuce[0] + vectorEspecular[0]));
+            colorFinal[1] += Math.min(1.0f, (vectorAmbient[1] + vectorDiffuce[1] + vectorEspecular[1]));
+            colorFinal[2] += Math.min(1.0f, (vectorAmbient[2] + vectorDiffuce[2] + vectorEspecular[2]));
         }
         int size = vertice.length;
-        finalColor[0] /= size;
-        finalColor[1] /= size;
-        finalColor[2] /= size;
+        colorFinal[0] /= size;
+        colorFinal[1] /= size;
+        colorFinal[2] /= size;
 
-        return finalColor;
+        return colorFinal;
     }
 
-    public float[] getIluminacionColor(Color modelColor, float brilloEspectacular, float[][] vertice, float[][] normal) {
+    public float[] getColorIluminacion(Color modelColor, float brilloEspectacular, float[][] vertice, float[][] normal) {
         float[] finalColor = new float[3];
 
         for (int i = 0; i < vertice.length; i++) {
-            this.modelColorNormalized = normalizeColor(modelColor);
-            this.lightVector = getLightVector(vertice[i]);
+            this.colorModeloNormalizado = normalizeColor(modelColor);
+            this.vectorLuz = getLightVector(vertice[i]);
             this.vertice = vertice[i];
-            this.normalVector = normal[i];
+            this.vectorNormal = normal[i];
 
             float[] vectorAmbient = getVectorAmbient();
             float[] vectorDiffuce = getVectorDiffuce();
@@ -96,9 +78,9 @@ public class IluminacionPhong {
 
     private float[] getVectorAmbient() {
         float[] ambientVector = new float[]{
-            modelColorNormalized[0] * ambientColorNormalized[0],
-            modelColorNormalized[1] * ambientColorNormalized[1],
-            modelColorNormalized[2] * ambientColorNormalized[2]
+            colorModeloNormalizado[0] * colorAmbienteNormalizado[0],
+            colorModeloNormalizado[1] * colorAmbienteNormalizado[1],
+            colorModeloNormalizado[2] * colorAmbienteNormalizado[2]
         };
 
         return ambientVector;
@@ -107,25 +89,25 @@ public class IluminacionPhong {
     public float[] getVectorDiffuce() {
         float[] vectorDiffuce = new float[3];
 
-        float dotProduct = Math.max(0, dot(normalVector, lightVector));
-        vectorDiffuce[0] = modelColorNormalized[0] * lightColorNormalized[0] * dotProduct;
-        vectorDiffuce[1] = modelColorNormalized[1] * lightColorNormalized[1] * dotProduct;
-        vectorDiffuce[2] = modelColorNormalized[2] * lightColorNormalized[2] * dotProduct;
+        float dotProduct = Math.max(0, dot(vectorNormal, vectorLuz));
+        vectorDiffuce[0] = colorModeloNormalizado[0] * colorLuzNormalizado[0] * dotProduct;
+        vectorDiffuce[1] = colorModeloNormalizado[1] * colorLuzNormalizado[1] * dotProduct;
+        vectorDiffuce[2] = colorModeloNormalizado[2] * colorLuzNormalizado[2] * dotProduct;
 
         return vectorDiffuce;
     }
 
     public float[] getVectorEspecular() {
-        float[] reflectVector = reflect(lightVector, normalVector);
+        float[] reflectVector = reflect(vectorLuz, vectorNormal);
         float[] viewVector = normalize(new float[]{(float) -vertice[0], (float) -vertice[1], (float) -vertice[2]});
         float viewAngle = dot(viewVector, reflectVector);
 
         float specularStrength = (float) Math.pow(Math.max(0, viewAngle), brilloEspecular);
 
         float[] vectorEspecular = new float[]{
-            Math.min(1.0f, lightColorNormalized[0] * specularStrength),
-            Math.min(1.0f, lightColorNormalized[1] * specularStrength),
-            Math.min(1.0f, lightColorNormalized[2] * specularStrength)
+            Math.min(1.0f, colorLuzNormalizado[0] * specularStrength),
+            Math.min(1.0f, colorLuzNormalizado[1] * specularStrength),
+            Math.min(1.0f, colorLuzNormalizado[2] * specularStrength)
         };
         return vectorEspecular;
     }
@@ -144,9 +126,9 @@ public class IluminacionPhong {
 
     private float[] getLightVector(float[] vertice) {
         float[] lightVector = normalize(new float[]{
-            lightPosition[0] - vertice[0],
-            lightPosition[1] - vertice[1],
-            lightPosition[2] - vertice[2]
+            origenLuz[0] - vertice[0],
+            origenLuz[1] - vertice[1],
+            origenLuz[2] - vertice[2]
         });
 
         return lightVector;

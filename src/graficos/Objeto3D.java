@@ -32,10 +32,10 @@ public class Objeto3D {
     protected IluminacionPhong phong;
     protected float brilloEspecular;
     protected float aumentoBrillo;
-    protected float[] lightPosition;
-    protected float[] normalVector;
-    protected Color ambientColor;
-    protected Color lightColor;
+    protected float[] origenLuz;
+    protected float[] vectorNormal;
+    protected Color colorAmbiente;
+    protected Color colorLuz;
 
     // Objetos grafico para dibujar el Objeto3D 
     protected final MyGraphics g2d;
@@ -119,11 +119,11 @@ public class Objeto3D {
         this.brilloEspecular = 32.0f;
         this.aumentoBrillo = 0.5f;
 
-        this.lightPosition = new float[]{450, 300, 650};
-        this.normalVector = new float[]{0.0f, 0.0f, 1.0f};
-        this.ambientColor = new Color(38, 38, 38);
-        this.lightColor = new Color(255, 255, 255);
-        this.phong = new IluminacionPhong(ambientColor, lightPosition, lightColor);
+        this.origenLuz = new float[]{450, 300, 650};
+        this.vectorNormal = new float[]{0.0f, 0.0f, 1.0f};
+        this.colorAmbiente = new Color(38, 38, 38);
+        this.colorLuz = new Color(255, 255, 255);
+        this.phong = new IluminacionPhong(colorAmbiente, origenLuz, colorLuz);
 
         this.escala = 100;
         this.numPuntos = 50;
@@ -189,15 +189,15 @@ public class Objeto3D {
 
 // <editor-fold defaultstate="collapsed" desc="Metodos de transformacion">
     public void trasladarLuzX(int distancia) {
-        this.lightPosition[0] += distancia;
+        this.origenLuz[0] += distancia;
     }
 
     public void trasladarLuzY(int distancia) {
-        this.lightPosition[1] += distancia;
+        this.origenLuz[1] += distancia;
     }
 
     public void trasladarLuzZ(int distancia) {
-        this.lightPosition[2] += distancia;
+        this.origenLuz[2] += distancia;
     }
 
     public void trasladarX(int distancia) {
@@ -245,8 +245,8 @@ public class Objeto3D {
     }
 
     public void setTraslacionLuzMouse(int x, int y) {
-        lightPosition[0] -= x;
-        lightPosition[1] -= y;
+        origenLuz[0] -= x;
+        origenLuz[1] -= y;
     }
 
     public void setRotacionTransformacionArriba() {
@@ -380,7 +380,7 @@ public class Objeto3D {
 
 // <editor-fold defaultstate="collapsed" desc="Metodos para el dibujado de iluminacion">
     public void mostrarOrigenLuz() {
-        Point2D pLight = punto3D_a_2D(lightPosition[0], lightPosition[1], lightPosition[2]);
+        Point2D pLight = punto3D_a_2D(origenLuz[0], origenLuz[1], origenLuz[2]);
         g2d.setColor(Color.BLACK);
         g2d.fillCircle((int) pLight.getX(), (int) pLight.getY(), 6);
         g2d.setColor(Color.WHITE);
@@ -403,7 +403,7 @@ public class Objeto3D {
 
     public void dibujarConLuz(Polygon poly, double midZIndez, int[] cara) {
         float[][] v = convertirVertices(cara);
-        float[] color = phong.getIluminacionColor(colores[contadorColores++ % colores.length], brilloEspecular, v[0]);
+        float[] color = phong.getColorIluminacion(colores[contadorColores++ % colores.length], brilloEspecular, v[0]);
         g2d.setColor(new Color(color[0], color[1], color[2]));
         g2d.fillPolygon3D(poly, midZIndez);
     }
@@ -413,7 +413,7 @@ public class Objeto3D {
 //        System.out.println("v: " + v.length);
         float[][] n = convertirNormales(normalesCara);
 //        System.out.println("n: " + n.length);
-        float[] color = phong.getIluminacionColor(colores[contadorColores++ % colores.length], brilloEspecular, v[0], n[0]);
+        float[] color = phong.getColorIluminacion(colores[contadorColores++ % colores.length], brilloEspecular, v[0], n[0]);
         g2d.setColor(new Color(color[0], color[1], color[2]));
         g2d.fillPolygon3D(poly, midZIndez);
     }
