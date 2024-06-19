@@ -260,7 +260,7 @@ public class AnimacionSistemaSolar extends Objeto3D implements Runnable {
                 }
                 midZIndez /= cara.length;
                 if (mostrarLuz) {
-                    float[] color = phong.getIluminacionColor(esfera.colores[contadorColores % esfera.colores.length], vertices[0]);
+                    float[] color = phong.getIluminacionColor(esfera.colores[contadorColores % esfera.colores.length], brilloEspecular, vertices[0]);
                     g2d.setColor(new Color(color[0], color[1], color[2]));
                 } else {
                     g2d.setColor(esfera.colores[contadorColores % esfera.colores.length]);

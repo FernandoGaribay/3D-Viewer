@@ -50,7 +50,9 @@ public class Corazon3D extends Objeto3D implements Runnable {
 
         modelo = LectorOBJ.readObjFile(inputStream);
         vertices = modelo.getVertices();
+        normales = modelo.getNormales();
         caras = modelo.getCaras();
+        normalesPorCara = modelo.getNormalesPorCara();
 
         verticesTrasladados = new double[vertices.size()][3];
     }
@@ -116,11 +118,18 @@ public class Corazon3D extends Objeto3D implements Runnable {
     private void dibujarCaras() {
         try {
             contadorColores = 0;
-            for (int[] cara : caras) {
+            for (int i = 0; i < caras.size(); i++) {
+                int[] cara = caras.get(i);
+                int[] normalesCara = normalesPorCara.get(i);
                 Polygon poly = new Polygon();
                 double midZIndez = calcularMidZIndez(cara, poly);
                 if (mostrarLuz) {
-                    dibujarConLuz(poly, midZIndez, cara);
+                    if (sinNormales) {
+                        dibujarConLuz(poly, midZIndez, cara);
+                    } else {
+                        dibujarConLuz(poly, midZIndez, cara, normalesCara);
+                    }
+
                 } else {
                     dibujarSinLuz(poly, midZIndez);
                 }

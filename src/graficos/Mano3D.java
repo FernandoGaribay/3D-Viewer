@@ -21,7 +21,7 @@ public class Mano3D extends Objeto3D implements Runnable {
     public Mano3D(int frameWidth, int frameHeight, double[] origenCubo, double[] puntoFuga, LabelManager labelManager) {
         super(frameWidth, frameHeight, origenCubo, puntoFuga, labelManager);
 
-        initColores(2);
+        initColores(1);
         initEtiqueta();
         initVariables();
         initVertices();

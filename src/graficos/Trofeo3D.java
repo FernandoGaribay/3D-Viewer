@@ -37,7 +37,7 @@ public class Trofeo3D extends Objeto3D implements Runnable {
     }
 
     private void initVariables() {
-        escala = 35;
+        escala = 150;
         aumentoEscala = 5;
         mostrarPuntos = false;
         traslaciones[1] -= 275;
@@ -46,11 +46,13 @@ public class Trofeo3D extends Objeto3D implements Runnable {
 
     private void initVertices() {
         ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("recursos/trofeo.obj");
+        InputStream inputStream = classLoader.getResourceAsStream("recursos/luna.obj");
 
         modelo = LectorOBJ.readObjFile(inputStream);
         vertices = modelo.getVertices();
+        normales = modelo.getNormales();
         caras = modelo.getCaras();
+        normalesPorCara = modelo.getNormalesPorCara();
 
         verticesTrasladados = new double[vertices.size()][3];
     }
@@ -116,11 +118,18 @@ public class Trofeo3D extends Objeto3D implements Runnable {
     private void dibujarCaras() {
         try {
             contadorColores = 0;
-            for (int[] cara : caras) {
+            for (int i = 0; i < caras.size(); i++) {
+                int[] cara = caras.get(i);
+                int[] normalesCara = normalesPorCara.get(i);
                 Polygon poly = new Polygon();
                 double midZIndez = calcularMidZIndez(cara, poly);
                 if (mostrarLuz) {
-                    dibujarConLuz(poly, midZIndez, cara);
+                    if (sinNormales) {
+                        dibujarConLuz(poly, midZIndez, cara);
+                    } else {
+                        dibujarConLuz(poly, midZIndez, cara, normalesCara);
+                    }
+
                 } else {
                     dibujarSinLuz(poly, midZIndez);
                 }
