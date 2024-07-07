@@ -28,6 +28,7 @@ public final class FrameAnimacion extends JFrame {
 
     public FrameAnimacion() {
         setTitle("Animacion 3D");
+        setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(900, 600);
         setResizable(false);
